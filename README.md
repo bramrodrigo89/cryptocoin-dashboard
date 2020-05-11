@@ -1,39 +1,115 @@
-<img src="https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png" style="margin: 0;">
+# Cryptocurrencies Dashboard
 
-Welcome USER_NAME,
+Welcome, 
 
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. You can safely delete this README.md file, or change it for your own project.
+This project was carried out within the framework of my Third Milestone Project for the Full-Stack Web Development Diploma from the Code Institute.  
 
-## Gitpod Reminders
+Used technologies include Python, Flask Framework, HTML5, CSS3, JavaScript to demonstrate my personal skills and acquired knowledge from this online program. 
 
-To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the terminal, type:
+## UX
 
-`python3 -m http.server`
+The main objective was to 
+ 
+ 
+This importance for this web application was identified through some User Stories like the following:
+ 
+- "I never had... 
 
-A blue button should appear to click: *Make Public*,
+The website was first designed using a wireframe which can be found on miro.com under this link:
 
-Another blue button should appear to click: *Open Browser*.
+![Wireframe Image]()
 
-To run a backend Python file, type `python3 app.py`, if your Python file is named `app.py` of course.
+[Miro Wireframe - Third Milestone Project](https://miro.com/app/board/o9J_kvJ0tW8=/)
 
-A blue button should appear to click: *Make Public*,
 
-Another blue button should appear to click: *Open Browser*.
+## Features
 
-In Gitpod you have superuser security privileges by default. Therefore you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the backend lessons.
+... is composed by tree main pages among which customers can navigate to find the information they need: 
+ 
+### Existing Features
+- Feature 1 - Description
 
-## Updates Since The Instructional Video
+In addition, these are the plans for additional features to be implemented in the future:
 
-We continually tweak and adjust this template to help give you the best experience. Here are the updates since the original video was made:
+### Features Left to Implement
+- Feature 2
 
-**April 16 2020:** The template now automatically installs MySQL instead of relying on the Gitpod MySQL image. The message about a Python linter not being installed has been dealt with, and the set-up files are now hidden in the Gitpod file explorer.
+## Technologies Used
 
-**April 13 2020:** Added the _Prettier_ code beautifier extension instead of the code formatter built-in to Gitpod.
+Languages, frameworks, libraries used to construct this project:
 
-**February 2020:** The initialisation files now _do not_ auto-delete. They will remain in your project. You can safely ignore them. They just make sure that your workspace is configured correctly each time you open it. It will also prevent the Gitpod configuration popup from appearing.
+- HTML5
+- CSS3
+- JavaScript
+- [IEX Cloud Financial Data API](https://iexcloud.io/)
+    - Real-Time & historical financial data for this web application. The IEX Cloud sandbox was mostly used to test out and integrate the API into the application. 
+- [jQuery](https://jquery.com/)
+    - jQuery code was used to simplify HTML DOM tree traversal and manipulation, as well as event handling, CSS animation, and Ajax.
+- [Bootstrap](https://getbootstrap.com/docs/4.4/getting-started/introduction/)
+    - The project uses **Bootstrap** to simplify giving styles and adding JavaScripts to different elements. Also it is found in the navbar construct, its grid-layout system was used, as well as other elements like modals, tables, badges, etc to complement the webiste. 
+- [Chart JS](https://developers.google.com/maps/documentation/javascript/tutorial)
+    - The stock chart data coming from the IEX Cloud Server is passed into JavaScript code from Charts.JS to create the interative graphs for the displayed stock quote.
+- [EMail JS](https://www.emailjs.com/)
+    - JavaScript SDK was implemented to send emais from this website from the contact form. 
+- [GitPod](https://www.gitpod.io/)
+    - Online IDE for GitHub to develop code of this project. 
+- [Font Awesome Icon Library](https://fontawesome.com/icons?d=gallery)
+    - Icons were imported to provide some visual iconography, e.g. star icon for buttons to save stocks in Watch List.
+- [Google Font Library](https://fonts.google.com/)
+    - Imported two different fonts, Abril Fatface and Questrial for texts. 
+- [Am I Responsive](http://ami.responsivedesign.is)
+    - Testing responsiveness of the applicaton in different devices, like the example below:
 
-**December 2019:** Added Eventyret's Bootstrap 4 extension. Type `!bscdn` in a HTML file to add the Bootstrap boilerplate. Check out the <a href="https://github.com/Eventyret/vscode-bcdn" target="_blank">README.md file at the official repo</a> for more options.
 
---------
+## Testing
 
-Happy coding!
+### Problem Solving
+
+During the development phase I encountered some bugs which had to be solved
+
+1. **Problem** 
+    - **Solution** 
+
+
+
+Bugs that remain unsolved:
+
+1. **Problem** 
+
+### Performance 
+
+### Front End 
+
+
+### Back End
+
+
+## Deployment
+
+The code was developed solely on GitPod and then it was pushed to an external repository on [GitHub](https://github.com/bramrodrigo89).
+The settings of this GitHub repository were changed to host the code into GitHub Pages from the **master branch.**
+Currently the GitHub site is published here: 
+
+To deploy the project from its repository, the following should be taken:
+
+1. Log in to GitHub.com
+2. From the repository screen, select this project "/second-milestone-project"
+3. On top of the page, click on the last right icon "Settings".
+4. Scroll down until you reach the GitHub Pages section.
+5. Change the source to the "Master Branch" using the drop down menu, labelled by default first as "none".
+6. The application is now deployed on GitHub pages!
+7. Copy the provided link from this section and share with others.
+
+## Credits
+
+### Content
+
+
+### Media
+
+
+### Acknowledgements
+
+- I received inspiration for this project from my family. 
+- Special thanks to my mentor from Code Institute for the direction I needed:
+- And last but not least, many thanks to the Tutor Team from Code Institute 
