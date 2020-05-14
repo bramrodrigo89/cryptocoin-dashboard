@@ -15,10 +15,10 @@ mongo = PyMongo(app)
 def say_hello():
     return render_template("index.html", users=mongo.db.users.find())
 
-@app.route('/aapl')
-def get_quote():
-    aapl = Stock("AAPL")
-    quote_data= aapl.get_quote()
+@app.route('/stock/<symbol>')
+def get_quote(symbol):
+    stock = Stock(symbol)
+    quote_data= stock.get_quote()
     return render_template("quote.html", quote=quote_data)
 
 if __name__ == '__main__':
