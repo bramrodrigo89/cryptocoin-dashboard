@@ -21,6 +21,13 @@ def get_quote(symbol):
     quote_data= stock.get_quote()
     return render_template("quote.html", quote=quote_data)
 
+@app.route('/crypto/<symbol>')
+def get_crypto_quote(symbol):
+    stock = Stock(symbol)
+    quote_data= stock.get_quote()
+    return render_template("crypto.html", data=quote_data)
+
+
 if __name__ == '__main__':
     app.run(host=os.getenv("IP","0.0.0.0"),
         port=int(os.getenv("PORT","5000")),
