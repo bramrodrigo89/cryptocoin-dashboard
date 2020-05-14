@@ -1,19 +1,20 @@
 Working Symbols For Cryptocurrencies:
-Bitcoin USD (BTCUSDT)
-EOS USD (EOSUSDT)
-Ethereum USD (ETHUSDT)
-Binance Coin USD (BNBUSDT)
-Ontology USD (ONTUSDT)
-Bitcoin Cash USD (BCCUSDT)
-Cardano USD (ADAUSDT)
-Ripple USD (XRPUSDT)
-TrueUSD (TUSDUSDT)
-TRON USD (TRXUSDT)
-Litecoin USD (LTCUSDT)
-Ethereum Classic USD (ETCUSDT)
-MIOTA USD (IOTAUSDT)
-ICON USD (ICXUSDT)
-NEO USD (NEOUSDT)
-VeChain USD (VENUSDT)
-Stellar Lumens USD (XLMUSDT)
-Qtum USD (QTUMUSDT)
+
+os.environ['SYMBOL_NAMES']= {{'symbol':'BTCUSDT','name':'Bitcoin USD'},
+{'symbol':'EOSUSDT','name':'EOS USD'},
+{'symbol':'ETHUSDT','name':'Ethereum USD'},
+{'symbol':'BNBUSDT','name':'Binance Coin USD'},
+{'symbol':'ONTUSDT','name':'Ontology USD'},
+{'symbol':'BCCUSDT','name':'Bitcoin Cash USD'},
+{'symbol':'ADAUSDT','name':'Cardano USD'},
+{'symbol':'XRPUSDT','name':'Ripple USD'},
+{'symbol':'TUSDUSDT','name':'True USD'},
+{'symbol':'TRXUSDT','name':'TRON USD'},
+{'symbol':'LTCUSDT','name':'Litecoin USD'},
+{'symbol':'ETCUSDT','name':'Ethereum Classic USD'},
+{'symbol':'IOTAUSDT','name':'MIOTA USD'},
+{'symbol':'ICXUSDT','name':'ICON USD'},
+{'symbol':'NEOUSDT','name':'NEO USD'},
+{'symbol':'VENUSDT','name':'VeChain USD'},
+{'symbol':'XLMUSDT','name':'Stellar Lumens USD'},
+{'symbol':'QTUMUSDT','name':'Qtum USD'}}
