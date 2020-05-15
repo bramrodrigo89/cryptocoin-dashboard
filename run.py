@@ -17,6 +17,10 @@ mongo = PyMongo(app)
 def say_hello():
     batch = Stock(CRYPTO_SYMBOLS)
     quote_batch_data= batch.get_quote()
+    for coin_name, coin_info in quote_batch_data.items():
+        for elem in SYMBOL_NAMES:
+            if coin_name == elem['symbol']:
+                coin_info['name'] = elem['name']
     return render_template("crypto.html", users=mongo.db.users.find(), data=quote_batch_data)
 
 @app.route('/crypto/<symbol>')

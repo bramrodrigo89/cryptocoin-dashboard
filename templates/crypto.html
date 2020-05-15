@@ -6,8 +6,8 @@
         <ul class="collection">
         {% for coin_name, coin_info in data.items() %}
             <li class="collection-item avatar">
-                <img src="images/yuna.jpg" alt="" class="circle">
-                <span class="title">{{ coin_name }}</span>
+                <img src="{{ url_for('static', filename='images/icons/'+ coin_name.replace('USDT','').lower() +'.png') }}" alt="Cryptocoin Icon" class="circle">
+                <span class="title">{{ coin_info['name'].replace('USD','') }}</span>
                 <p>Latest price: {{ coin_info['latestPrice'] }}<br>
                 Bid price: {{ coin_info['bidPrice'] }} <br>
                 Ask price: {{ coin_info['askPrice'] }}
