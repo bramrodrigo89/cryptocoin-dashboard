@@ -17,9 +17,9 @@ This importance for this web application was identified through some User Storie
 
 The website was first designed using a wireframe which can be found on miro.com under this link:
 
-![Wireframe Image]()
+![Wireframe Image](documentation/images/MyCryptoDashboard_Overview.jpg)
 
-[Miro Wireframe - Third Milestone Project](https://miro.com/app/board/o9J_kvJ0tW8=/)
+[Miro Wireframe - Cryptocoin Dashboard Wireframe](https://miro.com/app/board/o9J_ksDZXO4=/)
 
 
 ## Features
