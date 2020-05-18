@@ -13,7 +13,7 @@ SYMBOL_NAMES=json.loads(os.getenv('SYMBOL_NAMES'))
 mongo = PyMongo(app)
 
 @app.route('/')
-@app.route('/home')
+@app.route('/user/<user>/dashboard')
 def say_hello():
     batch = Stock(CRYPTO_SYMBOLS)
     quote_batch_data= batch.get_quote()
@@ -21,7 +21,7 @@ def say_hello():
         for elem in SYMBOL_NAMES:
             if coin_name == elem['symbol']:
                 coin_info['name'] = elem['name']
-    return render_template("crypto.html", users=mongo.db.users.find(), data=quote_batch_data)
+    return render_template("dashboard.html", users=mongo.db.users.find(), data=quote_batch_data)
 
 @app.route('/crypto/<symbol>')
 def get_crypto_quote(symbol):

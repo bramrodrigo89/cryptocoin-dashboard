@@ -1,6 +1,7 @@
 # This file is used only for testing code during development process
 
 import os, json, globalVal
+from globalVal import test_function
 from datetime import datetime
 from flask import Flask, render_template, redirect, request, url_for, jsonify
 from flask_pymongo import PyMongo
@@ -34,10 +35,13 @@ Create PNG files for icons of every cryptocoin like this:
 for name in SYMBOL_NAMES:
     print(name['short-symbol'].lower())
     drawing = svg2rlg("./node_modules/cryptocurrency-icons/svg/color/"+name['short-symbol'].lower()+".svg")
-    renderPM.drawToFile(drawing, name['short-symbol'].lower()+".png", fmt="PNG") """
+    renderPM.drawToFile(drawing, name['short-symbol'].lower()+".png", fmt="PNG") 
 
-"BTCUSDT,EOSUSDT,ETHUSDT,BNBUSDT,ONTUSDT,BCCUSDT,ADAUSDT,XRPUSDT,TUSDUSDT,TRXUSDT,LTCUSDT,ETCUSDT,IOTAUSDT,ICXUSDT,NEOUSDT,VENUSDT,XLMUSDT,QTUMUSDT"
 new_list = ['XLM','QTUM']
 for name in new_list:
     drawing = svg2rlg("./node_modules/cryptocurrency-icons/svg/color/"+name.lower()+".svg")
     renderPM.drawToFile(drawing, name.lower()+".png", fmt="PNG")
+
+"""
+
+print(test_function(5,10))
