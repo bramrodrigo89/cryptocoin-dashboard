@@ -8,10 +8,8 @@
             <li class="collection-item avatar">
                 <img src="{{ url_for('static', filename='images/icons/'+ coin_name.replace('USDT','').lower() +'.png') }}" alt="Cryptocoin Icon" class="circle">
                 <span class="title">{{ coin_info['name'].replace('USD','') }}</span>
-                <p>Latest price: {{ coin_info['latestPrice'] }}<br>
-                Bid price: {{ coin_info['bidPrice'] }} <br>
-                Ask price: {{ coin_info['askPrice'] }}
-                </p>
+                <p>Latest price: {{ "US${:,.2f}".format(coin_info['latestPrice']|float) }}</p>
+                <p>Bid price: {{ coin_info['bidPrice'] }} - Ask price: {{ coin_info['askPrice'] }}</p>
                 <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
             </li>
         {% endfor %}

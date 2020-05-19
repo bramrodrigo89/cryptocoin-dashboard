@@ -1,4 +1,4 @@
-import os, json, globalVal
+import os, json, globalVal, locale
 from datetime import datetime
 from flask import Flask, render_template, redirect, request, url_for, jsonify
 from flask_pymongo import PyMongo
