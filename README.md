@@ -38,19 +38,20 @@ In addition, these are the plans for additional features to be implemented in th
 
 Languages, frameworks, libraries used to construct this project:
 
+- Python
 - HTML5
 - CSS3
 - JavaScript
 - [IEX Cloud Financial Data API](https://iexcloud.io/)
     - Real-Time & historical financial data for this web application. The IEX Cloud sandbox was mostly used to test out and integrate the API into the application. 
+- [MongoDB](https://www.mongodb.com/cloud/atlas)
+    - Data storage and database management
 - [jQuery](https://jquery.com/)
     - jQuery code was used to simplify HTML DOM tree traversal and manipulation, as well as event handling, CSS animation, and Ajax.
-- [Bootstrap](https://getbootstrap.com/docs/4.4/getting-started/introduction/)
-    - The project uses **Bootstrap** to simplify giving styles and adding JavaScripts to different elements. Also it is found in the navbar construct, its grid-layout system was used, as well as other elements like modals, tables, badges, etc to complement the webiste. 
+- [Materialize CSS](https://materializecss.com/)
+    - The project uses **Materialize** to simplify giving styles and adding JavaScripts to different elements. Also it is found in the navbar construct, its grid-layout system was used, as well as other elements like modals, tables, badges, etc to complement the application. 
 - [Chart JS](https://developers.google.com/maps/documentation/javascript/tutorial)
     - The stock chart data coming from the IEX Cloud Server is passed into JavaScript code from Charts.JS to create the interative graphs for the displayed stock quote.
-- [EMail JS](https://www.emailjs.com/)
-    - JavaScript SDK was implemented to send emais from this website from the contact form. 
 - [GitPod](https://www.gitpod.io/)
     - Online IDE for GitHub to develop code of this project. 
 - [Font Awesome Icon Library](https://fontawesome.com/icons?d=gallery)
@@ -83,6 +84,8 @@ Bugs that remain unsolved:
 
 ### Back End
 
+Entity Relationship Diagram (ERD) of Database for this application
+![ERD Cryptocoin Dashboard](documentation/images/ERD_cryptocoin_dashboard.jpeg)
 
 ## Deployment
 

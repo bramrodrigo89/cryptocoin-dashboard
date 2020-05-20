@@ -8,7 +8,7 @@ from flask_pymongo import PyMongo
 from iexfinance.stocks import Stock, get_historical_data, get_historical_intraday
 
 # Testing calculation functions
-from calculations import calculate_balance
+from calculations import updated_value_coins
 
 app = Flask(__name__)
 app.config["MONGO_DBNAME"] = 'cryptocoins_db'
