@@ -31,7 +31,6 @@
     <section>
         <div class="container">
             <div class="row">
-                {% for user in users %}
                 <div class="col s12 m6 push-m6">
                     <h3 class="header">Welcome, {{ user.profile.first_name }}</h3>
                     <div class="card horizontal">
@@ -50,10 +49,10 @@
                     </div>
                 </div>
                 <div class="col s12 m6 pull-m6">
-                    <div class="card hoverable">
-                        <div class="card-content">
-                            <h5 class="header">Your Available Cash</h5>
-                            <h4>{{ "US${:,.2f}".format(user.cash) }}</h4>
+                    <div class="card blue-grey darken-1">
+                        <div class="card-content white-text">
+                            <span class="card-title">Your Available Cash</span>
+                            <span class="card-title">{{ "US$ {:,.2f}".format(user.cash) }}</span>
                             <div class="">
                                 <blockquote>Your available funds to purchase cryptocoins.<br>Add as much as you want, it's free!</blockquote> 
                             </div>
@@ -63,9 +62,6 @@
                         </div>            
                     </div>
                 </div>
-            </div>
-
-            {% endfor %}
             </div>
         </div>
     </section>

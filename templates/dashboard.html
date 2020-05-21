@@ -1,6 +1,21 @@
 {% extends 'base.html' %}
 {% block cryptoContent %}
-<h4>API Data Cryptocurrencies:</h4>
+<div class="row">
+	<div class="col s12 m6">
+		<div class="card hoverable">
+			<div class="card-content">
+				<h5 class="header">Your Balance</h5>
+				<h4>{{ "US$ {:,.2f}".format(balance.total|float) }} </h4>
+				<p>{{ "US$ {:,.2f}".format(balance.change|float) }} ({{ "{:,.2f}".format(balance.percentChange|float) }}%)</p>
+			</div>
+			<div class="card-action">
+				<a href="#">History</a>
+				<a href="#">Distribution</a>
+			</div>
+		</div>
+	</div>
+</div>
+<h4>My Favorite Cryptocurrencies:</h4>
 <div class="row">
     <div class="col s12 m6">
         <ul class="collection">
@@ -17,9 +32,3 @@
     </div>
 </div>
 {% endblock %}
-
-for p_id, p_info in people.items():
-    print("\nPerson ID:", p_id)
-    
-    for key in p_info:
-        print(key + ':', p_info[key])

@@ -6,9 +6,7 @@ from datetime import datetime
 from flask import Flask, render_template, redirect, request, url_for, jsonify
 from flask_pymongo import PyMongo
 from iexfinance.stocks import Stock, get_historical_data, get_historical_intraday
-
-# Testing calculation functions
-from calculations import updated_price_coins
+from calculations import updated_price_coins, value_change_coins, calculate_balance_and_change
 
 app = Flask(__name__)
 app.config["MONGO_DBNAME"] = 'cryptocoins_db'
@@ -17,10 +15,8 @@ CRYPTO_SYMBOLS=os.getenv('CRYPTO_SYMBOLS').split(",")
 SYMBOL_NAMES=json.loads(os.getenv('SYMBOL_NAMES'))
 
 mongo = PyMongo(app)
-
-users=mongo.db.users.find()
-for user in users:
-    print(updated_price_coins(user['wallet']))
+users=mongo.db.users.find_one({'username':'bramrodrigo89'})
+print(users)
 
 if __name__ == '__main__':
     app.run(host=os.getenv("IP","0.0.0.0"),

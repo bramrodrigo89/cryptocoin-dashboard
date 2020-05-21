@@ -3,6 +3,7 @@ from datetime import datetime
 from flask import Flask, render_template, redirect, request, url_for, jsonify
 from flask_pymongo import PyMongo
 from iexfinance.stocks import Stock, get_historical_data
+from calculations import updated_price_coins, value_change_coins, calculate_balance_and_change
 
 app = Flask(__name__)
 app.config["MONGO_DBNAME"] = 'cryptocoins_db'
@@ -15,13 +16,15 @@ mongo = PyMongo(app)
 @app.route('/')
 @app.route('/user/<user>/dashboard')
 def say_hello():
+    user_data=mongo.db.users.find_one({'username':'bramrodrigo89'})
     batch = Stock(CRYPTO_SYMBOLS)
     quote_batch_data= batch.get_quote()
     for coin_name, coin_info in quote_batch_data.items():
         for elem in SYMBOL_NAMES:
             if coin_name == elem['symbol']:
                 coin_info['name'] = elem['name']
-    return render_template("dashboard.html", users=mongo.db.users.find(), data=quote_batch_data)
+    balance_data=calculate_balance_and_change(user_data['wallet'],user_data['cash'])
+    return render_template("dashboard.html", user=user_data, balance=balance_data, data=quote_batch_data)
 
 @app.route('/crypto/<symbol>')
 def get_crypto_quote(symbol):
