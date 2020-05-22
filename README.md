@@ -50,8 +50,8 @@ Languages, frameworks, libraries used to construct this project:
     - jQuery code was used to simplify HTML DOM tree traversal and manipulation, as well as event handling, CSS animation, and Ajax.
 - [Materialize CSS](https://materializecss.com/)
     - The project uses **Materialize** to simplify giving styles and adding JavaScripts to different elements. Also it is found in the navbar construct, its grid-layout system was used, as well as other elements like modals, tables, badges, etc to complement the application. 
-- [Chart JS](https://developers.google.com/maps/documentation/javascript/tutorial)
-    - The stock chart data coming from the IEX Cloud Server is passed into JavaScript code from Charts.JS to create the interative graphs for the displayed stock quote.
+- [Plotly Graphic Libraries](https://plotly.com/graphing-libraries/)
+    - Plotly Open Source Graphing Libraries: interactive charts and maps for Python and JavaScript.
 - [GitPod](https://www.gitpod.io/)
     - Online IDE for GitHub to develop code of this project. 
 - [Font Awesome Icon Library](https://fontawesome.com/icons?d=gallery)
@@ -60,7 +60,8 @@ Languages, frameworks, libraries used to construct this project:
     - Imported two different fonts, Abril Fatface and Questrial for texts. 
 - [Am I Responsive](http://ami.responsivedesign.is)
     - Testing responsiveness of the applicaton in different devices, like the example below:
-
+- [Cryptocurrency Icons](https://github.com/spothq/cryptocurrency-icons)
+    - Creating cryptocurrency icons for coins used in this project. Library includes SVG files for around 400 crypto currencies to create 32x32 PNG files respectively. 
 
 ## Testing
 

@@ -1,7 +1,12 @@
-import os, json, globalVal
+import os, json, globalVal, locale
+import pandas as pd
+import numpy as np
+import plotly
+import plotly.graph_objs as go #Pie Chart
 from datetime import datetime
+from flask import Flask, render_template, redirect, request, url_for, jsonify
 from flask_pymongo import PyMongo
-from iexfinance.stocks import Stock, get_historical_data, get_historical_intraday
+from iexfinance.stocks import Stock, get_historical_data
 
 def spent_cash(ticker,price):
     spent_cash=float(ticker)*float(price)
@@ -43,3 +48,18 @@ def calculate_balance_and_change(wallet_object,available_cash):
     balance_and_change_object['change']=total_value_change_coins
     balance_and_change_object['percentChange']=100*total_value_change_coins/total_balance
     return balance_and_change_object
+
+def create_plot(user_object):
+    cash_value=user_object['cash']
+    user_wallet=user_object['wallet']
+    updated_price_coins_list=updated_price_coins(user_wallet)
+    pie_labels=['Available Cash']
+    pie_values=[cash_value]
+    for coin,value in updated_price_coins_list.items():
+        pie_labels.append(coin)
+        pie_values.append(float(value))
+    labels = ['Oxygen','Hydrogen','Carbon_Dioxide','Nitrogen']
+    values = [4500, 2500, 1053, 500]
+    data_pie=[go.Pie(labels=pie_labels, values=pie_values, hole=.3)]
+    graphJSON = json.dumps(data_pie, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON

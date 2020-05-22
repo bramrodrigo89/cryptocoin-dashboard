@@ -53,12 +53,14 @@
         </div>
         <div class="col s12 m6">
             <div class="card">
-                <div class="">
-                    <div class="chart" id="bargraph">
+                <div class="card-image">
+                    <div class="chart" id="balance-pie-chart">
                         <script>
                             var graphs = {{ plot | safe }};
+                            Plotly.plot('balance-pie-chart',graphs,{});
                         </script>
                     </div>
+                </div>
                 <div class="card-content">
                     <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
                     <span class="card-title">Balance Distribution</span>
