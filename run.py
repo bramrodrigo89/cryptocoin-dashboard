@@ -7,7 +7,7 @@ from datetime import datetime
 from flask import Flask, render_template, redirect, request, url_for, jsonify
 from flask_pymongo import PyMongo
 from iexfinance.stocks import Stock, get_historical_data
-from calculations import updated_price_coins, value_change_coins, calculate_balance_and_change, create_plot
+from calculations import updated_price_coins, value_change_coins, calculate_balance_and_change, create_plot, fetch_wallet_coins_data
 
 app = Flask(__name__)
 
@@ -27,16 +27,20 @@ for coin in cryptocoin_objects:
 @app.route('/user/<user>/dashboard')
 def show_user_dashboard():
     user_data=mongo.db.users.find_one({'username':'bramrodrigo89'})
+    wallet_coins_data=fetch_wallet_coins_data(user_data['wallet'],CRYPTOCOINS_LIST)
+    
+    ## This code block will be replaced 
     cryptobatch = Stock(CRYPTO_SYMBOLS)
     quote_batch_data= cryptobatch.get_quote()
     for coin_name, coin_info in quote_batch_data.items():
         for elem in CRYPTOCOINS_LIST:
             if coin_name == elem['symbol_long']:
                 coin_info['name'] = elem['name']
+    # until here
 
     pie_data = create_plot(user_data)
     balance_data=calculate_balance_and_change(user_data['wallet'],user_data['cash'])
-    return render_template("dashboard.html", user=user_data, balance=balance_data, plot=pie_data, data=quote_batch_data)
+    return render_template("dashboard.html", user=user_data, balance=balance_data, plot=pie_data, wallet_coins=wallet_coins_data ,data=quote_batch_data)
 
 
 if __name__ == '__main__':

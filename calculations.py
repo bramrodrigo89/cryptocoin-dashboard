@@ -1,4 +1,4 @@
-import os, json, globalVal, locale
+import os, json, locale
 import pandas as pd
 import numpy as np
 import plotly
@@ -48,6 +48,20 @@ def calculate_balance_and_change(wallet_object,available_cash):
     balance_and_change_object['change']=total_value_change_coins
     balance_and_change_object['percentChange']=100*total_value_change_coins/total_balance
     return balance_and_change_object
+
+def fetch_wallet_coins_data(wallet_object,db_cryptocoin_list):
+    updated_price_wallet_coins=updated_price_coins(wallet_object)
+    wallet_coins=wallet_object['coins']
+    wallet_coins_list=[]
+    for symbol,obj in wallet_coins.items():
+        wallet_coins_list.append(symbol+'USDT')
+    cryptobatch = Stock(wallet_coins_list)
+    quote_batch_data= cryptobatch.get_quote()
+    for coin_name, coin_info in quote_batch_data.items():
+        for elem in db_cryptocoin_list:
+            if coin_name == elem['symbol_long']:
+                coin_info['name'] = elem['name']
+    return quote_batch_data
 
 def create_plot(user_object):
     cash_value=user_object['cash']
