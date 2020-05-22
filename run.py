@@ -1,4 +1,4 @@
-import os, json, globalVal, locale
+import os, json, locale
 import pandas as pd
 import numpy as np
 import plotly
@@ -15,20 +15,23 @@ app.config["MONGO_DBNAME"] = 'cryptocoins_db'
 app.config["MONGO_URI"]=os.getenv("MONGO_URI")
 mongo = PyMongo(app)
 
-CRYPTO_SYMBOLS=os.getenv('CRYPTO_SYMBOLS').split(",")
-SYMBOL_NAMES=json.loads(os.getenv('SYMBOL_NAMES'))
+cryptocoin_objects=mongo.db.cryptocoins.find()
+CRYPTOCOINS_LIST=[]
+CRYPTO_SYMBOLS=[]
 
+for coin in cryptocoin_objects:
+    CRYPTO_SYMBOLS.append(coin['symbol_long'])
+    CRYPTOCOINS_LIST.append(coin)
 
 @app.route('/')
 @app.route('/user/<user>/dashboard')
 def show_user_dashboard():
     user_data=mongo.db.users.find_one({'username':'bramrodrigo89'})
-    
     cryptobatch = Stock(CRYPTO_SYMBOLS)
     quote_batch_data= cryptobatch.get_quote()
     for coin_name, coin_info in quote_batch_data.items():
-        for elem in SYMBOL_NAMES:
-            if coin_name == elem['symbol']:
+        for elem in CRYPTOCOINS_LIST:
+            if coin_name == elem['symbol_long']:
                 coin_info['name'] = elem['name']
 
     pie_data = create_plot(user_data)

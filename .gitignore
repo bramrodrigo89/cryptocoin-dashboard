@@ -3,3 +3,4 @@
 .gitpod.yml
 env.py
 env
+__pycache__
