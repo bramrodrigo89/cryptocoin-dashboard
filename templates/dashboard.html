@@ -1,34 +1,92 @@
 {% extends 'base.html' %}
 {% block cryptoContent %}
-<div class="row">
-	<div class="col s12 m6">
-		<div class="card hoverable">
-			<div class="card-content">
-				<h5 class="header">Your Balance</h5>
-				<h4>{{ "US$ {:,.2f}".format(balance.total|float) }} </h4>
-				<p>{{ "US$ {:,.2f}".format(balance.change|float) }} ({{ "{:,.2f}".format(balance.percentChange|float) }}%)</p>
-			</div>
-			<div class="card-action">
-				<a href="#">History</a>
-				<a href="#">Distribution</a>
+<section>
+	<div class="row">
+		<div class="col s12 m6 push-m6">
+			<h3 class="header">Welcome, {{ user.profile.first_name }}</h3>
+			<div class="card horizontal">
+				<div class="card-image">
+					<img src="https://lorempixel.com/100/150/abstract/6">
+                        </div>
+					<div class="card-stacked">
+					<div class="card-content">
+						<p>Name: {{ user.profile.first_name }} {{ user.profile.last_name }}</p>
+						<p>Joined since: {{ user.profile.date_joined }} </p>
+					</div>
+					<div class="card-action">
+						<a href="#">Update Your Profile</a>
+					</div>
+				</div>
 			</div>
 		</div>
+		<div class="col s12 m6 pull-m6">
+				<div class="card blue-grey darken-1">
+					<div class="card-content white-text">
+						<span class="card-title">Your Available Cash</span>
+						<span class="card-title">{{ "US$ {:,.2f}".format(user.cash) }}</span>
+						<div class="">
+							<blockquote>Your available funds to purchase
+								cryptocoins.<br>Add as much as you want, it's free!</blockquote>
+						</div>
+					</div>
+					<div class="card-action">
+						<a href="#">Add Funds</a>
+					</div>
+				</div>
+		</div>
 	</div>
-</div>
-<h4>My Favorite Cryptocurrencies:</h4>
-<div class="row">
-    <div class="col s12 m6">
-        <ul class="collection">
-        {% for coin_name, coin_info in data.items() %}
-            <li class="collection-item avatar">
-                <img src="{{ url_for('static', filename='images/icons/'+ coin_name.replace('USDT','').lower() +'.png') }}" alt="Cryptocoin Icon" class="circle">
-                <span class="title">{{ coin_info['name'].replace('USD','') }}</span>
-                <p>Latest price: {{ "US${:,.2f}".format(coin_info['latestPrice']|float) }}</p>
-                <p>Bid price: {{ coin_info['bidPrice'] }} - Ask price: {{ coin_info['askPrice'] }}</p>
-                <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
-            </li>
-        {% endfor %}
-        </ul>
+</section>
+<section>
+    <div class="row">
+        <div class="col s12 m6">
+            <div class="card hoverable">
+                <div class="card-content">
+                    <h5 class="header">Your Balance</h5>
+                    <h4>{{ "US$ {:,.2f}".format(balance.total|float) }} </h4>
+                    <p>{{ "US$ {:,.2f}".format(balance.change|float) }} ({{ "{:,.2f}".format(balance.percentChange|float) }}%)</p>
+                </div>
+                <div class="card-action">
+                    <a href="#">History</a>
+                    <a href="#">Distribution</a>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m6">
+            <div class="card">
+                <div class="">
+                    <div class="chart" id="bargraph">
+                        <script>
+                            var graphs = {{ plot | safe }};
+                        </script>
+                    </div>
+                <div class="card-content">
+                    <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
+                    <span class="card-title">Balance Distribution</span>
+                    <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</section>
+<section>
+    <div class="row">
+        <div class="col s12 m6">
+            <h4>My Crypto Wallet</h4>
+        </div>
+        <div class="col s12 m6">
+            <h4>My Favorite Cryptocurrencies:</h4>
+            <ul class="collection">
+            {% for coin_name, coin_info in data.items() %}
+                <li class="collection-item avatar">
+                    <img src="{{ url_for('static', filename='images/icons/'+ coin_name.replace('USDT','').lower() +'.png') }}" alt="Cryptocoin Icon" class="circle">
+                    <span class="title">{{ coin_info['name'].replace('USD','') }}</span>
+                    <p>Latest price: {{ "US${:,.2f}".format(coin_info['latestPrice']|float) }}</p>
+                    <p>Bid price: {{ coin_info['bidPrice'] }} - Ask price: {{ coin_info['askPrice'] }}</p>
+                    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+</section>
 {% endblock %}
