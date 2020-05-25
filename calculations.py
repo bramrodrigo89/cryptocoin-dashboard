@@ -13,10 +13,17 @@ def spent_cash(ticker,price):
     return spent_cash
 
 def updated_price_coins(wallet_object):
+    """
+    This function returns a small dictionary of the total value of every cryptocoin
+    in the user's wallet, using the formula:
+
+    Total Value = Latest Price * Total Ticker in Wallet
+
+    """
     wallet_coins=wallet_object['coins']
     updated_price_wallet_coins={}
     for symbol,obj in wallet_coins.items():
-        updated_quote=Stock(symbol+'USDT')
+        updated_quote=Stock(symbol)
         updated_price=float(updated_quote.get_price())*obj['total_ticker']
         updated_price_wallet_coins[symbol]=updated_price
     return updated_price_wallet_coins
@@ -25,7 +32,7 @@ def value_change_coins(wallet_object):
     wallet_coins=wallet_object['coins']
     value_change_coins={}
     for symbol,obj in wallet_coins.items():
-        updated_quote=Stock(symbol+'USDT')
+        updated_quote=Stock(symbol)
         updated_price=float(updated_quote.get_price())
         total_value_updated=updated_price*obj['total_ticker']
         value_change=total_value_updated
@@ -47,33 +54,58 @@ def calculate_balance_and_change(wallet_object,available_cash):
         total_value_change_coins+=change_value
     balance_and_change_object['change']=total_value_change_coins
     balance_and_change_object['percentChange']=100*total_value_change_coins/total_balance
-    return balance_and_change_object
+    return balance_and_change_object, updated_price_coins_list, value_change_coins_list
 
-def fetch_wallet_coins_data(wallet_object,db_cryptocoin_list):
-    updated_price_wallet_coins=updated_price_coins(wallet_object)
+def fetch_wallet_coins_data(updated_price_list, value_change_list, wallet_object,db_cryptocoin_obj):
+    value_changes_list=value_change_list
     wallet_coins=wallet_object['coins']
     wallet_coins_list=[]
     for symbol,obj in wallet_coins.items():
-        wallet_coins_list.append(symbol+'USDT')
+        wallet_coins_list.append(symbol)
     cryptobatch = Stock(wallet_coins_list)
-    quote_batch_data= cryptobatch.get_quote()
-    for coin_name, coin_info in quote_batch_data.items():
-        for elem in db_cryptocoin_list:
-            if coin_name == elem['symbol_long']:
+    wallet_coins_object= cryptobatch.get_quote()
+    for coin_symbol, coin_info in wallet_coins_object.items():
+        for elem in db_cryptocoin_obj:
+            if coin_symbol == elem['symbol_long']:
                 coin_info['name'] = elem['name']
-    return quote_batch_data
+                coin_info['symbol_short'] = elem['symbol_short']
+        for symbol,balance in updated_price_list.items():
+            if coin_symbol == symbol:
+                coin_info['balance']= balance
+        for symbol,change in value_change_list.items():
+            if coin_symbol == symbol:
+                coin_info['value_change']= change
+                coin_info['value_change_percent']=100*change/coin_info['balance']
+        for symbol,obj in wallet_coins.items():
+            if coin_symbol == symbol:
+                coin_info['total_ticker']=obj['total_ticker']
+    return wallet_coins_object
 
-def create_plot(user_object):
+def create_plot(updated_price_list,user_object):
     cash_value=user_object['cash']
     user_wallet=user_object['wallet']
-    updated_price_coins_list=updated_price_coins(user_wallet)
     pie_labels=['Available Cash']
     pie_values=[cash_value]
-    for coin,value in updated_price_coins_list.items():
+    for coin,value in updated_price_list.items():
         pie_labels.append(coin)
         pie_values.append(float(value))
-    labels = ['Oxygen','Hydrogen','Carbon_Dioxide','Nitrogen']
-    values = [4500, 2500, 1053, 500]
     data_pie=[go.Pie(labels=pie_labels, values=pie_values, hole=.3)]
     graphJSON = json.dumps(data_pie, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
+
+def favorite_list_data(user_object,wallet_coins_object,db_cryptocoin_obj):
+    favorite_list=user_object['favorites'].split(", ")
+    favorite_list_data={}
+    for favorite in favorite_list:
+        for coin_symbol, coin_info in wallet_coins_object.items():
+            if favorite == coin_symbol:
+                favorite_list_data[coin_symbol]=coin_info
+            elif favorite != coin_symbol:
+                new_quote_favorite=Stock(favorite)
+                quote_favorite_data=new_quote_favorite.get_quote()
+                favorite_list_data[favorite]=quote_favorite_data
+                for elem in db_cryptocoin_obj:
+                    if favorite == elem['symbol_long']:
+                        favorite_list_data[favorite]['name'] = elem['name']
+                        favorite_list_data[favorite]['symbol_short'] = elem['symbol_short']
+    return favorite_list_data

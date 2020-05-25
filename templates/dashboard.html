@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% block cryptoContent %}
+
+<!-- Display Cards: Available cash and Profile Info -->
 <section>
 	<div class="row">
 		<div class="col s12 m6 push-m6">
@@ -36,6 +38,8 @@
 		</div>
 	</div>
 </section>
+
+<!-- Display Cards: Total balance and distribution graphs -->
 <section>
     <div class="row">
         <div class="col s12 m6">
@@ -43,7 +47,7 @@
                 <div class="card-content">
                     <h5 class="header">Your Balance</h5>
                     <h4>{{ "US$ {:,.2f}".format(balance.total|float) }} </h4>
-                    <p>{{ "US$ {:,.2f}".format(balance.change|float) }} ({{ "{:,.2f}".format(balance.percentChange|float) }}%)</p>
+                    <h5><span><i class="material-icons">trending_up</i></span> {{ "US$ {:,.2f}".format(balance.change|float) }} ({{ "{:,.2f}".format(balance.percentChange|float) }}%)</h5>
                 </div>
                 <div class="card-action">
                     <a href="#">History</a>
@@ -76,12 +80,17 @@
             <h4>My Crypto Wallet</h4>
             <ul class="collection">
             {% for coin_name, coin_info in wallet_coins.items() %}
-                <li class="collection-item avatar">
+                <li class="collection-item avatar card">
                     <img src="{{ url_for('static', filename='images/icons/'+ coin_name.replace('USDT','').lower() +'.png') }}" alt="Cryptocoin Icon" class="circle">
-                    <span class="title">{{ coin_info['name'].replace('USD','') }}</span>
-                    <p>Latest price: {{ "US${:,.2f}".format(coin_info['latestPrice']|float) }}</p>
-                    <p>Bid price: {{ coin_info['bidPrice'] }} - Ask price: {{ coin_info['askPrice'] }}</p>
-                    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                    <span class="title">{{ coin_info['name'].replace('USD','') }} ({{ coin_info['symbol_short'] }})</span>
+                    <h6>{{ coin_info['total_ticker'] }} {{ coin_info['symbol_short'] }}</h6>
+                    <h5> {{ "US$ {:,.2f}".format(coin_info['balance']|float) }}</h5>
+                    <blockquote>Change: {{ "US$ {:,.2f}".format(coin_info['value_change']|float) }} ({{ "{:,.2f}".format(coin_info['value_change_percent']|float) }}%) <br>Price: {{ "US$ {:,.2f}".format(coin_info['latestPrice']|float) }}</blockquote>
+                    <span class="secondary-content"><i class="material-icons">trending_up</i></span>
+                    <div class="card-action">
+                        <a class="waves-effect waves-light btn green darken-3">BUY</a>
+                        <a class="waves-effect waves-light btn red darken-3">SELL</a>
+                    </div>
                 </li>
             {% endfor %}
             </ul>
@@ -89,13 +98,17 @@
         <div class="col s12 m6">
             <h4>My Favorite Cryptocurrencies:</h4>
             <ul class="collection">
-            {% for coin_name, coin_info in data.items() %}
-                <li class="collection-item avatar">
+            {% for coin_name, coin_info in favorites.items() %}
+                <li class="collection-item avatar card">
                     <img src="{{ url_for('static', filename='images/icons/'+ coin_name.replace('USDT','').lower() +'.png') }}" alt="Cryptocoin Icon" class="circle">
                     <span class="title">{{ coin_info['name'].replace('USD','') }}</span>
-                    <p>Latest price: {{ "US${:,.2f}".format(coin_info['latestPrice']|float) }}</p>
-                    <p>Bid price: {{ coin_info['bidPrice'] }} - Ask price: {{ coin_info['askPrice'] }}</p>
+                    <blockquote>Price: {{ "US$ {:,.2f}".format(coin_info['latestPrice']|float) }}<br>
+                                Bid price: {{ coin_info['bidPrice'] }} - Ask price: {{ coin_info['askPrice'] }}</blockquote>
                     <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                    <div class="card-action">
+                        <a class="waves-effect waves-light btn green darken-3">BUY</a>
+                        <a class="waves-effect waves-light btn red darken-3">SELL</a>
+                    </div>
                 </li>
             {% endfor %}
             </ul>
