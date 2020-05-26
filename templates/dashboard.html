@@ -101,10 +101,10 @@
             {% for coin_name, coin_info in favorites.items() %}
                 <li class="collection-item avatar card">
                     <img src="{{ url_for('static', filename='images/icons/'+ coin_name.replace('USDT','').lower() +'.png') }}" alt="Cryptocoin Icon" class="circle">
-                    <span class="title">{{ coin_info['name'].replace('USD','') }}</span>
+                    <span class="title">{{ coin_info['name'].replace('USD','') }} ({{coin_info['symbol_short']}})</span>
                     <blockquote>Price: {{ "US$ {:,.2f}".format(coin_info['latestPrice']|float) }}<br>
                                 Bid price: {{ coin_info['bidPrice'] }} - Ask price: {{ coin_info['askPrice'] }}</blockquote>
-                    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                    <a href="/remove-fav/{{ user.username }}/{{ coin_info['symbol'] }}" class="secondary-content"><i class="material-icons">grade</i></a>
                     <div class="card-action">
                         <a class="waves-effect waves-light btn green darken-3">BUY</a>
                         <a class="waves-effect waves-light btn red darken-3">SELL</a>
