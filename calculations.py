@@ -163,8 +163,8 @@ def not_favorite_list_data(user_object,db_cryptocoin_obj):
     new_quote_batch=Stock(not_favorite_tuple)
     not_favorite_data=new_quote_batch.get_quote()
     for elem in db_cryptocoin_obj:
-        for key, value in not_favorite_data.items():
-            if key == elem['symbol_long']:
-                key[value]['name'] = elem['name']
-                key[value]['symbol_short'] = elem['symbol_short']
+        for coin in not_favorite_data.keys():
+            if coin == elem['symbol_long']:
+                not_favorite_data[coin]['name'] = elem['name']
+                not_favorite_data[coin]['symbol_short'] = elem['symbol_short']
     return not_favorite_data

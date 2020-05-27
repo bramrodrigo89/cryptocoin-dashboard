@@ -128,16 +128,27 @@
     <div class="row">
         <div class="col s12 m6">
             <h4>Latest Transactions</h4>
+            {% if transactions %}
             <ul class="collection">
+                {% for transaction in transactions %}
                 <li class="collection-item avatar card">
-                    <img src="{{ url_for('static', filename='images/icons/btc.png') }}" alt="Cryptocoin Icon" class="circle">
-                    <span class="title">Purchase</span>
-                    <h6>Transaction</h6>
-                    <h5> Total</h5>
-                    <blockquote>INFO<br>info</blockquote>
-                    <span class="secondary-content"><i class="material-icons">account_balance_wallet</i><i class="material-icons">keyboard_arrow_left</i></span>
+                    <img src="{{ url_for('static', filename='images/icons/'+ transaction['symbol'].replace('USDT','').lower() +'.png') }}" alt="Cryptocoin Icon" class="circle">
+                    <span class="title">{{ transaction['name'] }} ({{transaction['symbol'].replace('USDT','')}}) {{transaction['type'].capitalize() }}</span>
+                    <h6>{{ transaction['ticker'] }} ({{transaction['symbol'].replace('USDT','')}})</h6>
+                    <h5>Total: {{ "US$ {:,.2f}".format(transaction['ticker']*transaction['price']) }}</h5>
+                    <blockquote>Date: {{ transaction['date'].strftime("%m/%d/%Y, %H:%M:%S") }}<br>Price: {{ "US$ {:,.2f}".format(transaction['price']) }}</blockquote>
+                    <span class="secondary-content"><i class="material-icons">account_balance_wallet</i>
+                    {% if transaction['type'] == 'purchase' %}
+                        <i class="material-icons">keyboard_arrow_left</i>
+                    {% elif transaction['type'] == 'sale' %}
+                        <i class="material-icons">keyboard_arrow_right</i>
+                    {% endif %}
+                    </span>
                 </li>
+                {% endfor %}
             </ul>
+            {% else %}
+            {% endif %}
         </div>
         <div class="col s12 m6">
             {% if not_favorites %}
@@ -149,7 +160,7 @@
                     <span class="title">{{ coin_info['name'].replace('USD','') }} ({{coin_info['symbol_short']}})</span>
                     <blockquote>Price: {{ "US$ {:,.2f}".format(coin_info['latestPrice']|float) }}<br>
                                 Bid price: {{ coin_info['bidPrice'] }} - Ask price: {{ coin_info['askPrice'] }}</blockquote>
-                    <a href="/remove-fav/{{ user.username }}/{{ coin_info['symbol'] }}" class="secondary-content"><i class="material-icons">library_add</i></a>
+                    <a href="/add-fav/{{ user.username }}/{{ coin_info['symbol'] }}" class="secondary-content"><i class="material-icons">library_add</i></a>
                     <div class="card-action">
                         <a class="waves-effect waves-light btn green darken-3">BUY</a>
                     </div>

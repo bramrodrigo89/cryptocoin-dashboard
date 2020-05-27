@@ -6,6 +6,7 @@ import plotly.graph_objs as go #Pie Chart
 from datetime import datetime
 from flask import Flask, render_template, redirect, request, url_for, jsonify
 from flask_pymongo import PyMongo
+from bson.objectid import ObjectId
 from iexfinance.stocks import Stock, get_historical_data
 from calculations import updated_price_coins, value_change_coins, balance_prices_and_changes, create_plot, fetch_wallet_coins_data, favorite_list_data, not_favorite_list_data
 
@@ -27,19 +28,30 @@ for coin in CRYPTOCOIN_OBJECT:
 @app.route('/user/<username>/dashboard')
 def show_user_dashboard(username):
     user_data=mongo.db.users.find_one({'username':username})
+    user_id=user_data['_id']
     data=balance_prices_and_changes(user_data['wallet'],user_data['cash'])
     balance_data, updated_prices, updated_changes = data[0], data[1], data[2]
     wallet_coins_data=fetch_wallet_coins_data(updated_prices, updated_changes, user_data['wallet'],CRYPTOCOINS_LIST)
     pie_data = create_plot(updated_prices,user_data)
     favorites=favorite_list_data(user_data,wallet_coins_data,CRYPTOCOINS_LIST)
     not_favorites = not_favorite_list_data(user_data,CRYPTOCOINS_LIST)
-    return render_template("dashboard.html", user=user_data, balance=balance_data, plot=pie_data, wallet_coins=wallet_coins_data ,favorites=favorites)
+    user_transactions=mongo.db.transactions.find({'user_id': ObjectId(user_id)}).limit(5)
+    return render_template("dashboard.html", user=user_data, balance=balance_data, plot=pie_data, wallet_coins=wallet_coins_data ,favorites=favorites, not_favorites=not_favorites, transactions=user_transactions)
 
 @app.route('/remove-fav/<username>/<symbol>')
 def remove_favorite(username, symbol):
     user_data=mongo.db.users.find_one({'username':username})
     favorites_list=user_data['favorites'].split(",")
     favorites_list.remove(symbol)
+    updated_favorites_list=(','.join(favorites_list))
+    mongo.db.users.update({'username':username},{'$set':{"favorites":updated_favorites_list}},multi=False)
+    return redirect(url_for('show_user_dashboard',username=username))
+
+@app.route('/add-fav/<username>/<symbol>')
+def add_favorite(username, symbol):
+    user_data=mongo.db.users.find_one({'username':username})
+    favorites_list=user_data['favorites'].split(",")
+    favorites_list.append(symbol)
     updated_favorites_list=(','.join(favorites_list))
     mongo.db.users.update({'username':username},{'$set':{"favorites":updated_favorites_list}},multi=False)
     return redirect(url_for('show_user_dashboard',username=username))
