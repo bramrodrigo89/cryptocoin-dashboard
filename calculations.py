@@ -130,18 +130,41 @@ def create_plot(updated_price_obj,user_object):
     return graphJSON
 
 def favorite_list_data(user_object,wallet_coins_object,db_cryptocoin_obj):
-    favorite_list=user_object['favorites'].split(",")
-    favorite_list_data={}
-    for favorite in favorite_list:
-        for coin_symbol, coin_info in wallet_coins_object.items():
-            if favorite == coin_symbol:
-                favorite_list_data[coin_symbol]=coin_info
-        if favorite not in wallet_coins_object.keys():
-            new_quote_favorite=Stock(favorite)
-            quote_favorite_data=new_quote_favorite.get_quote()
-            favorite_list_data[favorite]=quote_favorite_data
-            for elem in db_cryptocoin_obj:
-                if favorite == elem['symbol_long']:
-                    favorite_list_data[favorite]['name'] = elem['name']
-                    favorite_list_data[favorite]['symbol_short'] = elem['symbol_short']
-    return favorite_list_data
+    favorite_list=user_object['favorites']
+    if favorite_list == '':
+        return False
+    elif favorite_list != '':
+        favorite_list_data={}
+        favorite_tuple=favorite_list.split(",")
+        for favorite in favorite_tuple:
+            for coin_symbol, coin_info in wallet_coins_object.items():
+                if favorite == coin_symbol:
+                    favorite_list_data[coin_symbol]=coin_info
+            if favorite not in wallet_coins_object.keys():
+                new_quote_favorite=Stock(favorite)
+                quote_favorite_data=new_quote_favorite.get_quote()
+                favorite_list_data[favorite]=quote_favorite_data
+                for elem in db_cryptocoin_obj:
+                    if favorite == elem['symbol_long']:
+                        favorite_list_data[favorite]['name'] = elem['name']
+                        favorite_list_data[favorite]['symbol_short'] = elem['symbol_short']
+        return favorite_list_data
+
+def not_favorite_list_data(user_object,db_cryptocoin_obj):
+    favorite_list=user_object['favorites']
+    favorite_tuple=favorite_list.split(",")
+    not_favorite_tuple=[]
+    not_favorite_data={}
+    for elem in db_cryptocoin_obj:
+        not_favorite_tuple.append(elem['symbol_long'])
+    for favorite in favorite_tuple:
+            if favorite in not_favorite_tuple:
+                not_favorite_tuple.remove(favorite)
+    new_quote_batch=Stock(not_favorite_tuple)
+    not_favorite_data=new_quote_batch.get_quote()
+    for elem in db_cryptocoin_obj:
+        for key, value in not_favorite_data.items():
+            if key == elem['symbol_long']:
+                key[value]['name'] = elem['name']
+                key[value]['symbol_short'] = elem['symbol_short']
+    return not_favorite_data
