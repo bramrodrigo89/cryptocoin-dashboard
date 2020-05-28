@@ -155,14 +155,14 @@
             <h4>Other Cryptocurrencies:</h4>
             <ul class="collection">
             {% for coin_name, coin_info in not_favorites.items() %}
-                <li class="collection-item avatar card">
+                <li class="collection-item avatar card coin-display-card">
                     <img src="{{ url_for('static', filename='images/icons/'+ coin_name.replace('USDT','').lower() +'.png') }}" alt="Cryptocoin Icon" class="circle">
-                    <span class="title">{{ coin_info['name'].replace('USD','') }} ({{coin_info['symbol_short']}})</span>
+                    <span class="title name-symbol-coin-title">{{ coin_info['name'].replace('USD','') }} (<span class='coin-short-symbol'>{{coin_info['symbol_short'] }}</span>)</span>
                     <blockquote>Price: {{ "US$ {:,.2f}".format(coin_info['latestPrice']|float) }}<br>
                                 Bid price: {{ coin_info['bidPrice'] }} - Ask price: {{ coin_info['askPrice'] }}</blockquote>
                     <a href="/add-fav/{{ user.username }}/{{ coin_info['symbol'] }}" class="secondary-content"><i class="material-icons">library_add</i></a>
                     <div class="card-action">
-                        <a class="waves-effect waves-light btn green darken-3">BUY</a>
+                        <a class="waves-effect waves-light btn green darken-3 modal-trigger open-buy-coin-modal-link" href="#buy-coin-modal" data-id="{{ coin_info['name'] }}">BUY</a>
                     </div>
                 </li>
             {% endfor %}
@@ -171,6 +171,18 @@
             {% endif %}
         </div>
     </div>
-    
 </section>
+
+<!-- Modal Structure -->
+<div id="buy-coin-modal" class="modal">
+	<div class="modal-content">
+		<h4 id="buy-modal-header">Modal Header</h4>
+		<p>A bunch of text</p>
+	</div>
+	<div class="modal-footer">
+		<a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+	</div>
+</div>
+
 {% endblock %}
