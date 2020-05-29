@@ -159,10 +159,10 @@
                     <span class="card-coin-icon"><img src="{{ url_for('static', filename='images/icons/'+ coin_name.replace('USDT','').lower() +'.png') }}" alt="Cryptocoin Icon" class="circle"></span>
                     <span class="title card-coin-name-symbol">{{ coin_info['name'].replace('USD','') }} (<span class='card-coin-short-symbol'>{{coin_info['symbol_short'] }}</span>)</span>
                     <blockquote>Price: <span class="card-coin-latest-price">{{ "US$ {:,.2f}".format(coin_info['latestPrice']|float) }}</span><br>
-                                Bid price: <span class="card-coin-bid-price">{{ coin_info['bidPrice'] }}</span> - Ask price: <span class="card-coin-ask-price">{{ coin_info['askPrice'] }}</span></blockquote>
+                                Bid price: <span class="card-coin-bid-price">{{ "US$ {:,.2f}".format(coin_info['bidPrice']|float) }}</span> - Ask price: <span class="card-coin-ask-price">{{ coin_info['askPrice'] }}</span></blockquote>
                     <a href="/add-fav/{{ user.username }}/{{ coin_info['symbol'] }}" class="secondary-content"><i class="material-icons">library_add</i></a>
                     <div class="card-action">
-                        <a class="waves-effect waves-light btn green darken-3 modal-trigger open-buy-coin-modal-link" href="#buy-coin-modal" data-id="{{ coin_info['name'] }}">BUY</a>
+                        <a class="waves-effect waves-light btn green darken-3 modal-trigger open-buy-coin-modal-link" href="#buy-coin-modal" data-id="{{ coin_info['symbol'] }}">BUY</a>
                     </div>
                 </li>
             {% endfor %}
@@ -175,42 +175,46 @@
 
 <!-- Modal Structure -->
 <div id="buy-coin-modal" class="modal">
-	<div class="modal-content">
-        <div class="modal-title-container">
-            <span id="modal-buy-coin-icon"></span>
-	        <h4 id="modal-header">Buy <span id="modal-buy-coin-header"></span></h4>
-        </div>
-		<div class="row">
-			<form class="col s12">
-                <div id="modal-buy-coin-prices">
-                    <blockquote>
-                        Bid Price: <span id="modal-buy-coin-bid-price"></span>
-                        Latest Price: <span id="modal-buy-coin-latest-price"></span>
-                    </blockquote>
-		        </div>
-                
-                <span class="card-title">Cash Available:</span>
-				<span class="card-title">{{ "US$ {:,.2f}".format(user.cash) }}</span>
-                
+	<div class="row">
+		<form action="{{ url_for('buy_coins', username=user.username) }}" method="POST" class="col s12">
+			<div class="modal-content">
+				<div class="modal-title-container">
+					<span id="modal-buy-coin-icon"></span>
+					<h4 id="modal-header">Buy <span id="modal-buy-coin-header"></span></h4>
+                    <input type="text" id="submit-buy-coin-symbol" name="submit-buy-coin-symbol" style="display:none;" value=""/>
+				</div>
+				<div id="modal-buy-coin-prices">
+					<blockquote>
+                        <input type="text" id="submit-buy-coin-latest-price" name="submit-buy-coin-latest-price" style="display:none;" value=""/>
+                        <span class="card-title">Price: <span id="modal-buy-coin-latest-price"></span></span>
+                        <input type="text" id="submit-buy-coin-bid-price" name="submit-buy-coin-bid-price" style="display:none;" value=""/>
+                        <span class="card-title">Bid Price: <span id="modal-buy-coin-bid-price"></span></span>
+					</blockquote>
+				</div>
+				<div class="modal-cash-available-container">
+                    <span>Cash Available:</span>
+				    <span>{{ "US$ {:,.2f}".format(user.cash) }}</span>
+                </div>
 				<div class="row">
 					<div class="input-field col s12 m6">
 						<i class="material-icons prefix">account_balance_wallet</i>
-						<input id="ticket-entry-number" type="number" class="validate">
+						<input id="ticket-entry-number" name="ticket-entry-number" type="number" step="0.01" min="0" class="validate">
 						<label for="icon_prefix">Ticker</label>
 					</div>
 					<div class="input-field col s12 m6">
 						<i class="material-icons prefix">monetization_on</i>
-						<input id="cash-spent-entry" type="number" class="validate">
+						<input id="cash-spent-entry" name="cash-spent-entry" type="number" step="0.01" min="0" class="validate">
 						<label for="icon_telephone">Cash Spent</label>
 					</div>
 				</div>
-			</form>
-		</div>
-		</div>
-	<div class="modal-footer">
-		<a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+			</div>
+			<div class="modal-footer">
+				<a href="#!" name="action" class="modal-close waves-effect waves-green btn-flat">Buy</a>
+				<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+			</div>
+		</form>
 	</div>
 </div>
+
 
 {% endblock %}

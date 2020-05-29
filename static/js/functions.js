@@ -1,7 +1,7 @@
 
 
 $(document).on("click", ".open-buy-coin-modal-link", function () {
-    var myCoinId = $(this).attr('data-id');
+    var selectedCoinSymbol = $(this).attr('data-id');
     var selectedCoinCard = $(this).closest('.card-list-coin');
     var selectedCoinTitle = selectedCoinCard.find('.card-coin-name-symbol').html();
     var selectedCoinIcon = selectedCoinCard.find('.card-coin-icon').html();
@@ -13,4 +13,6 @@ $(document).on("click", ".open-buy-coin-modal-link", function () {
     $("#modal-buy-coin-latest-price").html(selectedCoinLatestPrice);
     $("#modal-buy-coin-ask-price").html(selectedCoinAskPrice);
     $("#modal-buy-coin-bid-price").html(selectedCoinBidPrice);
+    
+    $('#submit-buy-coin-symbol').val(selectedCoinSymbol);
 });

@@ -59,6 +59,14 @@ def add_favorite(username, symbol):
     mongo.db.users.update({'username':username},{'$set':{"favorites":updated_favorites_list}},multi=False)
     return redirect(url_for('show_user_dashboard',username=username))
 
+@app.route('/buy-new-coin/<username>', methods=['POST'])
+def buy_coins(username):
+    result = request.form.to_dict()
+    return redirect(url_for('show_user_dashboard',username=username))
+    #task_collection=mongo.db.tasks
+    #task_collection.insert_one(request.form.to_dict())
+    #return redirect(url_for('get_tasks'))
+
 if __name__ == '__main__':
     app.run(host=os.getenv("IP","0.0.0.0"),
         port=int(os.getenv("PORT","5000")),
