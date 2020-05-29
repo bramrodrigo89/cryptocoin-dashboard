@@ -4,7 +4,7 @@ import numpy as np
 import plotly
 import plotly.graph_objs as go #Pie Chart
 from datetime import datetime
-from flask import Flask, render_template, redirect, request, url_for, jsonify
+from flask import Flask, render_template, redirect, request, url_for, jsonify, send_from_directory
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from iexfinance.stocks import Stock, get_historical_data
@@ -23,7 +23,10 @@ CRYPTO_SYMBOLS=[]
 for coin in CRYPTOCOIN_OBJECT:
     CRYPTO_SYMBOLS.append(coin['symbol_long'])
     CRYPTOCOINS_LIST.append(coin)
-
+@app.route('/favicon.ico') 
+def favicon(): 
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    
 @app.route('/')
 @app.route('/user/<username>/dashboard')
 def show_user_dashboard(username):

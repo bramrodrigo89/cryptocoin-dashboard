@@ -1,0 +1,31 @@
+.card.horizontal .card-image img {
+    height: 100%;
+}
+
+.collection .collection-item.avatar .title, .modal .title {
+    font-size: 22px;
+}
+
+.modal-title-container {
+    min-height: 84px;
+    padding-left: 72px;
+    position: relative;
+}
+
+.modal-title-container img {
+    position: absolute;
+    width: 42px;
+    height: 42px;
+    overflow: hidden;
+    left: 15px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.modal .card-title {
+    display: block;
+    line-height: 32px;
+    margin-bottom: 8px;
+    font-size: 24px;
+    font-weight: 300;
+}
