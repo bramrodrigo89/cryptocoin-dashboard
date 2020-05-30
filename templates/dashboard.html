@@ -80,15 +80,17 @@
             <h4>My Crypto Wallet</h4>
             <ul class="collection">
             {% for coin_name, coin_info in wallet_coins.items() %}
-                <li class="collection-item avatar card">
-                    <img src="{{ url_for('static', filename='images/icons/'+ coin_name.replace('USDT','').lower() +'.png') }}" alt="Cryptocoin Icon" class="circle">
-                    <span class="title">{{ coin_info['name'].replace('USD','') }} ({{ coin_info['symbol_short'] }})</span>
+                <li class="collection-item avatar card card-list-coin">
+                    <span class="card-coin-icon"><img src="{{ url_for('static', filename='images/icons/'+ coin_name.replace('USDT','').lower() +'.png') }}" alt="Cryptocoin Icon" class="circle"></span>
+                    <span class="title card-coin-name-symbol"><span class="card-coin-name">{{ coin_info['name'].replace(' USD','') }}</span> (<span class="card-coin-short-symbol">{{coin_info['symbol_short'] }}</span>)</span>
                     <h6>{{ coin_info['total_ticker'] }} {{ coin_info['symbol_short'] }}</h6>
                     <h5> {{ "US$ {:,.2f}".format(coin_info['balance']|float) }}</h5>
-                    <blockquote>Change: {{ "US$ {:,.2f}".format(coin_info['value_change']|float) }} ({{ "{:,.2f}".format(coin_info['value_change_percent']|float) }}%) <br>Price: {{ "US$ {:,.2f}".format(coin_info['latestPrice']|float) }}</blockquote>
+                    <blockquote>Change: {{ "US$ {:,.2f}".format(coin_info['value_change']|float) }} ({{ "{:,.2f}".format(coin_info['value_change_percent']|float) }}%) <br>
+                                Price: <strong class="card-coin-latest-price">{{ "US$ {:,.2f}".format(coin_info['latestPrice']|float) }}</strong><br>
+                                Bid price: <span class="card-coin-bid-price">{{ "US$ {:,.2f}".format(coin_info['bidPrice']|float) }}</span><br>Ask price: <span class="card-coin-ask-price">{{ "US$ {:,.2f}".format(coin_info['askPrice']|float) }}</span></blockquote>
                     <span class="secondary-content"><i class="material-icons">trending_up</i></span>
                     <div class="card-action">
-                        <a class="waves-effect waves-light btn green darken-3">BUY</a>
+                        <a class="waves-effect waves-light btn green darken-3 modal-trigger open-buy-coin-modal-link" href="#buy-coin-modal" data-id="{{ coin_info['symbol'] }}">BUY</a>
                         <a class="waves-effect waves-light btn red darken-3">SELL</a>
                     </div>
                 </li>
@@ -100,14 +102,14 @@
             {% if favorites %}
             <ul class="collection">
             {% for coin_name, coin_info in favorites.items() %}
-                <li class="collection-item avatar card">
-                    <img src="{{ url_for('static', filename='images/icons/'+ coin_name.replace('USDT','').lower() +'.png') }}" alt="Cryptocoin Icon" class="circle">
-                    <span class="title">{{ coin_info['name'].replace('USD','') }} ({{coin_info['symbol_short']}})</span>
-                    <blockquote>Price: {{ "US$ {:,.2f}".format(coin_info['latestPrice']|float) }}<br>
-                                Bid price: {{ coin_info['bidPrice'] }} - Ask price: {{ coin_info['askPrice'] }}</blockquote>
+                <li class="collection-item avatar card card-list-coin">
+                    <span class="card-coin-icon"><img src="{{ url_for('static', filename='images/icons/'+ coin_name.replace('USDT','').lower() +'.png') }}" alt="Cryptocoin Icon" class="circle"></span>
+                    <span class="title card-coin-name-symbol"><span class="card-coin-name">{{ coin_info['name'].replace(' USD','') }}</span> (<span class="card-coin-short-symbol">{{coin_info['symbol_short'] }}</span>)</span>
+                    <blockquote>Price: <strong class="card-coin-latest-price">{{ "US$ {:,.2f}".format(coin_info['latestPrice']|float) }}</strong><br>
+                                Bid price: <span class="card-coin-bid-price">{{ "US$ {:,.2f}".format(coin_info['bidPrice']|float) }}</span><br>Ask price: <span class="card-coin-ask-price">{{ "US$ {:,.2f}".format(coin_info['askPrice']|float) }}</span></blockquote>
                     <a href="/remove-fav/{{ user.username }}/{{ coin_info['symbol'] }}" class="secondary-content"><i class="material-icons">grade</i></a>
                     <div class="card-action">
-                        <a class="waves-effect waves-light btn green darken-3">BUY</a>
+                        <a class="waves-effect waves-light btn green darken-3 modal-trigger open-buy-coin-modal-link" href="#buy-coin-modal" data-id="{{ coin_info['symbol'] }}">BUY</a>
                     </div>
                 </li>
             {% endfor %}
@@ -157,9 +159,9 @@
             {% for coin_name, coin_info in not_favorites.items() %}
                 <li class="collection-item avatar card card-list-coin">
                     <span class="card-coin-icon"><img src="{{ url_for('static', filename='images/icons/'+ coin_name.replace('USDT','').lower() +'.png') }}" alt="Cryptocoin Icon" class="circle"></span>
-                    <span class="title card-coin-name-symbol">{{ coin_info['name'].replace('USD','') }} (<span class='card-coin-short-symbol'>{{coin_info['symbol_short'] }}</span>)</span>
-                    <blockquote>Price: <span class="card-coin-latest-price">{{ "US$ {:,.2f}".format(coin_info['latestPrice']|float) }}</span><br>
-                                Bid price: <span class="card-coin-bid-price">{{ "US$ {:,.2f}".format(coin_info['bidPrice']|float) }}</span> - Ask price: <span class="card-coin-ask-price">{{ coin_info['askPrice'] }}</span></blockquote>
+                    <span class="title card-coin-name-symbol"><span class="card-coin-name">{{ coin_info['name'].replace(' USD','') }}</span> (<span class="card-coin-short-symbol">{{coin_info['symbol_short'] }}</span>)</span>
+                    <blockquote>Price: <strong class="card-coin-latest-price">{{ "US$ {:,.2f}".format(coin_info['latestPrice']|float) }}</strong><br>
+                                Bid price: <span class="card-coin-bid-price">{{ "US$ {:,.2f}".format(coin_info['bidPrice']|float) }}</span><br>Ask price: <span class="card-coin-ask-price">{{ "US$ {:,.2f}".format(coin_info['askPrice']|float) }}</span></blockquote>
                     <a href="/add-fav/{{ user.username }}/{{ coin_info['symbol'] }}" class="secondary-content"><i class="material-icons">library_add</i></a>
                     <div class="card-action">
                         <a class="waves-effect waves-light btn green darken-3 modal-trigger open-buy-coin-modal-link" href="#buy-coin-modal" data-id="{{ coin_info['symbol'] }}">BUY</a>
@@ -182,13 +184,14 @@
 					<span id="modal-buy-coin-icon"></span>
 					<h4 id="modal-header">Buy <span id="modal-buy-coin-header"></span></h4>
                     <input type="text" id="submit-buy-coin-symbol" name="submit-buy-coin-symbol" style="display:none;" value=""/>
+                    <input type="text" id="submit-buy-coin-name" name="submit-buy-coin-name" style="display:none;" value=""/>
 				</div>
 				<div id="modal-buy-coin-prices">
 					<blockquote>
                         <input type="text" id="submit-buy-coin-latest-price" name="submit-buy-coin-latest-price" style="display:none;" value=""/>
-                        <span class="card-title">Price: <span id="modal-buy-coin-latest-price"></span></span>
+                        <span class="card-title">Market Price: <span id="modal-buy-coin-latest-price"></span></span>
                         <input type="text" id="submit-buy-coin-bid-price" name="submit-buy-coin-bid-price" style="display:none;" value=""/>
-                        <span class="card-title">Bid Price: <span id="modal-buy-coin-bid-price"></span></span>
+                        <span class="card-title">Bid Price: <strong id="modal-buy-coin-bid-price"></strong></span>
 					</blockquote>
 				</div>
 				<div class="modal-cash-available-container">
@@ -198,18 +201,18 @@
 				<div class="row">
 					<div class="input-field col s12 m6">
 						<i class="material-icons prefix">account_balance_wallet</i>
-						<input id="ticket-entry-number" name="ticket-entry-number" type="number" step="0.01" min="0" class="validate">
+						<input id="ticket-entry-number" required name="ticket-entry-number" type="number" step="0.01" min="0" class="validate">
 						<label for="icon_prefix">Ticker</label>
 					</div>
 					<div class="input-field col s12 m6">
 						<i class="material-icons prefix">monetization_on</i>
-						<input id="cash-spent-entry" name="cash-spent-entry" type="number" step="0.01" min="0" class="validate">
+						<input id="cash-spent-entry" required name="cash-spent-entry" type="number" step="0.01" min="0" class="validate">
 						<label for="icon_telephone">Cash Spent</label>
 					</div>
 				</div>
-			</div>
+			</div> 
 			<div class="modal-footer">
-				<a href="#!" name="action" class="modal-close waves-effect waves-green btn-flat">Buy</a>
+				<button  type="submit" class="waves-effect waves-light btn green darken-3">Buy</button>
 				<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
 			</div>
 		</form>

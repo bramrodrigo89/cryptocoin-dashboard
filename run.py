@@ -3,12 +3,14 @@ import pandas as pd
 import numpy as np
 import plotly
 import plotly.graph_objs as go #Pie Chart
-from datetime import datetime
 from flask import Flask, render_template, redirect, request, url_for, jsonify, send_from_directory
 from flask_pymongo import PyMongo
+from pymongo.mongo_client import MongoClient
+from datetime import datetime
 from bson.objectid import ObjectId
 from iexfinance.stocks import Stock, get_historical_data
 from calculations import updated_price_coins, value_change_coins, balance_prices_and_changes, create_plot, fetch_wallet_coins_data, favorite_list_data, not_favorite_list_data
+from transactions import prepare_buy_object
 
 app = Flask(__name__)
 
@@ -59,9 +61,15 @@ def add_favorite(username, symbol):
     mongo.db.users.update({'username':username},{'$set':{"favorites":updated_favorites_list}},multi=False)
     return redirect(url_for('show_user_dashboard',username=username))
 
-@app.route('/buy-new-coin/<username>', methods=['POST'])
+@app.route('/buy-coins/<username>', methods=['POST'])
 def buy_coins(username):
-    result = request.form.to_dict()
+    submitted_form = request.form.to_dict()
+    user_data=mongo.db.users.find_one({'username':username})
+    new_doc = prepare_buy_object(submitted_form,user_data)
+    transactions=mongo.db.transactions
+    transactions.insert_one(new_doc)
+    print("submitted form = ",submitted_form)
+    print("new doc =",new_doc)
     return redirect(url_for('show_user_dashboard',username=username))
     #task_collection=mongo.db.tasks
     #task_collection.insert_one(request.form.to_dict())
