@@ -68,8 +68,15 @@ def buy_coins(username):
     new_doc = prepare_buy_object(submitted_form,user_data)
     transactions=mongo.db.transactions
     transactions.insert_one(new_doc)
-    print("submitted form = ",submitted_form)
-    print("new doc =",new_doc)
+    
+    user_wallet=user_data['wallet']
+    user_coins=user_wallet['coins']
+    for coin in user_coins:
+        if coin == new_doc['symbol']:
+            print('New coin is in wallet!')
+        else:
+            print('New coin is not in wallet yet')
+
     return redirect(url_for('show_user_dashboard',username=username))
     #task_collection=mongo.db.tasks
     #task_collection.insert_one(request.form.to_dict())
