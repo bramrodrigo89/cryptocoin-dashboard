@@ -31,6 +31,7 @@ def insert_transaction_to_db(mongo,new_doc,user_data):
     latest_id= inserted_doc.inserted_id
     latest_transaction=mongo.db.transactions.find_one({'_id': latest_id})
     user_wallet=user_data['wallet']
+    current_coins_number=float(user_wallet['total_coins'])
     user_coins=user_wallet['coins']
     if new_coin in user_coins:
         mongo.db.users.update(
@@ -44,8 +45,13 @@ def insert_transaction_to_db(mongo,new_doc,user_data):
         })
         return
     else:
+        
         mongo.db.users.update(
             { '_id' : ObjectId(user_id) },
             { '$set' : { 'wallet.coins.'+new_coin : { 'symbol':new_coin, 'total_ticker' : new_doc['ticker'], 'transactions': [latest_transaction] }}
+            })
+        mongo.db.users.update(
+            { '_id' : ObjectId(user_id) },
+            { '$set' : { 'wallet.total_coins' : current_coins_number+1 }
             })
         return

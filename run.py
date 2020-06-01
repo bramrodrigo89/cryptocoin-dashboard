@@ -40,7 +40,7 @@ def show_user_dashboard(username):
     pie_data = create_plot(updated_prices,user_data)
     favorites=favorite_list_data(user_data,wallet_coins_data,CRYPTOCOINS_LIST)
     not_favorites = not_favorite_list_data(user_data,CRYPTOCOINS_LIST)
-    user_transactions=mongo.db.transactions.find({'user_id': ObjectId(user_id)}).limit(5)
+    user_transactions=mongo.db.transactions.find({'user_id': ObjectId(user_id)}).sort([("date", -1)]).limit(5)
     return render_template("dashboard.html", user=user_data, balance=balance_data, plot=pie_data, wallet_coins=wallet_coins_data ,favorites=favorites, not_favorites=not_favorites, transactions=user_transactions)
 
 @app.route('/remove-fav/<username>/<symbol>')
