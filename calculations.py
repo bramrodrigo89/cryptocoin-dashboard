@@ -48,8 +48,8 @@ def value_change_coins(wallet_object):
         updated_price=float(updated_quote.get_price())
         total_value_updated=updated_price*obj['total_ticker']
         value_change=total_value_updated
-        for key,value in obj['transactions'].items():
-            value_change-=float(value['ticker'])*float(value['price'])
+        for transaction in obj['transactions']:
+            value_change-=float(transaction['ticker'])*float(transaction['price'])
         value_change_coins[symbol]=value_change
     return value_change_coins
 

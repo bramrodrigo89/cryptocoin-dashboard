@@ -20,6 +20,32 @@ def prepare_buy_object(form_object,user_data):
     document_object["date"]=datetime.utcnow()
     document_object["ticker"]=float(form_object["ticket-entry-number"])
     document_object["price"]=float(form_object["submit-buy-coin-bid-price"].replace('US$ ',''))
-    # datetime object containing current date and time
-    
     return document_object
+
+def insert_transaction_to_db(mongo,new_doc,user_data):
+    user_id=user_data['_id']
+    transactions=mongo.db.transactions
+    inserted_doc=transactions.insert_one(new_doc)
+    new_coin=new_doc['symbol']
+    new_ticker=new_doc['ticker']
+    latest_id= inserted_doc.inserted_id
+    latest_transaction=mongo.db.transactions.find_one({'_id': latest_id})
+    user_wallet=user_data['wallet']
+    user_coins=user_wallet['coins']
+    if new_coin in user_coins:
+        mongo.db.users.update(
+            { '_id' : ObjectId(user_id) },
+            { '$push' : { 'wallet.coins.'+new_coin+'.transactions' : latest_transaction }
+        })
+        current_ticker=float(user_coins[new_coin]['total_ticker'])
+        mongo.db.users.update(
+            { '_id' : ObjectId(user_id) },
+            { '$set' : { 'wallet.coins.'+new_coin+'.total_ticker' : current_ticker + new_ticker }
+        })
+        return
+    else:
+        mongo.db.users.update(
+            { '_id' : ObjectId(user_id) },
+            { '$set' : { 'wallet.coins.'+new_coin : { 'symbol':new_coin, 'total_ticker' : new_doc['ticker'], 'transactions': [latest_transaction] }}
+            })
+        return
