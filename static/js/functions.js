@@ -1,8 +1,4 @@
-//   $('.modal-trigger').leanModal({
-//       dismissible: true, // Modal can be dismissed by clicking outside of the modal
-//       complete: function() { alert('Closed'); } // Callback for Modal close
-//     }
-//   );
+
 
 $(document).on("click", ".open-buy-coin-modal-link", function () {
     var selectedCoinSymbol = $(this).attr('data-id');
@@ -25,7 +21,7 @@ $(document).on("click", ".open-buy-coin-modal-link", function () {
 });
 
 function updatePrice(){
-    var bid_price = $('#modal-buy-coin-bid-price').html().split(" ").pop();
+    var bid_price = $('#modal-buy-coin-bid-price').html().split(" ").pop().replace(/,/g, "");
     var ticker = parseFloat($('#ticket-entry-number').val());
     var cash_spent = bid_price*ticker;
     var cash_spent = cash_spent.toFixed(2);

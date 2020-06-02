@@ -73,12 +73,10 @@
             Plotly.plot('balance-pie-chart',graphs,{});
             $('.modal').modal({
                 dismissible: true, 
-                onCloseEnd: function() { // Callback for Modal close
-                    alert('Closed');
+                complete: function() { 
+                    $('#ticket-entry-number').val('');  
+                    $('#cash-spent-entry').val('');
                 }
-            });
-            $("#buy-coin-modal").on("hidden", function () {
-            alert("Modal closed!");
             });
         });
         
