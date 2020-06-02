@@ -1,14 +1,14 @@
-import os, json, locale
+import json
+import locale
 import pandas as pd
 import numpy as np
 import plotly
 import plotly.graph_objs as go #Pie Chart
-from datetime import datetime
 from flask import Flask, render_template, redirect, request, url_for, jsonify
 from flask_pymongo import PyMongo
 from iexfinance.stocks import Stock, get_historical_data
 
-def spent_cash(ticker,price):
+def spent_cash(ticker, price):
     spent_cash=float(ticker)*float(price)
     return spent_cash
 
@@ -20,7 +20,6 @@ def updated_price_coins(wallet_object):
     Total Value = Latest Price * Total Ticker in Wallet
 
     This value is used later to calculate the total balance in wallet
-
     """
     wallet_coins=wallet_object['coins']
     updated_price_wallet_coins={}
@@ -39,7 +38,6 @@ def value_change_coins(wallet_object):
 
     So that all the previous transactions on that specific asset are considered. These 
     values ared used later to calculate the value change in the total balance.
-
     """
     wallet_coins=wallet_object['coins']
     value_change_coins={}

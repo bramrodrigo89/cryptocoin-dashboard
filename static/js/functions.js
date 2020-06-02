@@ -24,14 +24,17 @@ $(document).on("click", ".open-buy-coin-modal-link", function () {
     $('#submit-buy-coin-bid-price').val(selectedCoinBidPrice);
 });
 
-$(document).ready(function(){
-    function updatePrice(){
-        var bid_price = $('#modal-buy-coin-bid-price').html().split(" ").pop();
-        var ticker = parseFloat($('#ticket-entry-number').val());
-        var cash_spent = bid_price*ticker;
-        var cash_spent = cash_spent.toFixed(2);
-        $('#cash-spent-entry').val(cash_spent);
-    }
-    $(document).on("change, keyup", "#ticket-entry-number", updatePrice);
-});
+function updatePrice(){
+    var bid_price = $('#modal-buy-coin-bid-price').html().split(" ").pop();
+    var ticker = parseFloat($('#ticket-entry-number').val());
+    var cash_spent = bid_price*ticker;
+    var cash_spent = cash_spent.toFixed(2);
+    $('#cash-spent-entry').val(cash_spent);
+    $('#cash-spent-entry').focus();
+    $('#ticket-entry-number').focus();
+}
+
+$(document).on("change, keyup", "#ticket-entry-number", updatePrice);
+
+
 

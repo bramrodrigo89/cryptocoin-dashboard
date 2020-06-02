@@ -64,16 +64,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
-
     <script defer src="{{ url_for('static', filename='js/functions.js')}}"></script>
     <script>
-        $(document).ready(function(){
+		$(document).ready(function(){
             $('.collapsible').collapsible();
             $('select').material_select();
             $('.button-collapse').sideNav();
             Plotly.plot('balance-pie-chart',graphs,{});
-            $('.modal').modal();
+            $('.modal').modal({
+                dismissible: true, 
+                onCloseEnd: function() { // Callback for Modal close
+                    alert('Closed');
+                }
+            });
+            $("#buy-coin-modal").on("hidden", function () {
+            alert("Modal closed!");
+            });
         });
+        
+        
         
     </script>
 </body>

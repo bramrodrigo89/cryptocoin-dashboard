@@ -45,7 +45,6 @@ def insert_transaction_to_db(mongo,new_doc,user_data):
         })
         return
     else:
-        
         mongo.db.users.update(
             { '_id' : ObjectId(user_id) },
             { '$set' : { 'wallet.coins.'+new_coin : { 'symbol':new_coin, 'total_ticker' : new_doc['ticker'], 'transactions': [latest_transaction] }}
