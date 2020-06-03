@@ -71,6 +71,7 @@
             $('select').material_select();
             $('.button-collapse').sideNav();
             Plotly.plot('balance-pie-chart',graphs,{});
+            $('.tooltipped').tooltip();
             $('.modal').modal({
                 dismissible: true, 
                 complete: function() { 
@@ -79,9 +80,6 @@
                 }
             });
         });
-        
-        
-        
     </script>
 </body>
 </html>

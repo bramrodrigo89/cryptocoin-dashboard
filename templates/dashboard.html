@@ -196,7 +196,7 @@
 				</div>
 				<div class="modal-cash-available-container">
                     <span>Cash Available:</span>
-				    <span>{{ "US$ {:,.2f}".format(user.cash) }}</span>
+				    <span id="modal-cash-available">{{ "US$ {:,.2f}".format(user.cash) }}</span>
                 </div>
 				<div class="row">
 					<div class="input-field col s12 m6">
@@ -212,7 +212,7 @@
 				</div>
 			</div> 
 			<div class="modal-footer">
-				<button  type="submit" class="waves-effect waves-light btn green darken-3">Buy</button>
+				<button id="modal-buy-button" type="submit" class="waves-effect waves-light btn green darken-3">Buy</button>
 				<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
 			</div>
 		</form>
