@@ -10,7 +10,7 @@ from datetime import datetime
 from bson.objectid import ObjectId
 from iexfinance.stocks import Stock, get_historical_data
 from calculations import updated_price_coins, value_change_coins, balance_prices_and_changes, create_plot, fetch_wallet_coins_data, favorite_list_data, not_favorite_list_data
-from transactions import prepare_buy_object, insert_transaction_to_db
+from transactions import prepare_buy_object, prepare_sell_object, insert_transaction_to_db
 
 app = Flask(__name__)
 
@@ -38,9 +38,9 @@ def show_user_dashboard(username):
     balance_data, updated_prices, updated_changes = data[0], data[1], data[2]
     wallet_coins_data=fetch_wallet_coins_data(updated_prices, updated_changes, user_data['wallet'],CRYPTOCOINS_LIST)
     pie_data = create_plot(updated_prices,user_data)
-    favorites=favorite_list_data(user_data,wallet_coins_data,CRYPTOCOINS_LIST)
+    favorites = favorite_list_data(user_data,wallet_coins_data,CRYPTOCOINS_LIST)
     not_favorites = not_favorite_list_data(user_data,CRYPTOCOINS_LIST)
-    user_transactions=mongo.db.transactions.find({'user_id': ObjectId(user_id)}).sort([("date", -1)]).limit(5)
+    user_transactions = mongo.db.transactions.find({'user_id': ObjectId(user_id)}).sort([("date", -1)]).limit(5)
     return render_template("dashboard.html", user=user_data, balance=balance_data, plot=pie_data, wallet_coins=wallet_coins_data ,favorites=favorites, not_favorites=not_favorites, transactions=user_transactions)
 
 @app.route('/remove-fav/<username>/<symbol>')
@@ -68,7 +68,14 @@ def buy_coins(username):
     new_doc = prepare_buy_object(submitted_form,user_data)
     insert_transaction_to_db(mongo, new_doc,user_data)
     return redirect(url_for('show_user_dashboard',username=username))
-    
+
+@app.route('/sell-coins/<username>', methods=['POST'])
+def sell_coins(username):
+    submitted_form = request.form.to_dict()
+    user_data=mongo.db.users.find_one({'username':username})
+    new_doc = prepare_sell_object(submitted_form,user_data)
+    insert_transaction_to_db(mongo, new_doc,user_data)
+    return redirect(url_for('show_user_dashboard',username=username))
 
 if __name__ == '__main__':
     app.run(host=os.getenv("IP","0.0.0.0"),
