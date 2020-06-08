@@ -13,7 +13,7 @@
 					<div class="card-stacked">
 					<div class="card-content">
 						<p>Name: {{ user.profile.first_name }} {{ user.profile.last_name }}</p>
-						<p>Joined since: {{ user.profile.date_joined }} </p>
+						<p>Joined since: {{ user.profile.date_joined.strftime("%m/%d/%Y") }} </p>
 					</div>
 					<div class="card-action">
 						<a href="{{ user.profile.image }}">Update Your Profile</a>
@@ -56,8 +56,8 @@
                             <a href="#">Distribution</a>
                         </div>
                     </div>
-                    <div class="card hoverable">
-                        <div class="card-content">
+                    <div class="card hoverable light-blue darken-4">
+                        <div class="card-content white-text">
                             <h5 class="header">Your Earned Cash</h5>
                             <h4>{{ "US$ {:,.2f}".format(user.cash_earned|float) }} </h4>
                             <h5><span><i class="material-icons">emoji_events</i></span> Your Score: </h5>
@@ -67,7 +67,7 @@
             </div>
         </div>
         <div class="col s12 m6">
-            <div class="card">
+            <div class="card indigo lighten-5">
                 <div class="card-image">
                     <div class="chart" id="balance-pie-chart">
                         <script>
