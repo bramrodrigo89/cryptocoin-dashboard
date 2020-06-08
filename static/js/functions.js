@@ -8,6 +8,7 @@ const formatter = new Intl.NumberFormat('en-US', {
 })
 
 const buyButton = document.getElementById('modal-buy-button');
+const sellButton = document.getElementById('modal-sell-button');
 
 // function builds up the buy-coin-modal with respective data depending on which coin the user selects
 $(document).on("click", ".open-buy-coin-modal-link", function () {
@@ -54,7 +55,7 @@ $(document).on("click", ".open-sell-coin-modal-link", function () {
 });
 
 // Function check if funds are enough for buying coins and rejects invalid input of ticker
-function check_cash_left_and_valid_ticker(cash_spent,ticker){
+function check_cash_left_and_valid_ticker_entry(cash_spent,ticker){
     var submitBuyButton =  $('#modal-buy-button');
     var available_cash = $('#modal-cash-available').html().split(" ").pop().replace(/,/g, "");
     cash_left = available_cash - cash_spent;
@@ -85,6 +86,38 @@ function check_cash_left_and_valid_ticker(cash_spent,ticker){
     
 }
 
+function check_ticker_left_and_valid_cash_entry(cash_entry,ticker){
+    var submitSellButton =  $('#modal-sell-button');
+    var available_ticker = $('#modal-available-ticker').html().replace(/,/g, "");
+    var ticker_left = available_ticker-ticker;
+    if (ticker_left >= 0.00 && cash_entry >= 0.01 && ticker >= 0.01) {
+        sellButton.disabled=false;
+        submitSellButton.removeClass('tooltipped');
+        submitSellButton.removeAttr('data-position');
+        submitSellButton.removeAttr('data-tooltip');
+        submitSellButton.removeAttr('data-tooltip-id');
+    } else if (ticker_left < 0.00 || cash_entry < 0.01 || ticker < 0.01) {
+        sellButton.disabled=true;
+        submitSellButton.addClass('tooltipped');
+        submitSellButton.attr('data-position', 'top');
+        if (ticker_left < 0.00) {
+            // Not enough coins available in wallet for sale
+            submitSellButton.attr('data-tooltip', 'You do not have enough coins available to sell.');
+        } else if (cash_entry < 0.01) {
+            // Selected cash is too low for a transaction
+            submitSellButton.attr('data-tooltip', 'You need to select a valid cash value to exchange for this sale.');
+        } else if (ticker < 0.01) {
+            submitSellButton.attr('data-tooltip', 'You need to sell at least 0.01 coins to make a sale.');
+        } 
+        else {
+            // Both conditions are wrong
+            submitSellButton.attr('data-tooltip', 'Please enter valid numbers to proceed with a purchase');
+        }
+        // Initialize tooltip
+        submitSellButton.tooltip();
+    }
+}
+
 // Function called when user enters a specific ticker in input field
 function updateSpentCash(){
     var bid_price = $('#modal-buy-coin-bid-price').html().split(" ").pop().replace(/,/g, "");
@@ -94,7 +127,7 @@ function updateSpentCash(){
     $('#cash-spent-entry').val(cash_spent);
     $('#cash-spent-entry').focus();
     $('#ticket-entry-number').focus();
-    check_cash_left_and_valid_ticker(cash_spent,ticker);
+    check_cash_left_and_valid_ticker_entry(cash_spent,ticker);
 }
 
 // Function called when user enters a specific cash spent amount in input field
@@ -106,7 +139,7 @@ function updateTickerBuy(){
     $('#ticket-entry-number').val(calculated_ticker);
     $('#ticket-entry-number').focus();
     $('#cash-spent-entry').focus();
-    check_cash_left_and_valid_ticker(cash_spent,calculated_ticker); 
+    check_cash_left_and_valid_ticker_entry(cash_spent,calculated_ticker); 
 }
 
 // Function called when user enters a specific ticker in input field
@@ -118,7 +151,7 @@ function updateExchangeCash(){
     $('#cash-exchange-entry').val(cash_exchange);
     $('#cash-exchange-entry').focus();
     $('#sell-ticket-entry-number').focus();
-    //check_cash_left_and_valid_ticker(cash_spent,ticker);
+    check_ticker_left_and_valid_cash_entry(cash_exchange,ticker);
 }
 
 // Function called when user enters a specific cash spent amount in input field
@@ -130,7 +163,7 @@ function updateTickerSell(){
     $('#sell-ticket-entry-number').val(calculated_ticker);
     $('#sell-ticket-entry-number').focus();
     $('#cash-exchange-entry').focus();
-    //check_cash_left_and_valid_ticker(cash_spent,calculated_ticker); 
+    check_ticker_left_and_valid_cash_entry(cash_exchange,calculated_ticker); 
 }
 
 $(document).on("change, keyup", "#ticket-entry-number", updateSpentCash);

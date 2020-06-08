@@ -48,7 +48,6 @@ def insert_transaction_to_db(mongo,new_doc,user_data):
     user_wallet=user_data['wallet']
     user_coins=user_wallet['coins']
     current_coins_number=float(user_wallet['total_coins'])
-    available_ticker=float(user_coins[transaction_coin]['total_ticker'])
     if new_doc['type']=='purchase':
         cash_spent=new_doc['price']*transaction_ticker
         mongo.db.users.update(
@@ -61,6 +60,7 @@ def insert_transaction_to_db(mongo,new_doc,user_data):
                 { '$set' : { 'cash' : 0.00 }
             })
         if transaction_coin in user_coins:
+            available_ticker=float(user_coins[transaction_coin]['total_ticker'])
             mongo.db.users.update(
                 { '_id' : ObjectId(user_id) },
                 { '$push' : { 'wallet.coins.'+transaction_coin+'.transactions' : latest_transaction }
@@ -81,6 +81,7 @@ def insert_transaction_to_db(mongo,new_doc,user_data):
                 })
             return
     if new_doc['type']=='sale':
+        available_ticker=float(user_coins[transaction_coin]['total_ticker'])
         cash_exchange=new_doc['price']*transaction_ticker
         mongo.db.users.update(
             { '_id' : ObjectId(user_id) },
@@ -88,7 +89,8 @@ def insert_transaction_to_db(mongo,new_doc,user_data):
         })
         value_change_coins_obj = value_change_coins(user_wallet)
         value_change_transaction_coin = float(value_change_coins_obj[transaction_coin])
-        cash_earned = value_change_transaction_coin * transaction_ticker *-1 
+        cash_earned = value_change_transaction_coin *(transaction_ticker/available_ticker) *-1 
+        print("earned cash: ",cash_earned)
         mongo.db.users.update(
             { '_id' : ObjectId(user_id) },
             { '$set' : { 'cash_earned' : available_earned + cash_earned }
