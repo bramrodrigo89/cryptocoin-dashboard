@@ -6,6 +6,11 @@
     font-size: 22px;
 }
 
+.content-row {
+    margin-top:300px;
+    margin-bottom: 200px;
+}
+
 .modal-title-container {
     min-height: 84px;
     padding-left: 72px;
@@ -28,4 +33,15 @@
     margin-bottom: 8px;
     font-size: 24px;
     font-weight: 300;
+}
+
+.page-footer {
+    padding-top: 20px;
+    color: #fff;
+    background-color: #7886cb;
+}
+
+.card .btn {
+    margin: 3px;
+    width: 100px;
 }

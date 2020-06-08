@@ -1,9 +1,8 @@
 import os, json, locale
-import pandas as pd
 import numpy as np
 import plotly
 import plotly.graph_objs as go #Pie Chart
-from flask import Flask, render_template, redirect, request, url_for, jsonify, send_from_directory
+from flask import Flask, render_template, redirect, request, url_for, send_from_directory
 from flask_pymongo import PyMongo
 from pymongo.mongo_client import MongoClient
 from datetime import datetime
@@ -30,6 +29,16 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
     
 @app.route('/')
+@app.route('/index')
+def login_form():
+    return render_template('user-login.html')
+
+@app.route('/user/login', methods=['POST'])
+def user_login():
+    submitted_form = request.form.to_dict()
+    username=submitted_form['user_name']
+    return redirect(url_for('show_user_dashboard', username=username))
+
 @app.route('/user/<username>/dashboard')
 def show_user_dashboard(username):
     user_data=mongo.db.users.find_one({'username':username})
