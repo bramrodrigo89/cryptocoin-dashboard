@@ -5,7 +5,7 @@ import plotly.graph_objs as go
 from flask import Flask
 from flask_pymongo import PyMongo
 from flask_login import LoginManager
-from flask import render_template, url_for, request, flash, send_from_directory, redirect
+from flask import render_template, url_for, request, flash, redirect
 from form import Login
 from werkzeug.urls import url_parse
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -20,6 +20,7 @@ from transactions import prepare_buy_object, prepare_sell_object, insert_transac
 app = Flask(__name__)
 app.config["MONGO_DBNAME"] = 'cryptocoins_db'
 app.config["MONGO_URI"]=os.getenv("MONGO_URI")
+app.secret_key = 'some_secret'
 mongo = PyMongo(app)
 login = LoginManager(app)
 login.login_view = 'login'
@@ -84,13 +85,8 @@ class User:
     def logout():
         logout_user()
         return redirect(url_for('login'))
-
-@app.route('/favicon.ico') 
-def favicon(): 
-    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='images/icons/btc.png')
     
 @app.route('/')
-@app.route('/index')
 def index():
     return render_template('login.html')
 
