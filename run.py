@@ -1,9 +1,15 @@
 import os, json, locale
 import numpy as np
 import plotly
-import plotly.graph_objs as go #Pie Chart
-from flask import Flask, render_template, redirect, request, url_for, send_from_directory
+import plotly.graph_objs as go
+from flask import Flask
 from flask_pymongo import PyMongo
+from flask_login import LoginManager
+from flask import render_template, url_for, request, flash, send_from_directory, redirect
+from form import Login
+from werkzeug.urls import url_parse
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import current_user, login_user, logout_user, login_required
 from pymongo.mongo_client import MongoClient
 from datetime import datetime
 from bson.objectid import ObjectId
@@ -12,10 +18,11 @@ from calculations import updated_price_coins, value_change_coins, balance_prices
 from transactions import prepare_buy_object, prepare_sell_object, insert_transaction_to_db
 
 app = Flask(__name__)
-
 app.config["MONGO_DBNAME"] = 'cryptocoins_db'
 app.config["MONGO_URI"]=os.getenv("MONGO_URI")
 mongo = PyMongo(app)
+login = LoginManager(app)
+login.login_view = 'login'
 
 CRYPTOCOIN_OBJECT=mongo.db.cryptocoins.find()
 CRYPTOCOINS_LIST=[]
@@ -24,20 +31,68 @@ CRYPTO_SYMBOLS=[]
 for coin in CRYPTOCOIN_OBJECT:
     CRYPTO_SYMBOLS.append(coin['symbol_long'])
     CRYPTOCOINS_LIST.append(coin)
+
+class User:
+    def __init__(self, username):
+        self.username = username
+
+    @staticmethod
+    def is_authenticated():
+        return True
+
+    @staticmethod
+    def is_active():
+        return True
+
+    @staticmethod
+    def is_anonymous():
+        return False
+
+    def get_id(self):
+        return self.username
+
+    @staticmethod
+    def check_password(password_hash, password):
+        return check_password_hash(password_hash, password)
+
+    @login.user_loader
+    def load_user(username):
+        u = mongo.db.users.find_one({"username": username})
+        if not u:
+            return None
+        return User(username=u['userame'])
+
+    @app.route('/login', methods=['GET', 'POST'])
+    def login():
+        if current_user.is_authenticated:
+            return redirect(url_for('show_user_dashboard',username=username))
+        form = Login()
+        if form.validate_on_submit():
+            user = mongo.db.users.find_one({"username": form.username.data})
+            if user and User.check_password(user['password'], form.password.data):
+                user_obj = User(username=user['userame'])
+                login_user(user_obj)
+                next_page = request.args.get('next')
+                if not next_page or url_parse(next_page).netloc != '':
+                    next_page = url_for('show_user_dashboard', username=user['username'])
+                return redirect(next_page)
+            else:
+                flash("Invalid username or password")
+        return render_template('login.html', title='Sign In', form=form)
+    
+    @app.route('/logout')
+    def logout():
+        logout_user()
+        return redirect(url_for('login'))
+
 @app.route('/favicon.ico') 
 def favicon(): 
-    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='images/icons/btc.png')
     
 @app.route('/')
 @app.route('/index')
-def login_form():
-    return render_template('user-login.html')
-
-@app.route('/user/login', methods=['POST'])
-def user_login():
-    submitted_form = request.form.to_dict()
-    username=submitted_form['user_name']
-    return redirect(url_for('show_user_dashboard', username=username))
+def index():
+    return render_template('login.html')
 
 @app.route('/user/<username>/dashboard')
 def show_user_dashboard(username):
