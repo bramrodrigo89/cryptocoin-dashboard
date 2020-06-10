@@ -90,8 +90,8 @@ def user_auth():
             flash('Invalid password or username')
             return redirect(url_for('login'))
     else:
-        flash('Please register first to create an account')
-        return redirect(url_for('register'))
+        flash('Please sign up first to create an account')
+        return redirect(url_for('signup'))
 
 
 # Profile Page
@@ -102,7 +102,7 @@ def profile(username):
 		user_in_db = users_coll.find_one({"username": username})
 		return render_template('profile.html', user=user_in_db)
 	else:
-		flash("You must be logged in to see this page")
+		flash("You must log in first to see this page")
 		return redirect(url_for('index'))
 
 #Log Out
@@ -112,6 +112,49 @@ def logout():
 	session.clear()
 	flash('You have logged out!')
 	return redirect(url_for('index'))
+
+# Sign up
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+	# Check if user is not logged in already
+	if 'user' in session:
+		flash("You are logged in already!")
+		return redirect(url_for('index'))
+	if request.method == 'POST':
+		form = request.form.to_dict()
+		# Check if the two password entries match and check if user already exists first 
+		if form['password1'] == form['user_password2']:
+			user = users_coll.find_one({"username" : form['username']})
+			if user:
+				flash(f"{form['username']} already exists! Please use a different username or log in again")
+				return redirect(url_for('signup'))
+			# If user does not exist register new user
+			else:				
+				# Hash password
+				hash_pass = generate_password_hash(form['password1'])
+				#Create new user with hashed password
+				users_coll.insert_one(
+					{
+						'username': form['username'],
+						'email': form['email'],
+						'password': hash_pass
+					}
+				)
+				# Check if user is actualy saved
+				user_in_db = users_coll.find_one({"username": form['username']})
+				if user_in_db:
+					# Log user in (add to session)
+					session['user'] = user_in_db['username']
+					return redirect(url_for('profile', user=user_in_db['username']))
+				else:
+					flash("There was a problem saving your profile. Please try again.")
+					return redirect(url_for('signup'))
+
+		else:
+			flash("Passwords do not match! Please try again")
+			return redirect(url_for('signup'))
+		
+	return render_template("signup.html")
 
 """
 User Dashboard

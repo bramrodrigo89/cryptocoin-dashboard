@@ -6,7 +6,7 @@
         <li><a href="/logout">Log Out</a></li>
     {% else %}
         <li><a href="/login">Log In</a></li>
-        <li><a href="#">Register</a></li>
+        <li><a href="/signup">Sign Up</a></li>
     {% endif %}
 {% endblock %}
 
@@ -25,13 +25,4 @@
 <div class="row content-row">
     <h1> My Crypto Dashboard </h1>
 </div>
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        <ul class=flashes>
-            {% for category, message in messages %}
-            <li class="{{ category }}">{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-{% endwith %}
 {% endblock %}

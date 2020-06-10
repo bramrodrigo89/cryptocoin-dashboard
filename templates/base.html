@@ -10,6 +10,7 @@
     <title>My Cryptocoin Dashboard</title>
 </head>
 <body>
+    <!-- Navbar for desktop and mobile screens -->
     <header>
         <nav>
             <div class="nav-wrapper indigo lighten-2">
@@ -31,11 +32,39 @@
         </nav>
 	</header>
     
+    <!-- Main Content Container -->
     <div class="container">
     {% block content %}
     {% endblock %}
     </div>
     
+    <!-- Flashed messages alerts modal -->
+	<div id="alerts" class="container-fluid">
+		<div class="row justify-content-around">
+			<div id="messages">
+				{% with messages = get_flashed_messages() %}
+				{% if messages %}
+				{% for message in messages %}
+				<p class="text-center">{{ message }}</p>
+				{% endfor %}
+				{% endif %}
+				{% endwith %}
+			</div>
+		</div>
+	</div>
+
+    <!-- Modal for Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul class=flashes>
+            {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
+
+    <!-- Footer -->
 	<footer class="page-footer">
 		<div class="container">
 			<div class="row">
@@ -72,16 +101,11 @@
             $('.collapsible').collapsible();
             $('select').material_select();
             $('.button-collapse').sideNav();
-            Plotly.plot('balance-pie-chart',graphs,{});
             $('.tooltipped').tooltip();
-            $('.modal').modal({
-                dismissible: true, 
-                complete: function() { 
-                    $('#ticket-entry-number').val('');  
-                    $('#cash-spent-entry').val('');
-                }
-            });
+            $('.modal').modal();
         });
     </script>
+    <!-- Custom scripts -->
+	{% block scripts %}{% endblock scripts %}
 </body>
 </html>
