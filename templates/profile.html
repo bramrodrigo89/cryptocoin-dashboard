@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block extra_links %}
+<li><a href="/user/{{ user.username }}/dashboard">My Dashboard</a></li>
+<li><a href="/profile/{{ user.username }}">My Profile</a></li>
+<li><a href="/logout">Log Out</a></li>
+{% endblock %}
+
+{% block extra_mobile_links %}
+<li><a href="/user/{{ user.username }}/dashboard">My Dashboard</a></li>
+<li><a href="/profile/{{ user.username }}">My Profile</a></li>
+<li><a href="/logout">Log Out</a></li>
+{% endblock %}
+
+{% block content %}
+<div class="row content-row">
+    <h1> Welcome, {{ user.profile.first_name|title }}</h1>
+
+</div>
+{% endblock %}

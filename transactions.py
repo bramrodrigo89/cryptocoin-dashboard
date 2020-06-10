@@ -1,17 +1,8 @@
-import os, json, locale
-import pandas as pd
-import numpy as np
-import plotly
-import plotly.graph_objs as go #Pie Chart
-from flask import Flask, render_template, redirect, request, url_for, jsonify
-from flask_pymongo import PyMongo
-from pymongo.mongo_client import MongoClient
 from datetime import datetime
 from bson.objectid import ObjectId
-from iexfinance.stocks import Stock, get_historical_data
 from calculations import value_change_coins
 
-def prepare_buy_object(form_object,user_data):
+def prepare_buy_object(form_object, user_data):
     document_object = {}
     document_object["user_id"]=user_data["_id"]
     document_object["symbol"]=form_object["submit-buy-coin-symbol"]

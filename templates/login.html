@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="row content-row">
-	<form action="{{ url_for('login') }}" method="POST" class="col s12">
+	<form  method="POST" action="/user_auth" class="col s12">
 		<div class="row">
-			<div class="input-field col s6">
+			<div class="input-field col s12 m6">
                 <i class="material-icons prefix">account_circle</i>
-				<input placeholder="Placeholder" name="user_name" id="user_name" type="text" class="validate">
+				<input placeholder="" name="username" id="username" type="text" class="validate">
 				<label for="user_name">Username</label>
 			</div>
-			<div class="input-field col s6">
+			<div class="input-field col s12 m6">
                 <span class="material-icons prefix">more</span>
-				<input id="user_password" name="user_password" type="password" class="validate">
+				<input id="user_password" name="password" type="password" class="validate">
 				<label for="user_password">Password</label>
 			</div>
 		</div>
@@ -18,5 +18,14 @@
             <i class="material-icons left">login</i>
         </button>
 	</form>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul class=flashes>
+            {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
 </div>
 {% endblock %}

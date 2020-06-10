@@ -1,4 +1,16 @@
 {% extends 'base.html' %}
+{% block extra_links %}
+<li><a href="/profile/{{ user.username }}">My Profile</a></li>
+<li><a href="/user/{{ user.username }}/dashboard">My Dashboard</a></li>
+<li><a href="/logout">Log Out</a></li>
+{% endblock %}
+
+{% block extra_mobile_links %}
+<li><a href="/profile/{{ user.username }}">My Profile</a></li>
+<li><a href="/user/{{ user.username }}/dashboard">My Dashboard</a></li>
+<li><a href="/logout">Log Out</a></li>
+{% endblock %}
+
 {% block content %}
 
 <!-- Display Cards: Available cash and Profile Info -->
@@ -105,6 +117,8 @@
         </div>
     </div>
 </section>
+
+<!-- Cryptocoin Wallet, Favorite Coins, Transaction and Other Coins -->
 <section>
     <div class="row">
         <div class="col s12 m6">
@@ -188,14 +202,17 @@
                     <h5>Total: {{ "US$ {:,.2f}".format(transaction['ticker']*transaction['price']) }}</h5>
                     {% if transaction['type'] == 'purchase' %}
                         <blockquote style="border-left:5px solid #2E7D32;">Date: {{ transaction['date'].strftime("%m/%d/%Y, %H:%M:%S") }}<br>Price: {{ "US$ {:,.2f}".format(transaction['price']) }}</blockquote>
-                        <span class="secondary-content" style="color:#2E7D32"><i class="material-icons">account_balance_wallet</i>
-                        <i class="material-icons" style="color:#2E7D32">keyboard_arrow_left</i>
+                        <span class="secondary-content" style="color:#2E7D32">
+                            <i class="material-icons">account_balance_wallet</i>
+                            <i class="material-icons" style="color:#2E7D32">keyboard_arrow_left</i>
+                        </span>
                     {% elif transaction['type'] == 'sale' %}
                         <blockquote style="border-left:5px solid #C62828;">Date: {{ transaction['date'].strftime("%m/%d/%Y, %H:%M:%S") }}<br>Price: {{ "US$ {:,.2f}".format(transaction['price']) }}</blockquote>
-                        <span class="secondary-content" style="color:#C62828"><i class="material-icons">account_balance_wallet</i>
-                        <i class="material-icons" style="color:#C62828">keyboard_arrow_right</i>
+                        <span class="secondary-content" style="color:#C62828">
+                            <i class="material-icons">account_balance_wallet</i>
+                            <i class="material-icons" style="color:#C62828">keyboard_arrow_right</i>
+                        </span>
                     {% endif %}
-                    </span>
                 </li>
                 {% endfor %}
             </ul>
@@ -312,6 +329,5 @@
 		</form>
 	</div>
 </div>
-
 
 {% endblock %}

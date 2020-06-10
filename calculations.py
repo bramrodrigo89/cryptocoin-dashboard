@@ -1,11 +1,6 @@
 import json
-import locale
-import pandas as pd
-import numpy as np
 import plotly
-import plotly.graph_objs as go #Pie Chart
-from flask import Flask, render_template, redirect, request, url_for, jsonify
-from flask_pymongo import PyMongo
+import plotly.graph_objs as go
 from iexfinance.stocks import Stock, get_historical_data
 
 def spent_cash(ticker, price):
