@@ -5,7 +5,7 @@ from flask_pymongo import PyMongo
 from flask import render_template, url_for, request, flash, redirect, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from bson.objectid import ObjectId
-from calculations import balance_prices_and_changes, create_plot
+from calculations import balance_prices_and_changes, create_pie_chart, create_plot
 from calculations import fetch_wallet_coins_data, favorite_list_data
 from calculations import not_favorite_list_data
 from transactions import prepare_buy_object, prepare_sell_object
@@ -192,7 +192,7 @@ def show_user_dashboard(username):
         data=balance_prices_and_changes(user_data['wallet'],user_data['cash'])
         balance_data, updated_prices, updated_changes = data[0], data[1], data[2]
         wallet_coins_data=fetch_wallet_coins_data(updated_prices, updated_changes, user_data['wallet'],CRYPTOCOINS_LIST)
-        pie_data = create_plot(updated_prices,user_data)
+        pie_data = create_pie_chart(updated_prices,user_data)
         favorites = favorite_list_data(user_data,wallet_coins_data,CRYPTOCOINS_LIST)
         not_favorites = not_favorite_list_data(user_data,CRYPTOCOINS_LIST)
         user_transactions = transactions_coll.find({'user_id': ObjectId(user_id)}).sort([("date", -1)]).limit(5)

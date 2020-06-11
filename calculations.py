@@ -3,9 +3,6 @@ import plotly
 import plotly.graph_objs as go
 from iexfinance.stocks import Stock, get_historical_data
 
-def spent_cash(ticker, price):
-    spent_cash=float(ticker)*float(price)
-    return spent_cash
 
 def updated_price_coins(wallet_object):
     """
@@ -108,10 +105,10 @@ def fetch_wallet_coins_data(updated_price_obj, value_change_obj, wallet_object, 
                     coin_info['total_ticker']=obj['total_ticker']
         return wallet_coins_object
 
-def create_plot(updated_price_obj,user_object):
+def create_pie_chart(updated_price_obj,user_object):
     """
     This function produces a JSON object to create a pie diagram of the wallet's
-    coins distribution and calculates proportions. It also consideres the available cash
+    coins distribution and calculates proportions. It also considers the available cash
     as the first element in the list. 
 
     """
@@ -126,7 +123,27 @@ def create_plot(updated_price_obj,user_object):
     graphJSON = json.dumps(data_pie, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
 
+def create_plot(updated_price_obj,user_object):
+    """
+    This function ...
+
+    """
+    cash_value=user_object['cash']
+    user_wallet=user_object['wallet']
+    pie_labels=['Available Cash']
+    pie_values=[cash_value]
+    for coin,value in updated_price_obj.items():
+        pie_labels.append(coin)
+        pie_values.append(float(value))
+    data_pie=[go.Pie(labels=pie_labels, values=pie_values, hole=.3)]
+    graphJSON = json.dumps(data_pie, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON
+
 def favorite_list_data(user_object,wallet_coins_object,db_cryptocoin_obj):
+    """
+    This functions creates an object with data for creating cards only for favorite
+    coins which are watched by the user. It discards the coins that are not in the favorite list
+    """
     favorite_list=user_object['favorites']
     if favorite_list == '':
         return False
@@ -148,6 +165,10 @@ def favorite_list_data(user_object,wallet_coins_object,db_cryptocoin_obj):
         return favorite_list_data
 
 def not_favorite_list_data(user_object,db_cryptocoin_obj):
+    """
+    This functions creates an object with data for creating cards only for NOT favorite
+    coins that are NOT watched by the user. It discards the coins that ARE in the favorite list
+    """
     favorite_list=user_object['favorites']
     favorite_tuple=favorite_list.split(",")
     not_favorite_tuple=[]
