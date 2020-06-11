@@ -70,7 +70,7 @@ def login():
 		if user_in_db:
 			# If so redirect user to his profile
 			flash("You are logged in already!")
-			return redirect(url_for('profile', username=user_in_db['username']))
+			return redirect(url_for('profile', username=user_in_db['username'], user=user_in_db))
 	elif 'user' not in session:
 		# Render the login page for user to log in again
 		return render_template("login.html")
@@ -86,7 +86,7 @@ def user_auth():
             session['user'] = form['username']
             flash('You logged in successfully!')
             return redirect(url_for('profile',
-                            username=user_in_db['username']))
+                            username=user_in_db['username'], user=user_in_db))
         else:
             flash('Invalid password or username')
             return redirect(url_for('login'))
@@ -101,7 +101,7 @@ def profile(username):
 	# Check if user is logged in already
 	if 'user' in session:
 		user_in_db = users_coll.find_one({"username": username})
-		return render_template('profile.html', user=user_in_db)
+		return render_template('profile.html', username=user_in_db['username'], user=user_in_db)
 	else:
 		flash("You must log in first to see this page")
 		return redirect(url_for('index'))
@@ -163,7 +163,7 @@ def signup():
 				if user_in_db:
 					# Log user in and add user to session right away
 					session['user'] = user_in_db['username']
-					return redirect(url_for('profile', user=user_in_db))
+					return redirect(url_for('profile', user=user_in_db, username=session['user']))
 				else:
 					flash("There was a problem saving your profile. Please try again.")
 					return redirect(url_for('signup'))
