@@ -178,16 +178,21 @@ User Dashboard
         
 @app.route('/user/<username>/dashboard')
 def show_user_dashboard(username):
-    user_data=users_coll.find_one({'username':username})
-    user_id=user_data['_id']
-    data=balance_prices_and_changes(user_data['wallet'],user_data['cash'])
-    balance_data, updated_prices, updated_changes = data[0], data[1], data[2]
-    wallet_coins_data=fetch_wallet_coins_data(updated_prices, updated_changes, user_data['wallet'],CRYPTOCOINS_LIST)
-    pie_data = create_plot(updated_prices,user_data)
-    favorites = favorite_list_data(user_data,wallet_coins_data,CRYPTOCOINS_LIST)
-    not_favorites = not_favorite_list_data(user_data,CRYPTOCOINS_LIST)
-    user_transactions = transactions_coll.find({'user_id': ObjectId(user_id)}).sort([("date", -1)]).limit(5)
-    return render_template("dashboard.html", user=user_data, balance=balance_data, plot=pie_data, wallet_coins=wallet_coins_data ,favorites=favorites, not_favorites=not_favorites, transactions=user_transactions)
+    if 'user' in session:
+        user_in_db = users_coll.find_one({"username": session['user']})
+        user_data=users_coll.find_one({'username':username})
+        user_id=user_data['_id']
+        data=balance_prices_and_changes(user_data['wallet'],user_data['cash'])
+        balance_data, updated_prices, updated_changes = data[0], data[1], data[2]
+        wallet_coins_data=fetch_wallet_coins_data(updated_prices, updated_changes, user_data['wallet'],CRYPTOCOINS_LIST)
+        pie_data = create_plot(updated_prices,user_data)
+        favorites = favorite_list_data(user_data,wallet_coins_data,CRYPTOCOINS_LIST)
+        not_favorites = not_favorite_list_data(user_data,CRYPTOCOINS_LIST)
+        user_transactions = transactions_coll.find({'user_id': ObjectId(user_id)}).sort([("date", -1)]).limit(5)
+        return render_template("dashboard.html", user=user_data, balance=balance_data, plot=pie_data, wallet_coins=wallet_coins_data ,favorites=favorites, not_favorites=not_favorites, transactions=user_transactions)
+    else:
+        flash("You must log in first to see this page")
+        return redirect(url_for('index'))
 
 """
 Adding or removing coins to favorite list
