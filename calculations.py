@@ -85,24 +85,28 @@ def fetch_wallet_coins_data(updated_price_obj, value_change_obj, wallet_object, 
     wallet_coins_list=[]
     for symbol,obj in wallet_coins.items():
         wallet_coins_list.append(symbol)
-    cryptobatch = Stock(wallet_coins_list)
-    wallet_coins_object= cryptobatch.get_quote()
-    for coin_symbol, coin_info in wallet_coins_object.items():
-        for elem in db_cryptocoin_obj:
-            if coin_symbol == elem['symbol_long']:
-                coin_info['name'] = elem['name']
-                coin_info['symbol_short'] = elem['symbol_short']
-        for symbol,balance in updated_price_obj.items():
-            if coin_symbol == symbol:
-                coin_info['balance']= balance
-        for symbol,change in value_change_obj.items():
-            if coin_symbol == symbol:
-                coin_info['value_change']= change
-                coin_info['value_change_percent']=100*change/coin_info['balance']
-        for symbol,obj in wallet_coins.items():
-            if coin_symbol == symbol:
-                coin_info['total_ticker']=obj['total_ticker']
-    return wallet_coins_object
+    if wallet_coins_list==[]:
+        empty_object={}
+        return empty_object
+    else:
+        cryptobatch = Stock(wallet_coins_list)
+        wallet_coins_object= cryptobatch.get_quote()
+        for coin_symbol, coin_info in wallet_coins_object.items():
+            for elem in db_cryptocoin_obj:
+                if coin_symbol == elem['symbol_long']:
+                    coin_info['name'] = elem['name']
+                    coin_info['symbol_short'] = elem['symbol_short']
+            for symbol,balance in updated_price_obj.items():
+                if coin_symbol == symbol:
+                    coin_info['balance']= balance
+            for symbol,change in value_change_obj.items():
+                if coin_symbol == symbol:
+                    coin_info['value_change']= change
+                    coin_info['value_change_percent']=100*change/coin_info['balance']
+            for symbol,obj in wallet_coins.items():
+                if coin_symbol == symbol:
+                    coin_info['total_ticker']=obj['total_ticker']
+        return wallet_coins_object
 
 def create_plot(updated_price_obj,user_object):
     """
