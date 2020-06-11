@@ -62,6 +62,7 @@ function check_cash_left_and_valid_ticker_entry(cash_spent,ticker){
     if (cash_left >= 0.0 && ticker >= 0.01) {
         // cash left >= 0 and ticker >= 0.01: both conditions are correct. 
         buyButton.disabled = false;
+        submitBuyButton.tooltip('remove');
         submitBuyButton.removeClass('tooltipped');
         submitBuyButton.removeAttr('data-position');
         submitBuyButton.removeAttr('data-tooltip');
@@ -81,7 +82,7 @@ function check_cash_left_and_valid_ticker_entry(cash_spent,ticker){
             submitBuyButton.attr('data-tooltip', 'You need to select at least 0.01 ticker and add more funds to your wallet to keep buying coins.');
         }
         // Initialize tooltip
-        submitBuyButton.tooltip();
+        submitBuyButton.tooltip({delay: 50});
     }
     
 }

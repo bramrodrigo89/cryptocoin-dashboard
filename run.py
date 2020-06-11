@@ -23,13 +23,10 @@ app.config["MONGO_URI"] = os.getenv("MONGO_URI")
 app.secret_key = os.getenv("SECRET_KEY")
 mongo = PyMongo(app)
 
-# Login config
-# login = LoginManager(app)
-# login.login_view = 'login'
-
 """
 constants
 """
+
 CRYPTOCOIN_OBJECT = mongo.db.cryptocoins.find()
 CRYPTOCOINS_LIST = []
 CRYPTO_SYMBOLS = []
@@ -41,19 +38,22 @@ for coin in CRYPTOCOIN_OBJECT:
 """
 Collections
 """
+
 users_coll = mongo.db.users
 transactions_coll = mongo.db.transactions
 
 """
-Index
+Index Page
 """
 
 @app.route('/')
 @app.route('/index')
 def index():
+    # Check if user is logged in already in session
     if 'user' in session:
         user_in_db = users_coll.find_one({"username": session['user']})
         return render_template('index.html', user=user_in_db)
+    # If user is not logged, redirect to index page
     else:
         return render_template("index.html")
 
@@ -61,58 +61,44 @@ def index():
 User Authentication
 """
 
-# Login
+# Login page with login form
 @app.route('/login', methods=['GET'])
 def login():
 	# Check if user is logged in already in session
 	if 'user' in session:
 		user_in_db = users_coll.find_one({"username": session['user']})
 		if user_in_db:
-			# If so redirect user to his profile
+			# If so redirect to user's profile
 			flash("You are logged in already!")
-			return redirect(url_for('profile', username=user_in_db['username'], user=user_in_db))
+			return redirect(url_for('profile', username=user_in_db['username']))
 	elif 'user' not in session:
-		# Render the login page for user to log in again
+		# Otherwise render login page for user to log in again
 		return render_template("login.html")
 
-# Check user login details from login form
+# Check user login data when form is submitted from login.html
 @app.route('/user_auth', methods=['POST'])
 def user_auth():
     form = request.form.to_dict()
     user_in_db = users_coll.find_one({'username': form['username']})
-    # Check for user in database and if passwords match (hashed password, real password)
+    # Check if username exists in database and password is correct
     if user_in_db:
         if check_password_hash(user_in_db['password'], form['password']):
+            # Save username in session and confirm successful login
             session['user'] = form['username']
             flash('You logged in successfully!')
-            return redirect(url_for('profile',
-                            username=user_in_db['username'], user=user_in_db))
+            return redirect(url_for('profile', username=user_in_db['username']))
         else:
+            # Password or username incorrect
             flash('Invalid password or username')
             return redirect(url_for('login'))
     else:
+        #User does not exist and sign up is requirec, redirect to signup.html
         flash('Please sign up first to create an account')
         return redirect(url_for('signup'))
 
-
-# Profile Page
-@app.route('/profile/<username>')
-def profile(username): 
-	# Check if user is logged in already
-	if 'user' in session:
-		user_in_db = users_coll.find_one({"username": username})
-		return render_template('profile.html', username=user_in_db['username'], user=user_in_db)
-	else:
-		flash("You must log in first to see this page")
-		return redirect(url_for('index'))
-
-#Log Out
-@app.route('/logout')
-def logout():
-	# Clear the session
-	session.clear()
-	flash('You have logged out!')
-	return redirect(url_for('index'))
+"""
+Signing up
+"""
 
 # Sign up
 @app.route('/signup', methods=['GET', 'POST'])
@@ -172,13 +158,34 @@ def signup():
 			return redirect(url_for('signup'))
 	return render_template("signup.html")
 
+# Profile Page
+@app.route('/profile/<username>')
+def profile(username): 
+	# Check if user is logged in already
+	if 'user' in session and session['user']==username:
+		user_in_db = users_coll.find_one({"username": username})
+		return render_template('profile.html', username=user_in_db['username'], user=user_in_db)
+	else:
+		flash("You must log in first to see this page")
+		return redirect(url_for('index'))
+
+#Log Out
+@app.route('/logout')
+def logout():
+	# Clear the session
+	session.clear()
+	flash('You have logged out!')
+	return redirect(url_for('index'))
+
+
+
 """
 User Dashboard
 """
         
 @app.route('/user/<username>/dashboard')
 def show_user_dashboard(username):
-    if 'user' in session:
+    if 'user' in session and session['user']==username:
         user_in_db = users_coll.find_one({"username": session['user']})
         user_data=users_coll.find_one({'username':username})
         user_id=user_data['_id']
@@ -193,6 +200,7 @@ def show_user_dashboard(username):
     else:
         flash("You must log in first to see this page")
         return redirect(url_for('index'))
+# Check first if username is in session
 
 """
 Adding or removing coins to favorite list

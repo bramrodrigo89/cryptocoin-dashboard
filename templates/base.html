@@ -14,10 +14,10 @@
     <header>
         <nav>
             <div class="nav-wrapper indigo lighten-2">
-                    <a href="#" class="brand-logo">My Crypto Dashboard</a>
+                    <a href="/index" class="brand-logo">My Crypto Dashboard</a>
                     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                     <ul id="nav-mobile" class="right hide-on-med-and-down">
-                        <li><a href="#">Home</a></li>
+                        <li class="{% if 'index' in request.path %} active {% endif %}"><a href="/index">Home</a></li>
                         <li><a href="#">My Stock Dashboard</a></li>
                         {% block extra_links %}
                         {% endblock %}
@@ -37,32 +37,6 @@
     {% block content %}
     {% endblock %}
     </div>
-    
-    <!-- Flashed messages alerts modal -->
-	<div id="alerts" class="container-fluid">
-		<div class="row justify-content-around">
-			<div id="messages">
-				{% with messages = get_flashed_messages() %}
-				{% if messages %}
-				{% for message in messages %}
-				<p class="text-center">{{ message }}</p>
-				{% endfor %}
-				{% endif %}
-				{% endwith %}
-			</div>
-		</div>
-	</div>
-
-    <!-- Modal for Flash Messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        <ul class=flashes>
-            {% for category, message in messages %}
-            <li class="{{ category }}">{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    {% endwith %}
 
     <!-- Footer -->
 	<footer class="page-footer">
@@ -96,6 +70,8 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
     <script defer src="{{ url_for('static', filename='js/functions.js')}}"></script>
+
+    <!-- Base scripts -->
     <script>
 		$(document).ready(function(){
             $('.collapsible').collapsible();
@@ -104,7 +80,25 @@
             $('.tooltipped').tooltip();
             $('.modal').modal();
         });
+
+        // Toast initialization for modal messages
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            var $toastContent = $('<span>{{ message }}</span>').add($('<button class="btn-flat toast-action" onClick="dismissToast()"">Ok</button>'));
+            Materialize.toast($toastContent, 4000);
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+        
+        function dismissToast() {
+            var toastElement = $('.toast').first()[0];
+            var toastInstance = toastElement.M_Toast;
+            toastInstance.remove();
+        }
+        
     </script>
+    
     <!-- Custom scripts -->
 	{% block scripts %}{% endblock scripts %}
 </body>

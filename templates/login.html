@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% block extra_links %}
     {% if 'user' in session %}
-        <li><a href="/user/{{ user.username }}/dashboard">Dashboard</a></li>
-        <li><a href="/profile/{{ user.username }}">Profile</a></li>
+        <li><a href="/user/{{ user.username }}/dashboard">My Dashboard</a></li>
+        <li><a href="/profile/{{ user.username }}">My Profile</a></li>
         <li><a href="/logout">Log Out</a></li>
     {% else %}
         <li class="active"><a href="/login">Log In</a></li>
@@ -12,8 +12,8 @@
 
 {% block extra_mobile_links %}
     {% if 'user' in session %}
-        <li><a href="/user/{{ user.username }}/dashboard">Dashboard</a></li>
-        <li><a href="/profile/{{ user.username }}">Profile</a></li>
+        <li><a href="/user/{{ user.username }}/dashboard">My Dashboard</a></li>
+        <li><a href="/profile/{{ user.username }}">My Profile</a></li>
         <li><a href="logout">Log Out</a></li>
     {% else %}
         <li class="active"><a href="/login">Log In</a></li>
