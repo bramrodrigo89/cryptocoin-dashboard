@@ -1,5 +1,6 @@
 import os
 from flask import Flask
+from datetime import datetime
 from flask_pymongo import PyMongo
 from flask import render_template, url_for, request, flash, redirect, session
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -123,7 +124,7 @@ def signup():
 	if request.method == 'POST':
 		form = request.form.to_dict()
 		# Check if the two password entries match and check if user already exists first 
-		if form['password1'] == form['user_password2']:
+		if form['password1'] == form['password2']:
 			user = users_coll.find_one({"username" : form['username']})
 			if user:
 				flash(f"{form['username']} already exists! Please use a different username or log in again")
@@ -136,24 +137,39 @@ def signup():
 				users_coll.insert_one(
 					{
 						'username': form['username'],
-						'email': form['email'],
-						'password': hash_pass
+                        'password': hash_pass,
+						'profile': {
+                            'first_name': form['first_name'],
+                            'last_name': form['last_name'],
+                            'dob': form['dob'],
+                            #This is not working
+                            # 'dob': { '$dateFromString': {'dateString': form['dob']} },
+                            # 'dob': datetime.strptime(form['dob'],'%Y-%m-%d'),
+                            'email_address': form['email_address'],
+                            'date_joined': datetime.utcnow(),
+                            'image': 'http://lorempixel.com/100/150/abstract/1/'+form['first_name']+'/'
+                        },
+                        'wallet': {
+                            'total_coins':0,
+                            'coins': {}
+                        },
+                        'cash':5000.00,
+                        'cash_earned':0.00,
+                        'favorites':""
 					}
 				)
 				# Check if user is actualy saved
 				user_in_db = users_coll.find_one({"username": form['username']})
 				if user_in_db:
-					# Log user in (add to session)
+					# Log user in and add user to session right away
 					session['user'] = user_in_db['username']
-					return redirect(url_for('profile', user=user_in_db['username']))
+					return redirect(url_for('profile', user=user_in_db))
 				else:
 					flash("There was a problem saving your profile. Please try again.")
 					return redirect(url_for('signup'))
-
 		else:
 			flash("Passwords do not match! Please try again")
 			return redirect(url_for('signup'))
-		
 	return render_template("signup.html")
 
 """

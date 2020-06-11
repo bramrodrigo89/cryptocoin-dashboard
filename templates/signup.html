@@ -1,7 +1,30 @@
 {% extends 'base.html' %}
+{% block extra_links %}
+    {% if 'user' in session %}
+        <li><a href="/user/{{ user.username }}/dashboard">Dashboard</a></li>
+        <li><a href="/profile/{{ user.username }}">Profile</a></li>
+        <li><a href="/logout">Log Out</a></li>
+    {% else %}
+        <li class="active"><a href="#">Sign Up</a></li>
+        <li><a href="/login">Log In</a></li>
+    {% endif %}
+{% endblock %}
+
+{% block extra_mobile_links %}
+    {% if 'user' in session %}
+        <li><a href="/user/{{ user.username }}/dashboard">Dashboard</a></li>
+        <li><a href="/profile/{{ user.username }}">Profile</a></li>
+        <li><a href="logout">Log Out</a></li>
+    {% else %}
+        <li class="active"><a href="#">Sign Up</a></li>
+        <li><a href="/login">Log In</a></li>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
 <div class="row content-row">
-	<form class="col s12 form-signup" method="POST" action="/register">
+    <h3>Sign up and create a new account</h3>
+	<form class="col s12 form-signup" method="POST" action="/signup">
 		<div class="row">
 			<div class="input-field col s12 m6">
                 <i class="material-icons prefix">account_circle</i>
@@ -26,8 +49,8 @@
 		</div>
         <div class="row">
 			<div class="input-field col s12">
-				<input required id="email" name="email" type="email" class="validate">
-				<label for="email">Email Address</label>
+				<input required id="email_address" name="email_address" type="email" class="validate">
+				<label for="email_address">Email Address</label>
 			</div>
 		</div>
 		<div class="row">
@@ -35,9 +58,7 @@
 				<input required id="password1" name="password1" type="password" class="validate">
 				<label for="password">Password</label>
 			</div>
-		</div>
-        <div class="row">
-			<div class="input-field col s12 m6">
+            <div class="input-field col s12 m6">
 				<input required id="password2" name="password2" type="password" class="validate">
 				<label for="password">Retype Password</label>
 			</div>
@@ -56,12 +77,15 @@
         });
 
         $('.datepicker').pickadate({
-            selectMonths: true, // Creates a dropdown to control month
-            selectYears: 20, // Creates a dropdown of 15 years to control year,
+            selectMonths: true, 
+            selectYears: 100, 
             today: 'Today',
             clear: 'Clear',
             close: 'Ok',
-            closeOnSelect: false // Close upon selecting a date,
+            closeOnSelect: false, 
+            format: 'dd/mm/yyyy',
+            minDate: new Date('1910-01-01'),
+            maxDate: new Date()
         });
 </script>
 {% endblock %}
