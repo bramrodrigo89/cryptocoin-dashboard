@@ -5,6 +5,13 @@ html, body {
    padding: 0;
 }
 
+/*------------Content Container For Content Blocks */
+.content-row {
+    margin-top:150px;
+    margin-bottom: 150px;
+}
+
+/*----------------------------Cards For Dashboard */
 .card.horizontal .card-image img {
     height: 100%;
 }
@@ -13,10 +20,12 @@ html, body {
     font-size: 22px;
 }
 
-.content-row {
-    margin-top:150px;
-    margin-bottom: 150px;
+.card .btn {
+    margin: 3px;
+    width: 100px;
 }
+
+/*----------------------------------------Modals */
 
 .modal-title-container {
     min-height: 84px;
@@ -42,13 +51,21 @@ html, body {
     font-weight: 300;
 }
 
+/*----------------------------------------Footer */
 .page-footer {
     padding-top: 20px;
     color: #fff;
     background-color: #7886cb;
 }
 
-.card .btn {
-    margin: 3px;
-    width: 100px;
+/*-----------------------------------------Media Queries */
+
+/*-----------Mobile (sm) */
+
+@media(max-width: 992px) {
+
+    nav .brand-logo{
+        left: 55%;
+        width: 80%;
+    }
 }
