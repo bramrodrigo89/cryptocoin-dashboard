@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% block extra_links %}
-<li><a href="/user/{{ user.username }}/dashboard">My Dashboard</a></li>
-<li class="active"><a href="/profile/{{ user.username }}" active>My Profile</a></li>
+<li><a href="/user/{{ user.username }}/dashboard"><i class="material-icons left">dashboard</i>My Dashboard</a></li>
+<li class="active"><a href="/profile/{{ user.username }}" active><i class="material-icons left">person</i>My Profile</a></li>
 <li><a href="/logout">Log Out</a></li>
 {% endblock %}
 
 {% block extra_mobile_links %}
-<li><a href="/user/{{ user.username }}/dashboard">My Dashboard</a></li>
-<li class="active"><a href="/profile/{{ user.username }}" active>My Profile</a></li>
+<li><a href="/user/{{ user.username }}/dashboard"><i class="material-icons left">dashboard</i>My Dashboard</a></li>
+<li class="active"><a href="/profile/{{ user.username }}" active><i class="material-icons left">person</i>My Profile</a></li>
 <li><a href="/logout">Log Out</a></li>
 {% endblock %}
 

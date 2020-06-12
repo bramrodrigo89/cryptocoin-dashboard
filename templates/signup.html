@@ -1,23 +1,23 @@
 {% extends 'base.html' %}
 {% block extra_links %}
     {% if 'user' in session %}
-        <li><a href="/user/{{ user.username }}/dashboard">My Dashboard</a></li>
-        <li><a href="/profile/{{ user.username }}">My Profile</a></li>
+        <li><a href="/user/{{ user.username }}/dashboard"><i class="material-icons left">dashboard</i>My Dashboard</a></li>
+        <li><a href="/profile/{{ user.username }}"><i class="material-icons left">person</i>My Profile</a></li>
         <li><a href="/logout">Log Out</a></li>
     {% else %}
         <li class="active"><a href="#">Sign Up</a></li>
-        <li><a href="/login">Log In</a></li>
+        <li><a href="/login"><i class="material-icons left">login</i>Log In</a></li>
     {% endif %}
 {% endblock %}
 
 {% block extra_mobile_links %}
     {% if 'user' in session %}
-        <li><a href="/user/{{ user.username }}/dashboard">My Dashboard</a></li>
-        <li><a href="/profile/{{ user.username }}">My Profile</a></li>
+        <li><a href="/user/{{ user.username }}/dashboard"><i class="material-icons left">dashboard</i>My Dashboard</a></li>
+        <li><a href="/profile/{{ user.username }}"><i class="material-icons left">person</i>My Profile</a></li>
         <li><a href="logout">Log Out</a></li>
     {% else %}
         <li class="active"><a href="#">Sign Up</a></li>
-        <li><a href="/login">Log In</a></li>
+        <li><a href="/login"><i class="material-icons left">login</i>Log In</a></li>
     {% endif %}
 {% endblock %}
 

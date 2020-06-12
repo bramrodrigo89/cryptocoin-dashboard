@@ -168,7 +168,7 @@ def profile(username):
 		flash("You must log in first to see this page")
 		return redirect(url_for('index'))
 
-#Log Out
+# Log Out
 @app.route('/logout')
 def logout():
 	# Clear the session
@@ -204,7 +204,7 @@ def show_user_dashboard(username):
 """
 Adding or removing coins to favorite list
 """
-#Remove coins from favorite list
+# Remove coins from favorite list
 @app.route('/remove-fav/<username>/<symbol>')
 def remove_favorite(username, symbol):
     user_data=users_coll.find_one({'username':username})
@@ -214,7 +214,7 @@ def remove_favorite(username, symbol):
     users_coll.update({'username':username},{'$set':{"favorites":updated_favorites_list}},multi=False)
     return redirect(url_for('show_user_dashboard',username=username))
 
-#Add coins to favorite list
+# Add coins to favorite list
 @app.route('/add-fav/<username>/<symbol>')
 def add_favorite(username, symbol):
     user_data=users_coll.find_one({'username':username})
@@ -233,7 +233,7 @@ def add_favorite(username, symbol):
 Transactions
 """
 
-#Buy new coins to wallet
+# Buy new coins to wallet
 @app.route('/buy-coins/<username>', methods=['POST'])
 def buy_coins(username):
     submitted_form = request.form.to_dict()
@@ -242,13 +242,27 @@ def buy_coins(username):
     insert_transaction_to_db(mongo, new_doc,user_data)
     return redirect(url_for('show_user_dashboard',username=username))
 
-#Sell existing coins from wallet
+# Sell existing coins from wallet
 @app.route('/sell-coins/<username>', methods=['POST'])
 def sell_coins(username):
     submitted_form = request.form.to_dict()
     user_data=users_coll.find_one({'username':username})
     new_doc = prepare_sell_object(submitted_form,user_data)
     insert_transaction_to_db(mongo, new_doc,user_data)
+    return redirect(url_for('show_user_dashboard',username=username))
+
+# Add additional funds to wallet
+@app.route('/add-funds/<username>', methods=['POST'])
+def add_funds(username):
+    form = request.form.to_dict()
+    added_funds=form['amount']
+    added_funds_float=float(added_funds.replace(',',''))
+    user_db=users_coll.find_one({'username':username})
+    user_cash=user_db['cash']
+    new_total_cash=user_cash+added_funds_float
+    users_coll.update({'username':username},{'$set':{"cash":new_total_cash}},multi=False)
+    message='You have succesfully added US$ '+added_funds+' to your wallet'
+    flash(message)
     return redirect(url_for('show_user_dashboard',username=username))
 
 if __name__ == '__main__':

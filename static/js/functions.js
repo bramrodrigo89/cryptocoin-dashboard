@@ -1,4 +1,4 @@
-// Taken from "How to format a number as a currency value in JavaScript"
+// Currency 'Formatter' taken from "How to format a number as a currency value in JavaScript"
 // https://flaviocopes.com/how-to-format-number-as-currency-javascript/
 
 const formatter = new Intl.NumberFormat('en-US', {
@@ -54,7 +54,7 @@ $(document).on("click", ".open-sell-coin-modal-link", function () {
     $('#submit-sell-coin-ask-price').val(selectedCoinAskPrice);
 });
 
-// Function check if funds are enough for buying coins and rejects invalid input of ticker
+// Function checks if funds are enough for buying coins and rejects invalid ticker inputs
 function check_cash_left_and_valid_ticker_entry(cash_spent,ticker){
     var submitBuyButton =  $('#modal-buy-button');
     var available_cash = $('#modal-cash-available').html().split(" ").pop().replace(/,/g, "");
@@ -87,6 +87,7 @@ function check_cash_left_and_valid_ticker_entry(cash_spent,ticker){
     
 }
 
+// Function checks if coins are enough for selling and rejects invalid cash inputs
 function check_ticker_left_and_valid_cash_entry(cash_entry,ticker){
     var submitSellButton =  $('#modal-sell-button');
     var available_ticker = $('#modal-available-ticker').html().replace(/,/g, "");
@@ -172,5 +173,14 @@ $(document).on("change, keyup", "#cash-spent-entry", updateTickerBuy);
 $(document).on("change, keyup", "#sell-ticket-entry-number", updateExchangeCash);
 $(document).on("change, keyup", "#cash-exchange-entry", updateTickerSell);
 
-
+function addFundsModal(btn){
+    var selectedAmount = $(btn).attr('data-id')
+    $('#add-funds-modal').modal('close');
+    $('#confirm-add-funds-modal').modal('open');
+    $('.add-funds-amount').html("US$ " + selectedAmount);
+    var available_cash = $('#cash-available-invisible').html().replace(/,/g, "");
+    var new_total_cash = parseFloat(available_cash) + parseFloat(selectedAmount.replace(/,/g, ""));
+    $('#new-cash-available').html(formatter.format(new_total_cash));
+    $('#confirm-add-funds-input').val(selectedAmount);
+}
 

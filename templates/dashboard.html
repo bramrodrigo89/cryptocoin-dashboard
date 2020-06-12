@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% block extra_links %}
-<li class="active"><a href="/user/{{ user.username }}/dashboard" active>My Dashboard</a></li>
-<li><a href="/profile/{{ user.username }}">My Profile</a></li>
+<li class="active"><a href="/user/{{ user.username }}/dashboard" active><i class="material-icons left">dashboard</i>My Dashboard</a></li>
+<li><a href="/profile/{{ user.username }}"><i class="material-icons left">person</i>My Profile</a></li>
 <li><a href="/logout">Log Out</a></li>
 {% endblock %}
 
 {% block extra_mobile_links %}
-<li class="active"><a href="/user/{{ user.username }}/dashboard" active>My Dashboard</a></li>
-<li><a href="/profile/{{ user.username }}">My Profile</a></li>
+<li class="active"><a href="/user/{{ user.username }}/dashboard" active><i class="material-icons left">dashboard</i>My Dashboard</a></li>
+<li><a href="/profile/{{ user.username }}"><i class="material-icons left">person</i>My Profile</a></li>
 <li><a href="/logout">Log Out</a></li>
 {% endblock %}
 
@@ -44,7 +44,7 @@
 						</div>
 					</div>
 					<div class="card-action">
-						<a href="#">Add Funds</a>
+						<a class="waves-effect waves-light modal-trigger" href="#add-funds-modal">Add Funds</a>
 					</div>
 				</div>
 		</div>
@@ -57,7 +57,7 @@
         <div class="col s12 m6">
             <div class="row">
                 <div class="col s12">
-                    <div class="card hoverable light-blue darken-1">
+                    <div class="card hoverable light-blue lighten-2">
                         <div class="card-content white-text">
                             <h5 class="header">
                                 <span>
@@ -70,11 +70,11 @@
                                 Your Balance</h5>
                             <h4>{{ "US$ {:,.2f}".format(balance.total|float) }} </h4>
                             {% if balance.percentChange >= 0.01 %}
-                            <h5 class="green-text text-accent-3">
+                            <h5 class="green-text text-darken-3">
                                 {{ "US$ {:,.2f}".format(balance.change|float) }} (+{{ "{:,.2f}".format(balance.percentChange|float) }}%)
                             </h5> 
                             {% elif balance.percentChange < 0.00 %}
-                            <h5 class="red-text text-accent-3">
+                            <h5 class="red-text text-darken-3">
                                 {{ "US$ {:,.2f}".format(balance.change|float) }} ({{ "{:,.2f}".format(balance.percentChange|float) }}%)
                             </h5>
                             {% else %}
@@ -93,7 +93,7 @@
                         <div class="card-content white-text">
                             <h5 class="header">Your Earned Cash</h5>
                             <h4>{{ "US$ {:,.2f}".format(user.cash_earned|float) }} </h4>
-                            <h5><span><i class="material-icons">emoji_events</i></span> Your Score: </h5>
+                            <h5><span><i class="material-icons">emoji_events</i></span> Your Rank: </h5>
                         </div>
                     </div>      
                 </div>
@@ -229,7 +229,7 @@
                     <span class="title card-coin-name-symbol"><span class="card-coin-name">{{ coin_info['name'].replace(' USD','') }}</span> (<span class="card-coin-short-symbol">{{coin_info['symbol_short'] }}</span>)</span>
                     <blockquote style="border-left: 5px solid #7886cb;">Price: <strong class="card-coin-latest-price">{{ "US$ {:,.2f}".format(coin_info['latestPrice']|float) }}</strong><br>
                                 Bid price: <span class="card-coin-bid-price">{{ "US$ {:,.2f}".format(coin_info['bidPrice']|float) }}</span><br>Ask price: <span class="card-coin-ask-price">{{ "US$ {:,.2f}".format(coin_info['askPrice']|float) }}</span></blockquote>
-                    <a href="/add-fav/{{ user.username }}/{{ coin_info['symbol'] }}" class="secondary-content"><i class="material-icons" style="color:#7886cb;">library_add</i></a>
+                    <a href="/add-fav/{{ user.username }}/{{ coin_info['symbol'] }}" style="color:#7886cb;" class="secondary-content"><i class="material-icons right" style="color:#7886cb;">add_circle_outline</i>Fav coin</a>
                     <div class="card-action">
                         <a class="waves-effect waves-light btn green darken-3 modal-trigger open-buy-coin-modal-link" href="#buy-coin-modal" data-id="{{ coin_info['symbol'] }}">BUY</a>
                     </div>
@@ -330,6 +330,47 @@
 	</div>
 </div>
 
+<!-- Add Funds Modal Structure -->
+<div id="add-funds-modal" class="modal">
+	<div class="modal-content">
+		<h4>Add More Funds</h4>
+		<p>You always have the option to add extra cash to keep buying cryptocoins. Just select down below how much you
+			need.</p>
+		<div class="center">
+			<a data-id="1,000" onclick="addFundsModal(this)"
+				class="waves-effect waves-light btn green darken-3"><i class="material-icons left add-funds-btn">attach_money</i>1,000</a>
+			<a data-id="10,000" onclick="addFundsModal(this)"
+				class="waves-effect waves-light btn green darken-3"><i class="material-icons left add-funds-btn">attach_money</i>10,000</a>
+			<a data-id="20,000" onclick="addFundsModal(this)"
+				class="waves-effect waves-light btn green darken-3"><i class="material-icons left add-funds-btn">attach_money</i>20,000</a>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+	</div>
+</div>
+
+<!-- Confirm Adding Funds Modal Structure -->
+<div id="confirm-add-funds-modal" class="modal">
+	<div class="modal-content">
+		<h4>Add <span class="add-funds-amount"></span> To Your Funds</h4>
+		<p>Do you want to add <span class="add-funds-amount"></span> to your funds? Your new total cash available will
+			be:</p>
+		<div class="center">
+            <span id="cash-available-invisible" style="display:none;">{{ user.cash }}</span>
+			<h5>US<span id="new-cash-available"></span></h5>
+		</div>
+		<p><strong>Remember! This is only a simulation.</strong> All the money displayed here is fictional so we will
+			never ask you for your credit card</p>
+	</div>
+	<div class="modal-footer">
+        <form action="{{ url_for('add_funds', username=user.username) }}" method="POST">
+            <input id="confirm-add-funds-input" name="amount" value="" style="display:none;">
+		    <button type="submit" class="waves-effect waves-light btn green darken-3 confirm-add-funds-btn">Confirm</button>
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+        </form>
+	</div>
+</div>
 {% endblock %}
 
 {% block scripts %}
