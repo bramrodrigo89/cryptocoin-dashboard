@@ -170,7 +170,10 @@ def favorite_list_data(user_object,wallet_coins_object,db_cryptocoin_obj):
         return False
     elif favorite_list != '':
         favorite_list_data={}
-        favorite_tuple=favorite_list.split(",")
+        if len(favorite_list)==1:
+            favorite_tuple=favorite_list
+        elif len(favorite_list)>1:
+            favorite_tuple=favorite_list.split(",")
         for favorite in favorite_tuple:
             for coin_symbol, coin_info in wallet_coins_object.items():
                 if favorite == coin_symbol:

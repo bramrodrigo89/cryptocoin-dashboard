@@ -81,7 +81,6 @@ def insert_transaction_to_db(mongo,new_doc,user_data):
         value_change_coins_obj = value_change_coins(user_wallet)
         value_change_transaction_coin = float(value_change_coins_obj[transaction_coin])
         cash_earned = value_change_transaction_coin *(transaction_ticker/available_ticker) *-1 
-        print("earned cash: ",cash_earned)
         mongo.db.users.update(
             { '_id' : ObjectId(user_id) },
             { '$set' : { 'cash_earned' : available_earned + cash_earned }

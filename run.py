@@ -190,8 +190,6 @@ def show_user_dashboard(username):
         user_id=user_data['_id']
         data=balance_prices_and_changes(user_data['wallet'],user_data['cash'])
         balance_data, updated_prices, updated_changes = data[0], data[1], data[2]
-        # print('first argument: ', updated_prices)
-        # print('second argument: ', updated_changes)
         wallet_coins_data=fetch_wallet_coins_data(updated_prices, updated_changes, user_data['wallet'],CRYPTOCOINS_LIST)
         pie_data = create_pie_chart(updated_prices,user_data)
         favorites = favorite_list_data(user_data,wallet_coins_data,CRYPTOCOINS_LIST)
@@ -221,8 +219,13 @@ def remove_favorite(username, symbol):
 def add_favorite(username, symbol):
     user_data=users_coll.find_one({'username':username})
     favorites_list=user_data['favorites'].split(",")
-    favorites_list.append(symbol)
-    updated_favorites_list=(','.join(favorites_list))
+    if favorites_list[0]=='':
+        favorites_list.append(symbol)
+        favorites_list.pop(0)
+        updated_favorites_list=(''.join(favorites_list))
+    else:
+        favorites_list.append(symbol)
+        updated_favorites_list=(','.join(favorites_list))
     users_coll.update({'username':username},{'$set':{"favorites":updated_favorites_list}},multi=False)
     return redirect(url_for('show_user_dashboard',username=username))
 
