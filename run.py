@@ -100,16 +100,15 @@ def user_auth():
 Signing up
 """
 
-# Sign up
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-	# Check if user is not logged in already
+	# Check if user is already logged in
 	if 'user' in session:
 		flash("You are logged in already!")
 		return redirect(url_for('index'))
 	if request.method == 'POST':
 		form = request.form.to_dict()
-		# Check if the two password entries match and check if user already exists first 
+		# Check if the two password entries match and if user already exists first 
 		if form['password1'] == form['password2']:
 			user = users_coll.find_one({"username" : form['username']})
 			if user:
@@ -144,7 +143,7 @@ def signup():
                         'favorites':""
 					}
 				)
-				# Check if user is actualy saved
+				# Check if user was saved in database
 				user_in_db = users_coll.find_one({"username": form['username']})
 				if user_in_db:
 					# Log user in and add user to session right away
@@ -191,6 +190,8 @@ def show_user_dashboard(username):
         user_id=user_data['_id']
         data=balance_prices_and_changes(user_data['wallet'],user_data['cash'])
         balance_data, updated_prices, updated_changes = data[0], data[1], data[2]
+        # print('first argument: ', updated_prices)
+        # print('second argument: ', updated_changes)
         wallet_coins_data=fetch_wallet_coins_data(updated_prices, updated_changes, user_data['wallet'],CRYPTOCOINS_LIST)
         pie_data = create_pie_chart(updated_prices,user_data)
         favorites = favorite_list_data(user_data,wallet_coins_data,CRYPTOCOINS_LIST)

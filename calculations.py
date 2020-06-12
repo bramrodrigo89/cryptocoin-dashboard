@@ -77,14 +77,35 @@ def fetch_wallet_coins_data(updated_price_obj, value_change_obj, wallet_object, 
     {'symbol':{'name':str, 'symbol_short':str, 'balance':value, 'value_change':value, 
     'change_percent':value, 'total_ticker':value }}
 
+    In the case that the user only has one coin in wallet, the value insertion is assigned 
+    first in a different manner. If there are no coins in wallet, an empty object is returned
+
     """
     wallet_coins=wallet_object['coins']
     wallet_coins_list=[]
     for symbol,obj in wallet_coins.items():
         wallet_coins_list.append(symbol)
+    #Check if user's wallet has no coins
     if wallet_coins_list==[]:
         empty_object={}
         return empty_object
+    # Check if user's wallet cointains only one coin
+    elif len(wallet_coins_list)==1:
+        crypto = Stock(wallet_coins_list)
+        wallet_coin_info= crypto.get_quote()
+        for elem in db_cryptocoin_obj:
+            if wallet_coin_info['symbol'] == elem['symbol_long']:
+                wallet_coin_info['name'] = elem['name']
+                wallet_coin_info['symbol_short'] = elem['symbol_short']
+        wallet_coin_info['balance']=updated_price_obj[wallet_coin_info['symbol']]
+        wallet_coin_info['value_change']=value_change_obj[wallet_coin_info['symbol']]
+        wallet_coin_info['value_change_percent']=100*wallet_coin_info['value_change']/wallet_coin_info['balance']
+        for symbol,obj in wallet_coins.items():
+            wallet_coin_info['total_ticker']=obj['total_ticker']
+        wallet_coin_object={}
+        wallet_coin_object[wallet_coin_info['symbol']]=wallet_coin_info
+        return wallet_coin_object
+    # User's wallet cointains multiple coins
     else:
         cryptobatch = Stock(wallet_coins_list)
         wallet_coins_object= cryptobatch.get_quote()
