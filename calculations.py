@@ -1,7 +1,16 @@
 import json
 import plotly
 import plotly.graph_objs as go
+from datetime import datetime
 from iexfinance.stocks import Stock, get_historical_data
+from alpha_vantage.timeseries import TimeSeries
+from alpha_vantage.techindicators import TechIndicators
+# Trying Alpha Vantage
+key = 'A4XH6LOM4M6ZABPE'
+ts = TimeSeries(key)
+ti = TechIndicators(key)
+btc, meta = ts.get_daily(symbol='BTC')
+print(btc)
 
 
 def updated_price_coins(wallet_object):
@@ -151,14 +160,19 @@ def create_line_chart(user_object):
     """
     user_wallet=user_object['wallet']
     wallet_coins=user_wallet['coins']
+    coins_tuple=[]
     labels=[]
     values=[]
-    for coin,value in updated_price_obj.items():
-        labels.append(coin)
-        values.append(float(value))
-    data_plot=[go.Pie(labels=pie_labels, values=pie_values, hole=.3)]
-    graphJSON = json.dumps(data_plot, cls=plotly.utils.PlotlyJSONEncoder)
-    return graphJSON
+    for coin,obj in wallet_coins.items():
+        coins_tuple.append(coin)
+    start = datetime(2020, 5, 1)
+    end = datetime(2020, 6, 1)
+    df = get_historical_data("BTCUSDT", start, end)
+    print(df)
+    
+    # data_plot=[go.Pie(labels=labels, values=values, hole=.3)]
+    # graphJSON = json.dumps(data_plot, cls=plotly.utils.PlotlyJSONEncoder)
+    # return graphJSON
 
     #example
 

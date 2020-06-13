@@ -85,7 +85,7 @@
                                 
                         </div>
                         <div class="card-action">
-                            <a href="#">History</a>
+                            <a href="{{ url_for('line_chart', username=user.username) }}">History</a>
                             <a href="#">Distribution</a>
                         </div>
                     </div>
@@ -115,6 +115,8 @@
                 </div>
             </div>
         </div>
+        {% block chart %}
+        {% endblock %}
     </div>
 </section>
 

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block chart %}
+<div class="col s12">
+	<div class="card indigo lighten-5">
+		<div class="card-image">
+			<div class="chart" id="line-plot-">
+				<script>
+					var graphs = {{ plot | safe }};
+				</script>
+			</div>
+		</div>
+		<div class="card-content">
+			<a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
+			<span class="card-title">Performance History</span>
+			<p>I am a very simple card. I am good at containing small bits of information. I am convenient because I
+				require little markup to use effectively.</p>
+		</div>
+	</div>
+</div>
+{% endblock %}

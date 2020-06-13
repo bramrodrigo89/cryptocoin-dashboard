@@ -5,7 +5,7 @@ from flask_pymongo import PyMongo
 from flask import render_template, url_for, request, flash, redirect, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from bson.objectid import ObjectId
-from calculations import balance_prices_and_changes, create_pie_chart, create_plot
+from calculations import balance_prices_and_changes, create_pie_chart, create_line_chart
 from calculations import fetch_wallet_coins_data, favorite_list_data
 from calculations import not_favorite_list_data
 from transactions import prepare_buy_object, prepare_sell_object
@@ -264,6 +264,13 @@ def add_funds(username):
     message='You have succesfully added US$ '+added_funds+' to your wallet'
     flash(message)
     return redirect(url_for('show_user_dashboard',username=username))
+
+@app.route('/line-chart/<username>')
+def line_chart(username):
+    user_data=users_coll.find_one({'username':username})
+    chart_data = create_line_chart(user_data)
+    return render_template('chart.html', data=chart_data)
+
 
 if __name__ == '__main__':
     app.run(host=os.getenv("IP","0.0.0.0"),
