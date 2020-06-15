@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from datetime import datetime
 from flask_pymongo import PyMongo
+import pandas as pd
 from flask import render_template, url_for, request, flash, redirect, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from bson.objectid import ObjectId
@@ -126,10 +127,7 @@ def signup():
 						'profile': {
                             'first_name': form['first_name'],
                             'last_name': form['last_name'],
-                            'dob': form['dob'],
-                            #This is not working
-                            # 'dob': { '$dateFromString': {'dateString': form['dob']} },
-                            # 'dob': datetime.strptime(form['dob'],'%Y-%m-%d'),
+                            'dob': pd.to_datetime(form['dob']),
                             'email_address': form['email_address'],
                             'date_joined': datetime.utcnow(),
                             'image': 'http://lorempixel.com/100/150/abstract/1/'+form['first_name']+'/'

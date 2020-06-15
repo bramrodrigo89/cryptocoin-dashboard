@@ -1,16 +1,13 @@
+import os
 import json
 import plotly
 import plotly.graph_objs as go
+import datetime
+import pandas as pd
+import numpy as np
 from datetime import datetime
-from iexfinance.stocks import Stock, get_historical_data
-from alpha_vantage.timeseries import TimeSeries
-from alpha_vantage.techindicators import TechIndicators
-# Trying Alpha Vantage
-key = 'A4XH6LOM4M6ZABPE'
-ts = TimeSeries(key)
-ti = TechIndicators(key)
-btc, meta = ts.get_daily(symbol='BTC')
-print(btc)
+from iexfinance.stocks import Stock
+from alpha_vantage.cryptocurrencies import CryptoCurrencies
 
 
 def updated_price_coins(wallet_object):
@@ -158,23 +155,46 @@ def create_line_chart(user_object):
     This function ...
 
     """
+
+    # Alpha Vantage
+    Alpha_Vantage_Key = os.getenv("ALPHAVANTAGE_API_KEY")
+    cc = CryptoCurrencies(Alpha_Vantage_Key)
+
+    # Fetching historical data for specific coins in user's wallet
     user_wallet=user_object['wallet']
     wallet_coins=user_wallet['coins']
-    coins_list=[]
-    labels=[]
-    values=[]
+    coins_obj={}
     for coin,obj in wallet_coins.items():
-        coins_list.append(coin)
-
+        symbol=coin.replace('USDT','')
+        coins_obj[coin] = {}
+        ticker= obj['total_ticker']
+        coins_obj[coin]['ticker'] = ticker
+        start_date = pd.to_datetime(obj['transactions'][0]['date'])
+        coins_obj[coin]['start_date'] = start_date
+        cc_data, meta_data = cc.get_digital_currency_daily(symbol=symbol, market='USD')
+        filter_data={}
+        for date,data in cc_data.items():
+            date = pd.to_datetime(date)
+            if date >= start_date:
+                filter_data[date]=float(data['4b. close (USD)'])*ticker
+        coins_obj[coin]['historical_data']=filter_data
     
-    start = datetime(2020, 5, 1)
-    end = datetime(2020, 6, 1)
-    df = get_historical_data("BTCUSDT", start, end)
-    print(df)
-    
-    # data_plot=[go.Pie(labels=labels, values=values, hole=.3)]
-    # graphJSON = json.dumps(data_plot, cls=plotly.utils.PlotlyJSONEncoder)
-    # return graphJSON
+    # JSON Data for Plotly line chart
+    chart_data=[]
+    for coin,info in coins_obj.items():
+        line_chart_data=info['historical_data']
+        labels=[]
+        values=[]
+        for time,value in line_chart_data.items():
+            labels.append(time)
+            values.append(value)
+        trace = go.Scatter(
+            x = labels,
+            y = values
+        )
+        chart_data.append(trace)
+    graphJSON = json.dumps(chart_data, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON
 
     #example
 
