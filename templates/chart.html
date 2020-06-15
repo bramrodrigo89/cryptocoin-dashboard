@@ -1,4 +1,16 @@
 {% extends 'base.html' %}
+{% block extra_links %}
+<li class="active"><a href="/user/{{ user.username }}/dashboard"><i class="material-icons left">dashboard</i>My Dashboard</a></li>
+<li><a href="/profile/{{ user.username }}"><i class="material-icons left">person</i>My Profile</a></li>
+<li><a href="/logout">Log Out</a></li>
+{% endblock %}
+
+{% block extra_mobile_links %}
+<li class="active"><a href="/user/{{ user.username }}/dashboard"><i class="material-icons left">dashboard</i>My Dashboard</a></li>
+<li><a href="/profile/{{ user.username }}"><i class="material-icons left">person</i>My Profile</a></li>
+<li><a href="/logout">Log Out</a></li>
+{% endblock %}
+
 {% block content %}
 <div class="col s12">
 	<div class="card indigo lighten-5">
