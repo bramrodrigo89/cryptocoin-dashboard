@@ -160,11 +160,13 @@ def create_line_chart(user_object):
     """
     user_wallet=user_object['wallet']
     wallet_coins=user_wallet['coins']
-    coins_tuple=[]
+    coins_list=[]
     labels=[]
     values=[]
     for coin,obj in wallet_coins.items():
-        coins_tuple.append(coin)
+        coins_list.append(coin)
+
+    
     start = datetime(2020, 5, 1)
     end = datetime(2020, 6, 1)
     df = get_historical_data("BTCUSDT", start, end)
