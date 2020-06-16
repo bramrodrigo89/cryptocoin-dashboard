@@ -132,7 +132,7 @@ def fetch_wallet_coins_data(updated_price_obj, value_change_obj, wallet_object, 
                     coin_info['total_ticker']=obj['total_ticker']
         return wallet_coins_object
 
-def create_pie_chart(updated_price_obj,user_object):
+def create_pie_chart(updated_price_obj,user_object,cryptocoin_db):
     """
     This function produces a JSON object to create a pie diagram of the wallet's
     coins distribution and calculates proportions. It also considers the available cash
@@ -144,21 +144,30 @@ def create_pie_chart(updated_price_obj,user_object):
     pie_labels=['Available Cash']
     pie_values=[cash_value]
     for coin,value in updated_price_obj.items():
-        pie_labels.append(coin)
+        # pie_labels.append(coin)
         pie_values.append(float(value))
-    data_pie=[go.Pie(labels=pie_labels, values=pie_values, hole=.3)]
+        for elem in cryptocoin_db:
+            if coin == elem['symbol_long']:
+                coin_name=elem['name'].replace(' USD','')
+                pie_labels.append(coin_name)
+    data_pie=[go.Pie(labels=pie_labels, values=pie_values, hole=.5)]
     graphJSON = json.dumps(data_pie, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
 
 def create_line_chart(user_object):
     """
-    This function ...
+    This function creates a line chart for the user's wallet performance. It querries
+    the user's wallet and calls the API Alpha Vantage in order to get historical data
+    of those specific cryptocurrencies. The values are filtered to only those 
+    after the coins have been purchased for the first time. For simplicity purposes, 
+    it assumes A CONSTANT TICKER DURING THE WHOLE TIME PERIOD. 
 
     """
 
     # Alpha Vantage
     Alpha_Vantage_Key = os.getenv("ALPHAVANTAGE_API_KEY")
     cc = CryptoCurrencies(Alpha_Vantage_Key)
+
 
     # Fetching historical data for specific coins in user's wallet
     user_wallet=user_object['wallet']
@@ -170,68 +179,49 @@ def create_line_chart(user_object):
         ticker= obj['total_ticker']
         coins_obj[coin]['ticker'] = ticker
         start_date = pd.to_datetime(obj['transactions'][0]['date'])
+        coins_obj[coin]['coin_name'] = obj['transactions'][0]['name']
         coins_obj[coin]['start_date'] = start_date
+
+        #API Call for every coin in wallet, market is set to United States US$
         cc_data, meta_data = cc.get_digital_currency_daily(symbol=symbol, market='USD')
+
         filter_data={}
         for date,data in cc_data.items():
             date = pd.to_datetime(date)
+            # Filter only relevant values by date and calculate total value
             if date >= start_date:
                 filter_data[date]=float(data['4b. close (USD)'])*ticker
         coins_obj[coin]['historical_data']=filter_data
-    
-    # JSON Data for Plotly line chart
-    chart_data=[]
+
+
+    # Plotly line chart initiation
+    figure = go.Figure()
+
+    # Add data to figure
     for coin,info in coins_obj.items():
-        line_chart_data=info['historical_data']
+        historical_data=info['historical_data']
+        coin_name=info['coin_name']
         labels=[]
         values=[]
-        for time,value in line_chart_data.items():
+        for time,value in historical_data.items():
             labels.append(time)
             values.append(value)
         trace = go.Scatter(
             x = labels,
-            y = values
+            y = values,
+            mode = 'lines',
+            name = coin_name
         )
-        chart_data.append(trace)
-    graphJSON = json.dumps(chart_data, cls=plotly.utils.PlotlyJSONEncoder)
+        figure.add_trace(trace)
+
+    # Edit the layout
+    figure.update_layout(title='My CryptoWallet Performance',
+                    xaxis_title='Month',
+                    yaxis_title='Total value (US$)')
+                
+    # Json the data to be parsed later onto the html template. 
+    graphJSON = json.dumps(figure, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
-
-    #example
-
-    # Add data
-    # month = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
-    #          'August', 'September', 'October', 'November', 'December']
-    # high_2000 = [32.5, 37.6, 49.9, 53.0, 69.1, 75.4, 76.5, 76.6, 70.7, 60.6, 45.1, 29.3]
-    # low_2000 = [13.8, 22.3, 32.5, 37.2, 49.9, 56.1, 57.7, 58.3, 51.2, 42.8, 31.6, 15.9]
-    # high_2007 = [36.5, 26.6, 43.6, 52.3, 71.5, 81.4, 80.5, 82.2, 76.0, 67.3, 46.1, 35.0]
-    # low_2007 = [23.6, 14.0, 27.0, 36.8, 47.6, 57.7, 58.9, 61.2, 53.3, 48.5, 31.0, 23.6]
-    # high_2014 = [28.8, 28.5, 37.0, 56.8, 69.7, 79.7, 78.5, 77.8, 74.1, 62.6, 45.3, 39.9]
-    # low_2014 = [12.7, 14.3, 18.6, 35.5, 49.9, 58.0, 60.0, 58.6, 51.7, 45.2, 32.2, 29.1]
-
-    # fig = go.Figure()
-    # # Create and style traces
-    # fig.add_trace(go.Scatter(x=month, y=high_2014, name='High 2014',
-    #                          line=dict(color='firebrick', width=4)))
-    # fig.add_trace(go.Scatter(x=month, y=low_2014, name = 'Low 2014',
-    #                          line=dict(color='royalblue', width=4)))
-    # fig.add_trace(go.Scatter(x=month, y=high_2007, name='High 2007',
-    #                          line=dict(color='firebrick', width=4,
-    #                               dash='dash') # dash options include 'dash', 'dot', and 'dashdot'
-    # ))
-    # fig.add_trace(go.Scatter(x=month, y=low_2007, name='Low 2007',
-    #                          line = dict(color='royalblue', width=4, dash='dash')))
-    # fig.add_trace(go.Scatter(x=month, y=high_2000, name='High 2000',
-    #                          line = dict(color='firebrick', width=4, dash='dot')))
-    # fig.add_trace(go.Scatter(x=month, y=low_2000, name='Low 2000',
-    #                          line=dict(color='royalblue', width=4, dash='dot')))
-
-    # # Edit the layout
-    # fig.update_layout(title='Average High and Low Temperatures in New York',
-    #                    xaxis_title='Month',
-    #                    yaxis_title='Temperature (degrees F)')
-
-
-    # fig.show()
 
 def favorite_list_data(user_object,wallet_coins_object,db_cryptocoin_obj):
     """

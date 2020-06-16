@@ -189,7 +189,7 @@ def show_user_dashboard(username):
         data=balance_prices_and_changes(user_data['wallet'],user_data['cash'])
         balance_data, updated_prices, updated_changes = data[0], data[1], data[2]
         wallet_coins_data=fetch_wallet_coins_data(updated_prices, updated_changes, user_data['wallet'],CRYPTOCOINS_LIST)
-        pie_data = create_pie_chart(updated_prices,user_data)
+        pie_data = create_pie_chart(updated_prices,user_data,CRYPTOCOINS_LIST)
         favorites = favorite_list_data(user_data,wallet_coins_data,CRYPTOCOINS_LIST)
         not_favorites = not_favorite_list_data(user_data,CRYPTOCOINS_LIST)
         user_transactions = transactions_coll.find({'user_id': ObjectId(user_id)}).sort([("date", -1)]).limit(5)
@@ -267,7 +267,7 @@ def add_funds(username):
 def line_chart(username):
     user_data=users_coll.find_one({'username':username})
     chart_data = create_line_chart(user_data)
-    return render_template('chart.html', data=chart_data)
+    return render_template('chart.html', data=chart_data, user=user_data)
 
 
 if __name__ == '__main__':

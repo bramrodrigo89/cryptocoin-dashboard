@@ -67,5 +67,6 @@ html, body {
     nav .brand-logo{
         left: 55%;
         width: 80%;
+        font-size: large;
     }
 }
