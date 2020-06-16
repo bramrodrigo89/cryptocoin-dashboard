@@ -12,8 +12,96 @@
 {% endblock %}
 
 {% block content %}
-<div class="row content-row">
-    <h1> Welcome, {{ user.profile.first_name|title }}</h1>
-    <p>This is your profile</p>
+<div class="row content-row-medium">
+	<h1> Welcome, {{ user.profile.first_name|title }}</h1>
+	<div class="col s12 m6 push-m6">
+		<div class="card horizontal">
+			<div class="card-image">
+				<img src="{{ user.profile.image }}">
+                        </div>
+				<div class="card-stacked">
+					<div class="card-content">
+						<p>{{ user.profile.first_name }} {{ user.profile.last_name }}</p>
+						<p>Joined since: {{ user.profile.date_joined.strftime("%m/%d/%Y") }} </p>
+					</div>
+					<div class="card-action">
+						<a href="{{ user.profile.image }}"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+		
+<div class="row content-row-medium">
+	<ul class="collapsible">
+		<li>
+			<div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i><i class="material-icons left">person</i>Your Profile Information</div>
+			<div class="collapsible-body">
+				<form class="form-signup" method="POST" action="">
+					<div class="row">
+						<div class="input-field col s12 m6">
+							<i class="material-icons prefix">account_circle</i>
+							<input value="{{ user.username }}" name="username" id="username" type="text" class="validate">
+							<label for="username">User Name</label>
+						</div>
+						<div id="matfix" class="input-field col s12 m6">
+							<i class="material-icons prefix">today</i>
+							<input value="{{ user.profile.dob.strftime("%m/%d/%Y") }}" id="dob" name="dob" type="text" class="datepicker">
+							<label for="dob">Date Of Birth</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12 m6">
+							<input value="{{ user.profile.first_name }}" name="first_name" id="first_name" type="text" class="validate">
+							<label for="first_name">First Name</label>
+						</div>
+						<div class="input-field col s12 m6">
+							<input value="{{ user.profile.last_name }}" id="last_name" name="last_name" type="text" class="validate">
+							<label for="last_name">Last Name</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<input value="{{ user.profile.email_address }}" id="email_address" name="email_address" type="email" class="validate">
+							<label for="email_address">Email Address</label>
+						</div>
+					</div>
+					<button class="btn waves-effect waves-light" type="submit" name="action">Save Changes
+		            <i class="material-icons left">assignment_turned_in</i>
+		        </button>
+				</form>
+			</div>
+		</li>
+		<li>
+			<div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i><i class="material-icons left">photo</i>My Profile Image</div>
+			<div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+		</li>
+		<li>
+			<div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i><i class="material-icons left">delete</i>Other Options</div>
+			<div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+		</li>
+	</ul>	
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+	document.getElementById("matfix").addEventListener("click", function(e) {
+	        e.stopPropagation();
+        });
+
+        $('.datepicker').pickadate({
+            selectMonths: true, 
+            selectYears: 100, 
+            today: 'Today',
+            clear: 'Clear',
+            close: 'Ok',
+            closeOnSelect: false, 
+            format: 'dd/mm/yyyy',
+            minDate: new Date('1910-01-01'),
+            maxDate: new Date(),
+            dismissible:true
+        });
+</script>
 {% endblock %}
