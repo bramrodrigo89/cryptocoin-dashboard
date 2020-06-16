@@ -13,28 +13,97 @@
 
 {% block content %}
 
-<!-- Display Cards: Available cash and Profile Info -->
+<!-- Display Cards: Profile Info And Total Balance -->
 <section>
-	<div class="row">
-		<div class="col s12 m6 push-m6">
+	<div class="row content-row-medium">
+		<div class="col s12 m6">
 			<h3 class="header">Welcome, {{ user.profile.first_name }}</h3>
 			<div class="card horizontal">
 				<div class="card-image">
 					<img src="{{ user.profile.image }}">
                         </div>
 					<div class="card-stacked">
-					<div class="card-content">
-						<p>Name: {{ user.profile.first_name }} {{ user.profile.last_name }}</p>
-						<p>Joined since: {{ user.profile.date_joined.strftime("%m/%d/%Y") }} </p>
+						<div class="card-content">
+							<p>Name: {{ user.profile.first_name }} {{ user.profile.last_name }}</p>
+							<p>Joined since: {{ user.profile.date_joined.strftime("%m/%d/%Y") }} </p>
+						</div>
+						<div class="card-action">
+							<a href="{{ user.profile.image }}">Update Your Profile</a>
+						</div>
 					</div>
-					<div class="card-action">
-						<a href="{{ user.profile.image }}">Update Your Profile</a>
-					</div>
+			</div>
+		</div>
+		<div class="col s12 m6">
+            {% if balance.percentChange >= 0.01  %}
+            <div class="card hoverable green darken-3">
+				<div class="card-content white-text">
+					<h5 class="header">
+                        <span><i class="material-icons">trending_up</i></span>
+						Your Balance</h5>
+					<h4>{{ "US$ {:,.2f}".format(balance.total|float) }} </h4>
+					<h5 class="green-text text-lighten-4">
+						{{ "US$ {:,.2f}".format(balance.change|float) }}
+						(+{{ "{:,.2f}".format(balance.percentChange|float) }}%)
+					</h5>
+				</div>
+				<div class="card-action">
+					<a href="{{ url_for('line_chart', username=user.username) }}">History</a>
+					<a href="#">Distribution</a>
+				</div>
+			</div>
+            {% elif balance.percentChange < 0.00 %}
+            <div class="card hoverable red darken-3">
+                <div class="card-content white-text">
+					<h5 class="header">
+                        <span><i class="material-icons">trending_down</i></span>
+						Your Balance</h5>
+					<h4>{{ "US$ {:,.2f}".format(balance.total|float) }} </h4>
+			        <h5 class="red-text text-lighten-4">
+                        {{ "US$ {:,.2f}".format(balance.change|float) }}
+                        ({{ "{:,.2f}".format(balance.percentChange|float) }}%)
+                    </h5>
+                </div>
+				<div class="card-action">
+					<a href="{{ url_for('line_chart', username=user.username) }}">History</a>
+					<a href="#">Distribution</a>
+				</div>
+			</div>
+			{% else %}
+            <div class="card hoverable">
+                <div class="card-content">
+					<h5 class="header">
+                        <span><i class="material-icons">trending_flat</i></span>
+						Your Balance</h5>
+					<h4>{{ "US$ {:,.2f}".format(balance.total|float) }} </h4>
+			        <h5 class="">
+                        {{ "US$ {:,.2f}".format(balance.change|float) }}
+                        ({{ "{:,.2f}".format(balance.percentChange|float) }}%)
+                    </h5>
+                </div>
+				<div class="card-action">
+					<a href="{{ url_for('line_chart', username=user.username) }}">History</a>
+					<a href="#">Distribution</a>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</section>
+
+<!-- Earned Cash, Rank And Available Cash -->
+<section>
+	<div class="row">
+		<div class="col s12 m6">
+            <div class="card hoverable light-blue darken-4">
+				<div class="card-content white-text">
+					<h5 class="header">Your Earned Cash</h5>
+					<h4>{{ "US$ {:,.2f}".format(user.cash_earned|float) }} </h4>
+					<h5><span><i class="material-icons">emoji_events</i></span> Your Rank: </h5>
 				</div>
 			</div>
 		</div>
-		<div class="col s12 m6 pull-m6">
-				<div class="card light-blue darken-4">
+        <div class="col s12 m6">
+            <div class="card light-blue darken-4">
 					<div class="card-content white-text">
 						<span class="card-title">Your Available Cash</span>
 						<span class="card-title">{{ "US$ {:,.2f}".format(user.cash) }}</span>
@@ -46,78 +115,31 @@
 					<div class="card-action">
 						<a class="waves-effect waves-light modal-trigger" href="#add-funds-modal">Add Funds</a>
 					</div>
-				</div>
-		</div>
+			</div>
+        </div>
 	</div>
 </section>
-
-<!-- Display Cards: Total balance and distribution graphs -->
-<section>
-    <div class="row">
-        <div class="col s12 m6">
-            <div class="row">
-                <div class="col s12">
-                    <div class="card hoverable light-blue lighten-2">
-                        <div class="card-content white-text">
-                            <h5 class="header">
-                                <span>
-                                    {% if balance.percentChange >= 0.01  %}
-                                    <i class="material-icons">trending_up</i>
-                                    {% elif balance.percentChange < 0.00 %}
-                                    <i class="material-icons">trending_down</i>
-                                    {% endif %}
-                                </span>
-                                Your Balance</h5>
-                            <h4>{{ "US$ {:,.2f}".format(balance.total|float) }} </h4>
-                            {% if balance.percentChange >= 0.01 %}
-                            <h5 class="green-text text-darken-3">
-                                {{ "US$ {:,.2f}".format(balance.change|float) }} (+{{ "{:,.2f}".format(balance.percentChange|float) }}%)
-                            </h5> 
-                            {% elif balance.percentChange < 0.00 %}
-                            <h5 class="red-text text-darken-3">
-                                {{ "US$ {:,.2f}".format(balance.change|float) }} ({{ "{:,.2f}".format(balance.percentChange|float) }}%)
-                            </h5>
-                            {% else %}
-                            <h5>
-                                {{ "US$ {:,.2f}".format(balance.change|float) }} ({{ "{:,.2f}".format(balance.percentChange|float) }}%)
-                            </h5>
-                            {% endif %}
-                                
-                        </div>
-                        <div class="card-action">
-                            <a href="{{ url_for('line_chart', username=user.username) }}">History</a>
-                            <a href="#">Distribution</a>
-                        </div>
-                    </div>
-                    <div class="card hoverable light-blue darken-4">
-                        <div class="card-content white-text">
-                            <h5 class="header">Your Earned Cash</h5>
-                            <h4>{{ "US$ {:,.2f}".format(user.cash_earned|float) }} </h4>
-                            <h5><span><i class="material-icons">emoji_events</i></span> Your Rank: </h5>
-                        </div>
-                    </div>      
-                </div>
-            </div>
-        </div>
-        <div class="col s12 m6">
-            <div class="card indigo lighten-5">
-                <div class="card-image">
-                    <div class="chart" id="balance-pie-chart">
-                        <script>
-                            var graphs = {{ plot | safe }};
-                        </script>
-                    </div>
-                </div>
-                <div class="card-content">
-                    <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
-                    <span class="card-title">Balance Distribution</span>
-                    <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-                </div>
-            </div>
-        </div>
-        {% block chart %}
-        {% endblock %}
-    </div>
+<!-- Distribution Pie Chart -->
+<section>    
+	<div class="row">
+		<div class="col s12">
+			<div class="card indigo lighten-5">
+				<div class="card-image">
+					<div class="chart" id="balance-pie-chart">
+						<script>
+							var graphs = {{ plot | safe }};
+						</script>
+					</div>
+				</div>
+				<div class="card-content">
+					<a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
+					<span class="card-title">Balance Distribution</span>
+					<p>I am a very simple card. I am good at containing small bits of information. I am convenient because I
+						require little markup to use effectively.</p>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 
 <!-- Cryptocoin Wallet, Favorite Coins, Transaction and Other Coins -->
@@ -340,11 +362,11 @@
 			need.</p>
 		<div class="center">
 			<a data-id="1,000" onclick="addFundsModal(this)"
-				class="waves-effect waves-light btn green darken-3"><i class="material-icons left add-funds-btn">attach_money</i>1,000</a>
+				class="waves-effect waves-light btn green darken-3 wide-button"><i class="material-icons left add-funds-btn">attach_money</i>1,000</a>
 			<a data-id="10,000" onclick="addFundsModal(this)"
-				class="waves-effect waves-light btn green darken-3"><i class="material-icons left add-funds-btn">attach_money</i>10,000</a>
+				class="waves-effect waves-light btn green darken-3 wide-button"><i class="material-icons left add-funds-btn">attach_money</i>10,000</a>
 			<a data-id="20,000" onclick="addFundsModal(this)"
-				class="waves-effect waves-light btn green darken-3"><i class="material-icons left add-funds-btn">attach_money</i>20,000</a>
+				class="waves-effect waves-light btn green darken-3 wide-button"><i class="material-icons left add-funds-btn">attach_money</i>20,000</a>
 		</div>
 	</div>
 	<div class="modal-footer">

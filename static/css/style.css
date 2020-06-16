@@ -12,7 +12,7 @@ html, body {
 }
 
 .content-row-medium {
-    margin-top:75px;
+    margin-top:80px;
     margin-bottom: 75px;
 }
 
@@ -54,6 +54,11 @@ html, body {
     margin-bottom: 8px;
     font-size: 24px;
     font-weight: 300;
+}
+
+.wide-button {
+    width:200px;
+    margin: 5px;
 }
 
 /*----------------------------------------Footer */

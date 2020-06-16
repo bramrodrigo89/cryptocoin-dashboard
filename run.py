@@ -146,7 +146,7 @@ def signup():
 				if user_in_db:
 					# Log user in and add user to session right away
 					session['user'] = user_in_db['username']
-					return redirect(url_for('profile', user=user_in_db, username=session['user']))
+					return redirect(url_for('profile', username=session['user']))
 				else:
 					flash("There was a problem saving your profile. Please try again.")
 					return redirect(url_for('signup'))

@@ -14,7 +14,7 @@
 {% block content %}
 <div class="row content-row-medium">
 	<h1> Welcome, {{ user.profile.first_name|title }}</h1>
-	<div class="col s12 m6 push-m6">
+	<div class="col s12">
 		<div class="card horizontal">
 			<div class="card-image">
 				<img src="{{ user.profile.image }}">
@@ -26,6 +26,7 @@
 					</div>
 					<div class="card-action">
 						<a href="{{ user.profile.image }}"></a>
+                        <a class="waves-effect waves-light modal-trigger" href="/user/{{ user.username }}/dashboard">Go To My Dashboard</a>
 					</div>
 				</div>
 			</div>
