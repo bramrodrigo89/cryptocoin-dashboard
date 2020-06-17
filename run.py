@@ -172,13 +172,18 @@ User Profile
 # Profile Page
 @app.route('/profile/<username>')
 def profile(username): 
-	# Check if user is logged in already
-	if 'user' in session and session['user']==username:
-		user_in_db = users_coll.find_one({"username": username})
-		return render_template('profile.html', username=user_in_db['username'], user=user_in_db)
-	else:
-		flash("You must log in first to see this page")
-		return redirect(url_for('index'))
+    if 'user' in session and session['user']==username:
+        user_in_db = users_coll.find_one({"username": username})
+        string_list=[]
+        for n in range(10):
+            string_list.append(str(n))
+        user_image_url=user_in_db['profile']['image']
+        user_image=user_image_url[39:][0]
+        user_image_number=str(int(user_image)-1)
+        return render_template('profile.html', username=username, user=user_in_db, list=string_list, user_image=user_image_number)
+    else:
+        flash("You must log in first to see this page")
+        return redirect(url_for('index'))
 
 # Editing profile and saving changes
 @app.route('/save-profile-changes/<username>', methods=['POST'])
@@ -197,7 +202,23 @@ def save_profile_changes(username):
         }})
     updated_user_in_db = users_coll.find_one({"username": username})
     flash("Changes have been saved to your profile")
-    return render_template('profile.html', username=username, user=updated_user_in_db)
+    return redirect(url_for('profile', username=username))
+
+# Update profile image
+@app.route('/update-profile-image/<username>', methods=['POST'])
+def update_profile_image(username):
+    form=request.form.to_dict()
+    user_in_db = users_coll.find_one({"username": username})
+    profile_image_url = user_in_db['profile']['image']
+    name_count = len(user_in_db['profile']['first_name'])
+    base_profile_image_url = profile_image_url[:-name_count-2]
+    selected_image=str(int(form['image_number'])+1)
+    new_image_url=base_profile_image_url+selected_image+'/'+user_in_db['profile']['first_name']
+    users_coll.update_one({'username': username}, {'$set': {
+        'profile.image': new_image_url
+        }})
+    flash("Changes have been saved to your profile")
+    return redirect(url_for('profile', username=username))
 
 """
 User Dashboard
@@ -281,7 +302,7 @@ def add_funds(username):
     user_db=users_coll.find_one({'username':username})
     user_cash=user_db['cash']
     new_total_cash=user_cash+added_funds_float
-    users_coll.update_one({'username':username},{'$set':{"cash":new_total_cash}},multi=False)
+    users_coll.update_one({'username':username},{'$set':{"cash":new_total_cash}})
     message='You have succesfully added US$ '+added_funds+' to your wallet'
     flash(message)
     return redirect(url_for('show_user_dashboard',username=username))

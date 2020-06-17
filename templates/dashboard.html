@@ -18,7 +18,7 @@
 	<div class="row content-row-medium">
 		<div class="col s12 m6">
 			<h3 class="header">Welcome, {{ user.profile.first_name }}</h3>
-			<div class="card horizontal">
+			<div class="card horizontal indigo lighten-5">
 				<div class="card-image">
 					<img src="{{ user.profile.image }}">
                         </div>
@@ -28,7 +28,7 @@
 							<p>Joined since: {{ user.profile.date_joined.strftime("%m/%d/%Y") }} </p>
 						</div>
 						<div class="card-action">
-							<a href="{{ user.profile.image }}">Update Your Profile</a>
+							<a href="{{ user.profile.image }}"><a class="indigo-text text-darken-4" href="/profile/{{ user.username }}"><i class="material-icons left">person</i>Your Profile</a></a>
 						</div>
 					</div>
 				</div>
@@ -237,7 +237,7 @@
 					</p>
 				</div>
 				<div class="card-action">
-					<a href="#">This is a link</a>
+					<a href="#buy-coins-anchor">See all coins</a>
 				</div>
 			</div>
 			{% endif %}
@@ -281,12 +281,23 @@
                 {% endfor %}
             </ul>
             {% else %}
+            <div class="card blue-grey darken-1">
+				<div class="card-content white-text">
+					<span class="card-title">No Recent Transactions!</span>
+					<p>Start buying and selling coins buy clicking on "BUY" from the coins down below.</p>
+                    <p>Every time you buy or sell a coin, your transactions history will be displayed here.</p>
+				</div>
+				<div class="card-action">
+					<a href="#buy-coins-anchor">Start Buying</a>
+				</div>
+			</div>
             {% endif %}
         </div>
     </div>
     {% if not_favorites %}
     <div class="row">
         <h4>Other Cryptocurrencies:</h4>
+        <a id="buy-coins-anchor"></a>
         {% for coin_name, coin_info in not_favorites.items() %}
         <div class="col s12 m6"> 
             <ul class="collection">
