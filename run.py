@@ -11,7 +11,7 @@ from calculations import create_line_chart, calculate_users_rank
 from calculations import fetch_wallet_coins_data, favorite_list_data
 from calculations import not_favorite_list_data
 from transactions import prepare_buy_object, prepare_sell_object
-from transactions import insert_transaction_to_db
+from transactions import insert_transaction_to_db, get_user_transactions
 
 """
 app config
@@ -102,7 +102,7 @@ def user_auth():
 # Log Out
 @app.route('/logout')
 def logout():
-	# Clear the session
+	# Clear the session before logout
 	session.clear()
 	flash('You have logged out!')
 	return redirect(url_for('index'))
@@ -220,6 +220,17 @@ def update_profile_image(username):
     flash("Changes have been saved to your profile")
     return redirect(url_for('profile', username=username))
 
+# Delete Profile
+@app.route('/delete-profile/<username>')
+def delete_profile(username):
+    user_data = users_coll.find_one({'username': username})
+    user_id=user_data['_id']
+    transactions_coll.remove({'user_id': user_id})
+    users_coll.remove({'username': username},{'justOne': True})
+    session.clear()
+    flash('Your profile has been deleted')
+    return redirect(url_for('index'))
+
 """
 User Dashboard
 """
@@ -235,9 +246,10 @@ def show_user_dashboard(username):
         pie_data = create_pie_chart(updated_prices,user_data,CRYPTOCOINS_LIST)
         favorites = favorite_list_data(user_data,wallet_coins_data,CRYPTOCOINS_LIST)
         not_favorites = not_favorite_list_data(user_data,CRYPTOCOINS_LIST)
-        user_transactions = transactions_coll.find({'user_id': ObjectId(user_id)}).sort([("date", -1)]).limit(5)
+        # user_transactions = transactions_coll.find({'user_id': ObjectId(user_id)}).sort([("date", -1)]).limit(5)
+        user_transactions_list = get_user_transactions(user_id, transactions_coll)
         rank, count = calculate_users_rank(user_data,users_coll)
-        return render_template("dashboard.html", user=user_data, balance=balance_data, plot=pie_data, wallet_coins=wallet_coins_data , rank=rank, count=count, favorites=favorites, not_favorites=not_favorites, transactions=user_transactions)
+        return render_template("dashboard.html", user=user_data, balance=balance_data, plot=pie_data, wallet_coins=wallet_coins_data , rank=rank, count=count, favorites=favorites, not_favorites=not_favorites, transactions=user_transactions_list)
     else:
         flash("You must log in first to see this page")
         return redirect(url_for('index'))
@@ -281,7 +293,7 @@ def buy_coins(username):
     submitted_form = request.form.to_dict()
     user_data=users_coll.find_one({'username':username})
     new_doc = prepare_buy_object(submitted_form,user_data)
-    insert_transaction_to_db(mongo, new_doc,user_data)
+    insert_transaction_to_db(users_coll, transactions_coll, new_doc,user_data)
     return redirect(url_for('show_user_dashboard',username=username))
 
 # Sell existing coins from wallet
@@ -290,7 +302,7 @@ def sell_coins(username):
     submitted_form = request.form.to_dict()
     user_data=users_coll.find_one({'username':username})
     new_doc = prepare_sell_object(submitted_form,user_data)
-    insert_transaction_to_db(mongo, new_doc,user_data)
+    insert_transaction_to_db(users_coll, transactions_coll, new_doc, user_data)
     return redirect(url_for('show_user_dashboard',username=username))
 
 # Add additional funds to wallet

@@ -26,7 +26,7 @@
 					</div>
 					<div class="card-action">
 						<a href="{{ user.profile.image }}"></a>
-                        <a class="waves-effect waves-light indigo-text text-darken-4" href="/user/{{ user.username }}/dashboard"><i class="material-icons left">dashboard</i> Dashboard</a>
+                        <a class="waves-effect waves-light black-text" href="/user/{{ user.username }}/dashboard"><i class="material-icons left">dashboard</i> Dashboard</a>
 					</div>
 				</div>
 			</div>
@@ -138,11 +138,11 @@
 	<div class="modal-content">
 		<h4>Delete Your Profile</h4>
 		<p>Do you really want to delete your profile permanently? This action cannot be reversed and your complete information and dashboard data will be deleted.</p>
-		<strong>Please click YES to confirm</strong>
+		<strong>Please click DELETE to confirm</strong>
 	</div>
 	<div class="modal-footer">
         <form action="#">
-		    <button class="waves-effect waves-light btn red darken-3">DELETE</button>
+		    <a href="/delete-profile/{{ user.username }}" class="waves-effect waves-light btn red darken-3">DELETE</a>
             <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
         </form>
 	</div>
