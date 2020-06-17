@@ -84,7 +84,7 @@
                     <form method="POST" action="/update-profile-image/{{ user.username }}">
                         {% for n in list: %}
                         <div class="col s4 m3">
-                            <div class="card hoverable">
+                            <div class="card hoverable card-profile-image">
                                 <div class="card-image">
                                     <img src="{{ url_for('static', filename='images/profile_images/profile_image'+n+'.jpeg') }}">
                                     <span class="card-title"></span>
@@ -141,16 +141,17 @@
         dismissible:true
     });
 
-        // Allows user to select only one single card to update profile image before submission
-        $("input:checkbox").on('click', function() {
-            var selectedBox = $(this);
-            if (selectedBox.is(":checked")) {
-                var checkboxGroup = "input:checkbox[name='" + selectedBox.attr("name") + "']";
-                $(checkboxGroup).prop("checked", false);
-                selectedBox.prop("checked", true);
-            } else {
-                selectedBox.prop("checked", false);
-            }
-        });
+    // Allows user to select only one single card to update profile image before submission
+    $('.card-profile-image').on('click', function(){
+        var selectedCard = $(this);
+        var selectedBox = selectedCard.find('input:checkbox').prop("checked",true);
+        if (selectedBox.is(":checked")) {
+            var checkboxGroup = "input:checkbox[name='" + selectedBox.attr("name") + "']";
+            $(checkboxGroup).prop("checked", false);
+            selectedBox.prop("checked", true);
+        } else {
+            selectedBox.prop("checked", false);
+        }
+    })
 </script>
 {% endblock %}
