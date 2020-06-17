@@ -39,6 +39,11 @@ html, body {
     margin: 10px;
 }
 
+/*----------------------------------------Profile */
+.form-signup {
+    margin-top:30px;
+}
+
 /*----------------------------------------Modals */
 
 .modal-title-container {

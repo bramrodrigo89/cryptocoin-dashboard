@@ -27,7 +27,7 @@
             </nav>
         </div>
         <ul class="side-nav" id="mobile-demo">
-            <li><a href="/index">Home</a></li>
+            <li class="{% if 'index' in request.path %} active {% endif %}"><a href="/index">Home</a></li>
             <li><a href="https://bramrodrigo89.github.io/second-milestone-project/">Stock Dashboard</a></li>
             {% block extra_mobile_links %}
             {% endblock %}
@@ -45,7 +45,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col l6 s12">
-					<h5 id="footer-title" class="white-text">Footer Content</h5>
+					<h5 id="footer-title" class="white-text">My Cryptocoin Dashboard</h5>
 					<p class="grey-text text-lighten-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto,
 						cumque! Asperiores dolores eos, cum ipsa accusantium voluptatem provident possimus? Odio?</p>
 				</div>
