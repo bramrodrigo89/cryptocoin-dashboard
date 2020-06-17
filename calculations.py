@@ -132,15 +132,25 @@ def fetch_wallet_coins_data(updated_price_obj, value_change_obj, wallet_object, 
                     coin_info['total_ticker']=obj['total_ticker']
         return wallet_coins_object
 
-def create_pie_chart(updated_price_obj,user_object,cryptocoin_db):
+def calculate_users_rank(user_doc,users_coll):
+    user_earned_cash = user_doc['cash_earned']
+    all_users = users_coll.find().sort([("cash_earned", -1)])
+    cash_users_list=[]
+    for user in all_users:
+        cash_users_list.append(user['cash_earned'])
+    rank = cash_users_list.index(user_earned_cash) + 1
+    count = len(cash_users_list)
+    return rank, count
+
+def create_pie_chart(updated_price_obj,user_doc,cryptocoin_db):
     """
     This function produces a JSON object to create a pie diagram of the wallet's
     coins distribution and calculates proportions. It also considers the available cash
     as the first element in the list. 
 
     """
-    cash_value=user_object['cash']
-    user_wallet=user_object['wallet']
+    cash_value=user_doc['cash']
+    user_wallet=user_doc['wallet']
     pie_labels=['Available Cash']
     pie_values=[cash_value]
     for coin,value in updated_price_obj.items():
@@ -154,7 +164,7 @@ def create_pie_chart(updated_price_obj,user_object,cryptocoin_db):
     graphJSON = json.dumps(data_pie, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
 
-def create_line_chart(user_object):
+def create_line_chart(user_doc):
     """
     This function creates a line chart for the user's wallet performance. It querries
     the user's wallet and calls the API Alpha Vantage in order to get historical data
@@ -170,7 +180,7 @@ def create_line_chart(user_object):
 
 
     # Fetching historical data for specific coins in user's wallet
-    user_wallet=user_object['wallet']
+    user_wallet=user_doc['wallet']
     wallet_coins=user_wallet['coins']
     coins_obj={}
     for coin,obj in wallet_coins.items():
@@ -223,12 +233,12 @@ def create_line_chart(user_object):
     graphJSON = json.dumps(figure, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
 
-def favorite_list_data(user_object,wallet_coins_object,db_cryptocoin_obj):
+def favorite_list_data(user_doc,wallet_coins_object,db_cryptocoin_obj):
     """
     This functions creates an object with data for creating cards only for favorite
     coins which are watched by the user. It discards the coins that are not in the favorite list
     """
-    favorite_list=user_object['favorites']
+    favorite_list=user_doc['favorites']
     if favorite_list == '':
         return False
     elif favorite_list != '':
@@ -251,12 +261,12 @@ def favorite_list_data(user_object,wallet_coins_object,db_cryptocoin_obj):
                         favorite_list_data[favorite]['symbol_short'] = elem['symbol_short']
         return favorite_list_data
 
-def not_favorite_list_data(user_object,db_cryptocoin_obj):
+def not_favorite_list_data(user_doc,db_cryptocoin_obj):
     """
     This functions creates an object with data for creating cards only for NOT favorite
     coins that are NOT watched by the user. It discards the coins that ARE in the favorite list
     """
-    favorite_list=user_object['favorites']
+    favorite_list=user_doc['favorites']
     favorite_tuple=favorite_list.split(",")
     not_favorite_tuple=[]
     not_favorite_data={}

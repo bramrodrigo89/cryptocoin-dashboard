@@ -31,104 +31,107 @@
 							<a href="{{ user.profile.image }}">Update Your Profile</a>
 						</div>
 					</div>
+				</div>
+			</div>
+			<div class="col s12 m6">
+				{% if balance.percentChange >= 0.01  %}
+				<div class="card hoverable green darken-3">
+					<div class="card-content white-text">
+						<h5 class="header">
+							<span><i class="material-icons">trending_up</i></span>
+							Your Balance</h5>
+						<h4>{{ "US$ {:,.2f}".format(balance.total|float) }} </h4>
+						<h5 class="green-text text-lighten-4">
+							{{ "US$ {:,.2f}".format(balance.change|float) }}
+							(+{{ "{:,.2f}".format(balance.percentChange|float) }}%)
+						</h5>
+					</div>
+					<div class="card-action">
+						<a href="{{ url_for('line_chart', username=user.username) }}">History</a>
+						<a href="#balance-pie-chart-anchor">Distribution</a>
+					</div>
+				</div>
+				{% elif balance.percentChange < 0.00 %}
+				<div class="card hoverable red darken-3">
+					<div class="card-content white-text">
+						<h5 class="header">
+							<span><i class="material-icons">trending_down</i></span>
+							Your Balance</h5>
+						<h4>{{ "US$ {:,.2f}".format(balance.total|float) }} </h4>
+						<h5 class="red-text text-lighten-4">
+							{{ "US$ {:,.2f}".format(balance.change|float) }}
+							({{ "{:,.2f}".format(balance.percentChange|float) }}%)
+						</h5>
+					</div>
+					<div class="card-action">
+						<a href="{{ url_for('line_chart', username=user.username) }}">History</a>
+						<a href="#">Distribution</a>
+					</div>
+				</div>
+				{% else %}
+				<div class="card hoverable">
+					<div class="card-content">
+						<h5 class="header">
+							<span><i class="material-icons">trending_flat</i></span>
+							Your Balance</h5>
+						<h4>{{ "US$ {:,.2f}".format(balance.total|float) }} </h4>
+						<h5 class="">
+							{{ "US$ {:,.2f}".format(balance.change|float) }}
+							({{ "{:,.2f}".format(balance.percentChange|float) }}%)
+						</h5>
+					</div>
+					<div class="card-action">
+						<a href="{{ url_for('line_chart', username=user.username) }}">History</a>
+						<a href="#balance-pie-chart-anchor">Distribution</a>
+					</div>
+				</div>
+				{% endif %}
 			</div>
 		</div>
-		<div class="col s12 m6">
-            {% if balance.percentChange >= 0.01  %}
-            <div class="card hoverable green darken-3">
-				<div class="card-content white-text">
-					<h5 class="header">
-                        <span><i class="material-icons">trending_up</i></span>
-						Your Balance</h5>
-					<h4>{{ "US$ {:,.2f}".format(balance.total|float) }} </h4>
-					<h5 class="green-text text-lighten-4">
-						{{ "US$ {:,.2f}".format(balance.change|float) }}
-						(+{{ "{:,.2f}".format(balance.percentChange|float) }}%)
-					</h5>
-				</div>
-				<div class="card-action">
-					<a href="{{ url_for('line_chart', username=user.username) }}">History</a>
-					<a href="#">Distribution</a>
-				</div>
-			</div>
-            {% elif balance.percentChange < 0.00 %}
-            <div class="card hoverable red darken-3">
-                <div class="card-content white-text">
-					<h5 class="header">
-                        <span><i class="material-icons">trending_down</i></span>
-						Your Balance</h5>
-					<h4>{{ "US$ {:,.2f}".format(balance.total|float) }} </h4>
-			        <h5 class="red-text text-lighten-4">
-                        {{ "US$ {:,.2f}".format(balance.change|float) }}
-                        ({{ "{:,.2f}".format(balance.percentChange|float) }}%)
-                    </h5>
-                </div>
-				<div class="card-action">
-					<a href="{{ url_for('line_chart', username=user.username) }}">History</a>
-					<a href="#">Distribution</a>
-				</div>
-			</div>
-			{% else %}
-            <div class="card hoverable">
-                <div class="card-content">
-					<h5 class="header">
-                        <span><i class="material-icons">trending_flat</i></span>
-						Your Balance</h5>
-					<h4>{{ "US$ {:,.2f}".format(balance.total|float) }} </h4>
-			        <h5 class="">
-                        {{ "US$ {:,.2f}".format(balance.change|float) }}
-                        ({{ "{:,.2f}".format(balance.percentChange|float) }}%)
-                    </h5>
-                </div>
-				<div class="card-action">
-					<a href="{{ url_for('line_chart', username=user.username) }}">History</a>
-					<a href="#balance-pie-chart-anchor">Distribution</a>
-				</div>
-			</div>
-			{% endif %}
-		</div>
-	</div>
 </section>
 
 <!-- Earned Cash, Rank And Available Cash -->
 <section>
 	<div class="row">
 		<div class="col s12 m6">
-            <div class="card hoverable indigo darken-2">
+			<div class="card hoverable indigo darken-2">
 				<div class="card-content white-text">
-                    <span class="card-title">Your Earned Cash</span>
+					<span class="card-title">Your Earned Cash</span>
 					<span class="card-title">{{ "US$ {:,.2f}".format(user.cash_earned|float) }}</span>
 					<div class="">
 						<blockquote>
-                            <h5><span><i class="material-icons">emoji_events</i></span> Your Rank: </h5>
-                        </blockquote>
+							<h5><span><i class="material-icons">emoji_events</i></span> Your Rank: <span class="rank-number">{{ rank }}<span></h5>
+                            <span class="card-title">of {{ count }} total users</span>
+						</blockquote>
 					</div>
 				</div>
 			</div>
 		</div>
-        <div class="col s12 m6">
-            <div class="card hoverable indigo darken-2">
-					<div class="card-content white-text">
-						<span class="card-title">Your Available Cash</span>
-						<span class="card-title">{{ "US$ {:,.2f}".format(user.cash) }}</span>
-						<div class="">
-							<blockquote>These are your available funds to purchase cryptocoins. Add as much as you want, it's free!</blockquote>
-						</div>
+		<div class="col s12 m6">
+			<div class="card hoverable indigo darken-2">
+				<div class="card-content white-text">
+					<span class="card-title">Your Available Cash</span>
+					<span class="card-title">{{ "US$ {:,.2f}".format(user.cash) }}</span>
+					<div class="">
+						<blockquote>These are your available funds to purchase cryptocoins. Add as much as you want, it's free!
+						</blockquote>
 					</div>
-					<div class="card-action">
-						<a class="waves-effect waves-light modal-trigger" href="#add-funds-modal">Add Funds</a>
-					</div>
+				</div>
+				<div class="card-action">
+					<a class="waves-effect waves-light modal-trigger" href="#add-funds-modal">Add Funds</a>
+				</div>
 			</div>
-        </div>
-	</div>
+		</div>
+		</div>
 </section>
+
 <!-- Distribution Pie Chart -->
+<a id="balance-pie-chart-anchor"></a>
 <section>    
 	<div class="row">
 		<div class="col s12">
 			<div class="card hoverable indigo lighten-5">
 				<div class="card-image">
-                    <a id="balance-pie-chart-anchor">Jump here</a>
 					<div class="chart" id="balance-pie-chart">
 						<script>
 							var graphs = {{ plot | safe }};
@@ -145,77 +148,101 @@
 	</div>
 </section>
 
-<!-- Cryptocoin Wallet, Favorite Coins, Transaction and Other Coins -->
+<!-- Cryptocoin Wallet, Favorite Coins -->
 <section>
-    <div class="row">
-        <div class="col s12 m6">
-            <h4>My Crypto Wallet</h4>
-            <ul class="collection">
-            {% for coin_name, coin_info in wallet_coins.items() %}
-                <li class="collection-item avatar card card-list-coin">
-                    <span class="card-coin-icon"><img src="{{ url_for('static', filename='images/icons/'+ coin_name.replace('USDT','').lower() +'.png') }}" alt="Cryptocoin Icon" class="circle"></span>
-                    <span class="title card-coin-name-symbol"><span class="card-coin-name">{{ coin_info['name'].replace(' USD','') }}</span> (<span class="card-coin-short-symbol">{{coin_info['symbol_short'] }}</span>)</span>
-                    <h6><span class="card-coin-available-ticker">{{ "{:,.2f}".format(coin_info['total_ticker']|float) }}</span> {{ coin_info['symbol_short'] }}</h6>
-                    <h5> {{ "US$ {:,.2f}".format(coin_info['balance']|float) }}</h5>
-                    {% if coin_info['value_change_percent'] >= 0.01 %}
-                    <blockquote style="border-left:5px solid #00c853;">
-                        Change: <strong style="color: #2E7D32;">{{ "US$ {:,.2f}".format(coin_info['value_change']|float) }} (+ {{ "{:,.2f}".format(coin_info['value_change_percent']|float) }}%)</strong><br>
-                        Price: <strong class="card-coin-latest-price">{{ "US$ {:,.2f}".format(coin_info['latestPrice']|float) }}</strong><br>
-                        Bid price: <span class="card-coin-bid-price">{{ "US$ {:,.2f}".format(coin_info['bidPrice']|float) }}</span><br>Ask price: <span class="card-coin-ask-price">{{ "US$ {:,.2f}".format(coin_info['askPrice']|float) }}</span>
-                    </blockquote>
-                    <span class="secondary-content" style="color:#00c853"><i class="material-icons">trending_up</i></span>
-                    {% elif coin_info['value_change_percent'] < 0.00 %}
-                    <blockquote style="border-left:5px solid #ee6e73;">
-                        Change: <strong style="color: #C6281F;">{{ "US$ {:,.2f}".format(coin_info['value_change']|float) }} ( {{ "{:,.2f}".format(coin_info['value_change_percent']|float) }}%)</strong><br>
-                        Price: <strong class="card-coin-latest-price">{{ "US$ {:,.2f}".format(coin_info['latestPrice']|float) }}</strong><br>
-                        Bid price: <span class="card-coin-bid-price">{{ "US$ {:,.2f}".format(coin_info['bidPrice']|float) }}</span><br>Ask price: <span class="card-coin-ask-price">{{ "US$ {:,.2f}".format(coin_info['askPrice']|float) }}</span>
-                    </blockquote>
-                    <span class="secondary-content" style="color:#ee6e73"><i class="material-icons">trending_down</i></span>
-                    {% else %}
-                    <blockquote style="border-left:5px solid #0091ea;">
-                        Change: <strong>{{ "US$ {:,.2f}".format(coin_info['value_change']|float) }} ({{ "{:,.2f}".format(coin_info['value_change_percent']|float) }}%)</strong><br>
-                        Price: <strong class="card-coin-latest-price">{{ "US$ {:,.2f}".format(coin_info['latestPrice']|float) }}</strong><br>
-                        Bid price: <span class="card-coin-bid-price">{{ "US$ {:,.2f}".format(coin_info['bidPrice']|float) }}</span><br>Ask price: <span class="card-coin-ask-price">{{ "US$ {:,.2f}".format(coin_info['askPrice']|float) }}</span>
-                    </blockquote>
-                    {% endif %}
-                    <div class="card-action">
-                        <a class="waves-effect waves-light btn green darken-3 modal-trigger open-buy-coin-modal-link" href="#buy-coin-modal" data-id="{{ coin_info['symbol'] }}">BUY</a>
-                        <a class="waves-effect waves-light btn red darken-3 modal-trigger open-sell-coin-modal-link" href="#sell-coin-modal" data-id="{{ coin_info['symbol'] }}">SELL</a>
-                    </div>
-                </li>
-            {% endfor %}
-            </ul>
-        </div>
-        <div class="col s12 m6">
-            <h4>My Favorite Cryptocurrencies:</h4>
-            {% if favorites %}
-            <ul class="collection">
-            {% for coin_name, coin_info in favorites.items() %}
-                <li class="collection-item avatar card card-list-coin">
-                    <span class="card-coin-icon"><img src="{{ url_for('static', filename='images/icons/'+ coin_name.replace('USDT','').lower() +'.png') }}" alt="Cryptocoin Icon" class="circle"></span>
-                    <span class="title card-coin-name-symbol"><span class="card-coin-name">{{ coin_info['name'].replace(' USD','') }}</span> (<span class="card-coin-short-symbol">{{coin_info['symbol_short'] }}</span>)</span>
-                    <blockquote style="border-left: 5px solid #039be5;">Price: <strong class="card-coin-latest-price">{{ "US$ {:,.2f}".format(coin_info['latestPrice']|float) }}</strong><br>
-                                Bid price: <span class="card-coin-bid-price">{{ "US$ {:,.2f}".format(coin_info['bidPrice']|float) }}</span><br>Ask price: <span class="card-coin-ask-price">{{ "US$ {:,.2f}".format(coin_info['askPrice']|float) }}</span></blockquote>
-                    <a href="/remove-fav/{{ user.username }}/{{ coin_info['symbol'] }}" class="secondary-content"><i class="material-icons" style="color:#039be5;">grade</i></a>
-                    <div class="card-action">
-                        <a class="waves-effect waves-light btn green darken-3 modal-trigger open-buy-coin-modal-link" href="#buy-coin-modal" data-id="{{ coin_info['symbol'] }}">BUY</a>
-                    </div>
-                </li>
-            {% endfor %}
-            </ul>
-            {% else %}
-            <div class="card blue-grey darken-1">
-                <div class="card-content white-text">
-                <span class="card-title">No Favorite Coins!</span>
-                <p>Check the crytpcoin list down below and add them to your favorites list using the star symbol.</p>
-                </div>
-                <div class="card-action">
-                <a href="#">This is a link</a>
-                </div>
-            </div>
-            {% endif %}
-        </div>
-    </div>
+	<div class="row">
+		<div class="col s12 m6">
+			<h4>My Crypto Wallet</h4>
+			<ul class="collection">
+				{% for coin_name, coin_info in wallet_coins.items() %}
+				<li class="collection-item avatar card card-list-coin">
+					<span class="card-coin-icon"><img src="{{ url_for('static', filename='images/icons/'+ coin_name.replace('USDT','').lower() +'.png') }}" alt="Cryptocoin Icon" class="circle"></span>
+					<span class="title card-coin-name-symbol"><span class="card-coin-name">{{ coin_info['name'].replace(' USD','') }}</span>
+					(<span class="card-coin-short-symbol">{{coin_info['symbol_short'] }}</span>)</span>
+					<h6><span class="card-coin-available-ticker">{{ "{:,.2f}".format(coin_info['total_ticker']|float) }}</span>
+						{{ coin_info['symbol_short'] }}</h6>
+					<h5> {{ "US$ {:,.2f}".format(coin_info['balance']|float) }}</h5>
+					{% if coin_info['value_change_percent'] >= 0.01 %}
+					<blockquote style="border-left:5px solid #00c853;">
+						Change:
+						<strong style="color: #2E7D32;">{{ "US$ {:,.2f}".format(coin_info['value_change']|float) }} (+ {{ "{:,.2f}".format(coin_info['value_change_percent']|float) }}%)</strong><br>
+                        Price:
+						<strong class="card-coin-latest-price">{{ "US$ {:,.2f}".format(coin_info['latestPrice']|float) }}</strong><br>
+                        Bid price:
+						<span class="card-coin-bid-price">{{ "US$ {:,.2f}".format(coin_info['bidPrice']|float) }}</span><br>Ask price:
+						<span class="card-coin-ask-price">{{ "US$ {:,.2f}".format(coin_info['askPrice']|float) }}</span>
+					</blockquote>
+					<span class="secondary-content" style="color:#00c853"><i class="material-icons">trending_up</i></span>
+					{% elif coin_info['value_change_percent'] < 0.00 %}
+					<blockquote style="border-left:5px solid #ee6e73;">
+						Change:
+						<strong style="color: #C6281F;">{{ "US$ {:,.2f}".format(coin_info['value_change']|float) }} ( {{ "{:,.2f}".format(coin_info['value_change_percent']|float) }}%)</strong><br>
+                        Price:
+						<strong class="card-coin-latest-price">{{ "US$ {:,.2f}".format(coin_info['latestPrice']|float) }}</strong><br>
+                        Bid price:
+						<span class="card-coin-bid-price">{{ "US$ {:,.2f}".format(coin_info['bidPrice']|float) }}</span><br>Ask price:
+						<span class="card-coin-ask-price">{{ "US$ {:,.2f}".format(coin_info['askPrice']|float) }}</span>
+					</blockquote>
+					<span class="secondary-content" style="color:#ee6e73"><i class="material-icons">trending_down</i></span>
+					{% else %}
+					<blockquote style="border-left:5px solid #0091ea;">
+						Change:
+						<strong>{{ "US$ {:,.2f}".format(coin_info['value_change']|float) }} ({{ "{:,.2f}".format(coin_info['value_change_percent']|float) }}%)</strong><br>
+                        Price:
+						<strong class="card-coin-latest-price">{{ "US$ {:,.2f}".format(coin_info['latestPrice']|float) }}</strong><br>
+                        Bid price:
+						<span class="card-coin-bid-price">{{ "US$ {:,.2f}".format(coin_info['bidPrice']|float) }}</span><br>Ask price:
+						<span class="card-coin-ask-price">{{ "US$ {:,.2f}".format(coin_info['askPrice']|float) }}</span>
+					</blockquote>
+					{% endif %}
+					<div class="card-action">
+						<a class="waves-effect waves-light btn green darken-3 modal-trigger open-buy-coin-modal-link"
+							href="#buy-coin-modal" data-id="{{ coin_info['symbol'] }}">BUY</a>
+						<a class="waves-effect waves-light btn red darken-3 modal-trigger open-sell-coin-modal-link"
+							href="#sell-coin-modal" data-id="{{ coin_info['symbol'] }}">SELL</a>
+					</div>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="col s12 m6">
+			<h4>My Favorite Cryptocurrencies:</h4>
+			{% if favorites %}
+			<ul class="collection">
+				{% for coin_name, coin_info in favorites.items() %}
+				<li class="collection-item avatar card card-list-coin">
+					<span class="card-coin-icon"><img src="{{ url_for('static', filename='images/icons/'+ coin_name.replace('USDT','').lower() +'.png') }}" alt="Cryptocoin Icon" class="circle"></span>
+					<span class="title card-coin-name-symbol"><span class="card-coin-name">{{ coin_info['name'].replace(' USD','') }}</span>
+					(<span class="card-coin-short-symbol">{{coin_info['symbol_short'] }}</span>)</span>
+					<blockquote style="border-left: 5px solid #039be5;">Price:
+						<strong class="card-coin-latest-price">{{ "US$ {:,.2f}".format(coin_info['latestPrice']|float) }}</strong><br>
+                                Bid price:
+						<span class="card-coin-bid-price">{{ "US$ {:,.2f}".format(coin_info['bidPrice']|float) }}</span><br>Ask price:
+						<span class="card-coin-ask-price">{{ "US$ {:,.2f}".format(coin_info['askPrice']|float) }}</span>
+					</blockquote>
+					<a href="/remove-fav/{{ user.username }}/{{ coin_info['symbol'] }}"
+						class="secondary-content"><i class="material-icons" style="color:#039be5;">grade</i></a>
+					<div class="card-action">
+						<a class="waves-effect waves-light btn green darken-3 modal-trigger open-buy-coin-modal-link"
+							href="#buy-coin-modal" data-id="{{ coin_info['symbol'] }}">BUY</a>
+					</div>
+				</li>
+				{% endfor %}
+			</ul>
+			{% else %}
+			<div class="card blue-grey darken-1">
+				<div class="card-content white-text">
+					<span class="card-title">No Favorite Coins!</span>
+					<p>Check the crytpcoin list down below and add them to your favorites list using the star symbol.
+					</p>
+				</div>
+				<div class="card-action">
+					<a href="#">This is a link</a>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	</div>
 </section>
 
 <!-- Transaction and Other Coins -->

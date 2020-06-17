@@ -6,7 +6,8 @@ import pandas as pd
 from flask import render_template, url_for, request, flash, redirect, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from bson.objectid import ObjectId
-from calculations import balance_prices_and_changes, create_pie_chart, create_line_chart
+from calculations import balance_prices_and_changes, create_pie_chart
+from calculations import create_line_chart, calculate_users_rank
 from calculations import fetch_wallet_coins_data, favorite_list_data
 from calculations import not_favorite_list_data
 from transactions import prepare_buy_object, prepare_sell_object
@@ -42,6 +43,7 @@ Collections
 
 users_coll = mongo.db.users
 transactions_coll = mongo.db.transactions
+    
 
 """
 Index Page
@@ -204,8 +206,7 @@ User Dashboard
 @app.route('/user/<username>/dashboard')
 def show_user_dashboard(username):
     if 'user' in session and session['user']==username:
-        user_in_db = users_coll.find_one({"username": session['user']})
-        user_data=users_coll.find_one({'username':username})
+        user_data = users_coll.find_one({'username': session['user']})
         user_id=user_data['_id']
         data=balance_prices_and_changes(user_data['wallet'],user_data['cash'])
         balance_data, updated_prices, updated_changes = data[0], data[1], data[2]
@@ -214,7 +215,8 @@ def show_user_dashboard(username):
         favorites = favorite_list_data(user_data,wallet_coins_data,CRYPTOCOINS_LIST)
         not_favorites = not_favorite_list_data(user_data,CRYPTOCOINS_LIST)
         user_transactions = transactions_coll.find({'user_id': ObjectId(user_id)}).sort([("date", -1)]).limit(5)
-        return render_template("dashboard.html", user=user_data, balance=balance_data, plot=pie_data, wallet_coins=wallet_coins_data ,favorites=favorites, not_favorites=not_favorites, transactions=user_transactions)
+        rank, count = calculate_users_rank(user_data,users_coll)
+        return render_template("dashboard.html", user=user_data, balance=balance_data, plot=pie_data, wallet_coins=wallet_coins_data , rank=rank, count=count, favorites=favorites, not_favorites=not_favorites, transactions=user_transactions)
     else:
         flash("You must log in first to see this page")
         return redirect(url_for('index'))
