@@ -59,7 +59,7 @@ def index():
         return render_template("index.html")
 
 """
-User Authentication
+User Authentication, Log In and Log Out
 """
 
 # Login page with login form
@@ -97,6 +97,14 @@ def user_auth():
         flash('Please sign up first to create an account')
         return redirect(url_for('signup'))
 
+# Log Out
+@app.route('/logout')
+def logout():
+	# Clear the session
+	session.clear()
+	flash('You have logged out!')
+	return redirect(url_for('index'))
+
 """
 Signing up
 """
@@ -130,7 +138,7 @@ def signup():
                             'dob': pd.to_datetime(form['dob']),
                             'email_address': form['email_address'],
                             'date_joined': datetime.utcnow(),
-                            'image': 'http://lorempixel.com/100/150/abstract/1/'+form['first_name']+'/'
+                            'image': 'http://lorempixel.com/100/150/abstract/1/'+form['first_name']
                         },
                         'wallet': {
                             'total_coins':0,
@@ -155,6 +163,10 @@ def signup():
 			return redirect(url_for('signup'))
 	return render_template("signup.html")
 
+
+"""
+User Profile
+"""
 # Profile Page
 @app.route('/profile/<username>')
 def profile(username): 
@@ -166,15 +178,24 @@ def profile(username):
 		flash("You must log in first to see this page")
 		return redirect(url_for('index'))
 
-# Log Out
-@app.route('/logout')
-def logout():
-	# Clear the session
-	session.clear()
-	flash('You have logged out!')
-	return redirect(url_for('index'))
-
-
+# Editing profile and saving changes
+@app.route('/save-profile-changes/<username>', methods=['POST'])
+def save_profile_changes(username):
+    form = request.form.to_dict()
+    user_in_db = users_coll.find_one({"username": username})
+    profile_image_url = user_in_db['profile']['image']
+    name_count = len(user_in_db['profile']['first_name'])
+    base_profile_image_url = profile_image_url[:-name_count]
+    users_coll.update_one({'username': username}, {'$set': {
+        'profile.first_name': form['first_name'],
+        'profile.last_name': form['last_name'],
+        'profile.email_address': form['email_address'],
+        'profile.dob': pd.to_datetime(form['dob']),
+        'profile.image': base_profile_image_url+form['first_name']
+        }})
+    updated_user_in_db = users_coll.find_one({"username": username})
+    flash("Changes have been saved to your profile")
+    return render_template('profile.html', username=username, user=updated_user_in_db)
 
 """
 User Dashboard
@@ -209,7 +230,7 @@ def remove_favorite(username, symbol):
     favorites_list=user_data['favorites'].split(",")
     favorites_list.remove(symbol)
     updated_favorites_list=(','.join(favorites_list))
-    users_coll.update({'username':username},{'$set':{"favorites":updated_favorites_list}},multi=False)
+    users_coll.update_one({'username':username},{'$set':{"favorites":updated_favorites_list}})
     return redirect(url_for('show_user_dashboard',username=username))
 
 # Add coins to favorite list
@@ -224,7 +245,7 @@ def add_favorite(username, symbol):
     else:
         favorites_list.append(symbol)
         updated_favorites_list=(','.join(favorites_list))
-    users_coll.update({'username':username},{'$set':{"favorites":updated_favorites_list}},multi=False)
+    users_coll.update_one({'username':username},{'$set':{"favorites":updated_favorites_list}})
     return redirect(url_for('show_user_dashboard',username=username))
 
 """
@@ -258,10 +279,15 @@ def add_funds(username):
     user_db=users_coll.find_one({'username':username})
     user_cash=user_db['cash']
     new_total_cash=user_cash+added_funds_float
-    users_coll.update({'username':username},{'$set':{"cash":new_total_cash}},multi=False)
+    users_coll.update_one({'username':username},{'$set':{"cash":new_total_cash}},multi=False)
     message='You have succesfully added US$ '+added_funds+' to your wallet'
     flash(message)
     return redirect(url_for('show_user_dashboard',username=username))
+
+""" 
+Chart line for crypto wallet performance 
+Not displayed directly on Dashboard to reduce API Calls
+"""
 
 @app.route('/line-chart/<username>')
 def line_chart(username):

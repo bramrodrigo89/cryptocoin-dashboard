@@ -39,11 +39,11 @@
 		<li>
 			<div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i><i class="material-icons left">person</i>Your Profile Information</div>
 			<div class="collapsible-body">
-				<form class="form-signup" method="POST" action="">
+				<form class="form-signup" method="POST" action="/save-profile-changes/{{ user.username }}">
 					<div class="row">
 						<div class="input-field col s12 m6">
 							<i class="material-icons prefix">account_circle</i>
-							<input value="{{ user.username }}" name="username" id="username" type="text" class="validate">
+							<input disabled value="{{ user.username }}" name="username" id="username" type="text" class="validate">
 							<label for="username">User Name</label>
 						</div>
 						<div id="matfix" class="input-field col s12 m6">
