@@ -16,18 +16,24 @@ Feel free to use it and reach out for any comments or suggestions that you may h
 
 ![Responsive Image](documentation/images/myCryptocoinDashboardResponsive.png)
 
-The main objective was to 
- 
+The main objective was to create a simulation application that allow users to learn and practice trading and monitoring cryptocurrency assets. The application was conceived as a pure simulation and thus does not handle any real currencies. All the data displayed concerning traditional or digital currencies are solely for learning purposes and do not posses any real value.
  
 This importance for this web application was identified through some User Stories like the following:
  
-- "I never had... 
+- "I always wondered how it is to trade and hold Cryptocurrencies. I have read in the news that they are mostly earning value but I do not understand the concept of how to buy them. It would be good to find an application which allows me first to do some practice before I can go into the real thing."
+- "I have heared of Bitcoin, but I do not know really if there are other Cryptocurrencies out there. It would be interesting to know which are the most popular ones and monitor if their prices are incresing."
+- "Some Cryptocurrencies are very expensive. I could not afford to buy a single one. Though I would be interested to know if I can buy only part of one cryptocoin and start small and do only trading until I can earn some cash to buy more coins. But without real money I do not find an application that lets me do any trading."
+- "I like trading applications that are easy to use and very visual. Specially I like being able to check my performance over time with charts and plots."
 
-The website was first designed using a wireframe which can be found on miro.com under this link:
+The user experience design of this application was first conceived using wireframes on miro.com. The file is available for visualization under this link: 
+[Miro Wireframe - Cryptocoin Dashboard Wireframe](https://miro.com/app/board/o9J_ksDZXO4=/)
+As observed on the wireframe, the "dashboard" page was designed as the main page of this application and its responsiveness for different screen sizes was considered. 
 
 ![Wireframe Image](documentation/images/MyCryptoDashboard_Overview.jpg)
 
-[Miro Wireframe - Cryptocoin Dashboard Wireframe](https://miro.com/app/board/o9J_ksDZXO4=/)
+All sections of the "dashboard" page from the wireframes were developed with some minor changes:
+ - The performance history line chart was moved to a separate html page to reduce API calls because they are limited by my personal account on the Alpha Vantage API service.
+ - Transaction lists occupies whole width of screen now because they contain more information than other cards from dashboard. 
 
 
 ## Features
