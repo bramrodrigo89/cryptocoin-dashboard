@@ -157,6 +157,7 @@
 	<div class="row">
 		<div class="col s12 m6">
 			<h4>My Crypto Wallet</h4>
+            {% if wallet_coins %}
 			<ul class="collection">
 				{% for coin_name, coin_info in wallet_coins.items() %}
 				<li class="collection-item avatar card card-list-coin">
@@ -208,6 +209,18 @@
 				</li>
 				{% endfor %}
 			</ul>
+            {% else %}
+            <div class="card blue-grey darken-1">
+				<div class="card-content white-text">
+					<span class="card-title">No Coin Assets Yet!</span>
+					<p>Check the crytpcoin list down below and start buying with your cash available to have cryptocoin assets.
+					</p>
+				</div>
+				<div class="card-action">
+					<a href="#buy-coins-anchor">See all coins</a>
+				</div>
+			</div>
+            {% endif %}
 		</div>
 		<div class="col s12 m6">
 			<h4>My Favorite Cryptocurrencies:</h4>
