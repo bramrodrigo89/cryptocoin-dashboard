@@ -62,6 +62,8 @@ Languages, frameworks, libraries used to construct this project:
     - Testing responsiveness of the applicaton in different devices, like the example below:
 - [Cryptocurrency Icons](https://github.com/spothq/cryptocurrency-icons)
     - Creating cryptocurrency icons for coins used in this project. Library includes SVG files for around 400 crypto currencies to create 32x32 PNG files respectively. 
+- [Unsplash Images](https://unsplash.com/)
+    - The internet’s source of freely-usable images.
 
 ## Testing
 

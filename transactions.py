@@ -11,6 +11,13 @@ def get_user_transactions(user_id, transactions_coll):
         user_transactions_list=False
     return user_transactions_list
 
+def get_all_user_transactions(user_id, transactions_coll):
+    user_transactions = transactions_coll.find({'user_id': ObjectId(user_id)}).sort([("date", -1)])
+    user_transactions_list=[]
+    for elem in user_transactions:
+        user_transactions_list.append(elem)
+    return user_transactions_list
+
 
 def prepare_buy_object(form_object, user_data):
     document_object = {}

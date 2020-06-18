@@ -10,7 +10,7 @@ from calculations import create_line_chart, calculate_users_rank
 from calculations import fetch_wallet_coins_data, favorite_list_data
 from calculations import not_favorite_list_data
 from transactions import prepare_buy_object, prepare_sell_object
-from transactions import insert_transaction_to_db, get_user_transactions
+from transactions import insert_transaction_to_db, get_user_transactions, get_all_user_transactions
 
 """
 app config
@@ -251,7 +251,32 @@ def show_user_dashboard(username):
     else:
         flash("You must log in first to see this page")
         return redirect(url_for('index'))
-# Check first if username is in session
+
+# See all transactions from user on separate page
+@app.route('/all-transactions/<username>')
+def all_transactions(username):
+    if 'user' in session and session['user']==username:
+        user_data=users_coll.find_one({'username': session['user']})
+        user_id=user_data['_id']
+        user_transactions_list = get_all_user_transactions(user_id, transactions_coll)
+        return render_template("transactions.html", user=user_data, transactions=user_transactions_list)
+    else:
+        flash("You must log in first to see this page")
+        return redirect(url_for('index'))
+
+""" 
+Chart line for user's wallet performance 
+"""
+
+@app.route('/line-chart/<username>')
+def line_chart(username):
+    if 'user' in session and session['user']==username:
+        user_data=users_coll.find_one({'username': session['user']})
+        chart_data = create_line_chart(user_data)
+        return render_template('chart.html', data=chart_data, user=user_data)
+    else:
+        flash("You must log in first to see this page")
+        return redirect(url_for('index'))
 
 """
 Adding or removing coins to favorite list
@@ -316,18 +341,6 @@ def add_funds(username):
     message='You have succesfully added US$ '+added_funds+' to your wallet'
     flash(message)
     return redirect(url_for('show_user_dashboard',username=username))
-
-""" 
-Chart line for crypto wallet performance 
-Not displayed directly on Dashboard to reduce API Calls
-"""
-
-@app.route('/line-chart/<username>')
-def line_chart(username):
-    user_data=users_coll.find_one({'username':username})
-    chart_data = create_line_chart(user_data)
-    return render_template('chart.html', data=chart_data, user=user_data)
-
 
 if __name__ == '__main__':
     app.run(host=os.getenv("IP","0.0.0.0"),

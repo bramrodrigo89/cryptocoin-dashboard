@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block extra_links %}
+<li class="active"><a href="/user/{{ user.username }}/dashboard"><i class="material-icons left">dashboard</i>My Dashboard</a></li>
+<li><a href="/profile/{{ user.username }}"><i class="material-icons left">person</i>My Profile</a></li>
+<li><a href="/logout">Log Out</a></li>
+{% endblock %}
+
+{% block extra_mobile_links %}
+<li class="active"><a href="/user/{{ user.username }}/dashboard"><i class="material-icons left">dashboard</i>My Dashboard</a></li>
+<li><a href="/profile/{{ user.username }}"><i class="material-icons left">person</i>My Profile</a></li>
+<li><a href="/logout">Log Out</a></li>
+{% endblock %}
+
+{% block content %}
+<div class="section white">
+    <div class="row container content-row-medium">
+        <div class="col s12">
+            <div class="center content-row-medium">
+			    <a href="/user/{{ user.username }}/dashboard"><a class="btn waves-effect waves-light" href="/user/{{ user.username }}/dashboard"><i class="material-icons left">dashboard</i>Back to Dashboard</a></a>
+            </div>
+            <h2>See All Transactions</h2>
+            <ul class="collection">
+                {% for transaction in transactions %}
+                <li class="collection-item avatar card">
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <img src="{{ url_for('static', filename='images/icons/'+ transaction['symbol'].replace('USDT','').lower() +'.png') }}" alt="Cryptocoin Icon" class="circle">
+                            <h5>{{ transaction['ticker'] }} {{transaction['symbol'].replace('USDT','')}}</h5>
+                            <span class="title">{{ transaction['name'] }} {{transaction['type'].capitalize() }}</span>
+                            <h5>Total: {{ "US$ {:,.2f}".format(transaction['ticker']*transaction['price']) }}</h5>
+                        </div>
+                        <div class="col s12 m6">
+                            {% if transaction['type'] == 'purchase' %}
+                            <blockquote style="border-left:5px solid #2E7D32;">Date: {{ transaction['date'].strftime("%m/%d/%Y, %H:%M:%S") }}<br>Price: {{ "US$ {:,.2f}".format(transaction['price']) }}</blockquote>
+                            <span class="secondary-content" style="color:#2E7D32">
+                                <i class="material-icons">account_balance_wallet</i>
+                                <i class="material-icons" style="color:#2E7D32">keyboard_arrow_left</i>
+                            </span>
+                            {% elif transaction['type'] == 'sale' %}
+                            <blockquote style="border-left:5px solid #C62828;">Date: {{ transaction['date'].strftime("%m/%d/%Y, %H:%M:%S") }}<br>Price: {{ "US$ {:,.2f}".format(transaction['price']) }}</blockquote>
+                            <span class="secondary-content" style="color:#C62828">
+                                <i class="material-icons">account_balance_wallet</i>
+                                <i class="material-icons" style="color:#C62828">keyboard_arrow_right</i>
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="center content-row-medium">
+			    <a href="/user/{{ user.username }}/dashboard"><a class="btn waves-effect waves-light" href="/user/{{ user.username }}/dashboard"><i class="material-icons left">dashboard</i>Back to Dashboard</a></a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="parallax-container">
+    <div class="parallax">
+        <img class="responsive-img" src="{{ url_for('static', filename='images/background/background1.jpg')}}">
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_footer_links %}
+<li><a class="grey-text text-lighten-3" href="/user/{{ user.username }}/dashboard">My Dashboard</a></li>
+<li><a class="grey-text text-lighten-3" href="/profile/{{ user.username }}">My Profile</a></li>
+{% endblock %}
