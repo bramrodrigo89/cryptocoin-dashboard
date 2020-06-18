@@ -42,7 +42,7 @@ $(document).on("click", ".open-sell-coin-modal-link", function () {
     var selectedCoinTitle = selectedCoinCard.find('.card-coin-name-symbol').html();
     var selectedCoinName = selectedCoinCard.find('.card-coin-name').html();
     var selectedCoinIcon = selectedCoinCard.find('.card-coin-icon').html();
-    var selectedCoinLatestPrice = selectedCoinCard.find('.card-coin-latest-price').html;
+    var selectedCoinLatestPrice = selectedCoinCard.find('.card-coin-latest-price').html();
     var selectedCoinAskPrice = selectedCoinCard.find('.card-coin-ask-price').html();
     var availableTicker = selectedCoinCard.find('.card-coin-available-ticker').html();
     $("#modal-sell-coin-header").html(selectedCoinTitle);
