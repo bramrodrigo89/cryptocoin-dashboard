@@ -12,24 +12,31 @@
 {% endblock %}
 
 {% block content %}
-<div class="row content-row-medium">
-	<div class="col s12">
-		<div class="card indigo lighten-5">
-			<div class="card-image">
-				<div class="chart" id="line-plot">
-					<script>
-						var graphs = {{ data | safe }};
-					</script>
-				</div>
-			</div>
-			<div class="card-content">
-				<span class="card-title">Performance History</span>
-				<p>I am a very simple card. I am good at containing small bits of information. I am convenient because I
-					require little markup to use effectively.</p>
-			</div>
-		</div>
-	</div>
+<div class="container">
+    <div class="row content-row-medium">
+        <div class="col s12">
+            <div class="card indigo lighten-5">
+                <div class="card-image">
+                    <div class="chart" id="line-plot">
+                        <script>
+                            var graphs = {{ data | safe }};
+                        </script>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <span class="card-title">Performance History</span>
+                    <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I
+                        require little markup to use effectively.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+{% endblock %}
+
+{% block extra_footer_links %}
+<li><a class="grey-text text-lighten-3" href="/user/{{ user.username }}/dashboard">My Dashboard</a></li>
+<li><a class="grey-text text-lighten-3" href="/profile/{{ user.username }}">My Profile</a></li>
 {% endblock %}
 
 {% block scripts %}

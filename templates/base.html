@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}" type="text/css">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icons/favicon.ico')}}" />
     <title>My Cryptocoin Dashboard</title>
 </head>
 <body>
@@ -35,10 +36,10 @@
 	</header>
     
     <!-- Main Content Container -->
-    <div class="container">
+    
     {% block content %}
     {% endblock %}
-    </div>
+    
 
     <!-- Footer -->
 	<footer class="page-footer">
@@ -46,16 +47,15 @@
 			<div class="row">
 				<div class="col l6 s12">
 					<h5 id="footer-title" class="white-text">My Cryptocoin Dashboard</h5>
-					<p class="grey-text text-lighten-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto,
-						cumque! Asperiores dolores eos, cum ipsa accusantium voluptatem provident possimus? Odio?</p>
+					<p class="grey-text text-lighten-4">My Cryptocoin Dashboard is a simulation trading app for people who want to learn how to trade and monitor crypto holdings anywhere at any time, offering a wide range of the most popular cryptocurrencies today.</p>
 				</div>
 				<div class="col l4 offset-l2 s12">
-					<h5 class="white-text">Links</h5>
+					<h5 class="white-text">Menu</h5>
 					<ul>
-						<li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-						<li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-						<li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
-						<li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+						<li><a class="grey-text text-lighten-3" href="/index">Home</a></li>
+                        {% block extra_footer_links %}
+                        {% endblock %}
+						<li><a class="grey-text text-lighten-3" href="https://bramrodrigo89.github.io/second-milestone-project/">Stocks</a></li>
 					</ul>
 				</div>
 			</div>

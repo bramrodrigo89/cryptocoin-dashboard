@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block content %}
-
+<div class="container">
 <!-- Display Cards: Profile Info And Total Balance -->
 <section>
 	<div class="row content-row-medium">
@@ -448,6 +448,12 @@
         </form>
 	</div>
 </div>
+</div>
+{% endblock %}
+
+{% block extra_footer_links %}
+<li><a class="grey-text text-lighten-3" href="/user/{{ user.username }}/dashboard">My Dashboard</a></li>
+<li><a class="grey-text text-lighten-3" href="/profile/{{ user.username }}">My Profile</a></li>
 {% endblock %}
 
 {% block scripts %}

@@ -5,7 +5,6 @@ from flask_pymongo import PyMongo
 import pandas as pd
 from flask import render_template, url_for, request, flash, redirect, session
 from werkzeug.security import generate_password_hash, check_password_hash
-from bson.objectid import ObjectId
 from calculations import balance_prices_and_changes, create_pie_chart
 from calculations import create_line_chart, calculate_users_rank
 from calculations import fetch_wallet_coins_data, favorite_list_data
@@ -246,7 +245,6 @@ def show_user_dashboard(username):
         pie_data = create_pie_chart(updated_prices,user_data,CRYPTOCOINS_LIST)
         favorites = favorite_list_data(user_data,wallet_coins_data,CRYPTOCOINS_LIST)
         not_favorites = not_favorite_list_data(user_data,CRYPTOCOINS_LIST)
-        # user_transactions = transactions_coll.find({'user_id': ObjectId(user_id)}).sort([("date", -1)]).limit(5)
         user_transactions_list = get_user_transactions(user_id, transactions_coll)
         rank, count = calculate_users_rank(user_data,users_coll)
         return render_template("dashboard.html", user=user_data, balance=balance_data, plot=pie_data, wallet_coins=wallet_coins_data , rank=rank, count=count, favorites=favorites, not_favorites=not_favorites, transactions=user_transactions_list)

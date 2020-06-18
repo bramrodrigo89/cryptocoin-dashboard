@@ -1,76 +1,72 @@
 {% extends 'base.html' %}
 {% block extra_links %}
-    {% if 'user' in session %}
-        <li><a href="/user/{{ user.username }}/dashboard"><i class="material-icons left">dashboard</i>My Dashboard</a></li>
-        <li><a href="/profile/{{ user.username }}"><i class="material-icons left">person</i>My Profile</a></li>
-        <li><a href="/logout">Log Out</a></li>
-    {% else %}
-        <li class="active"><a href="#">Sign Up</a></li>
-        <li><a href="/login"><i class="material-icons left">login</i>Log In</a></li>
-    {% endif %}
+    <li class="active"><a href="/signup">Sign Up</a></li>
+    <li><a href="/login"><i class="material-icons left">login</i>Log In</a></li>
 {% endblock %}
 
 {% block extra_mobile_links %}
-    {% if 'user' in session %}
-        <li><a href="/user/{{ user.username }}/dashboard"><i class="material-icons left">dashboard</i>My Dashboard</a></li>
-        <li><a href="/profile/{{ user.username }}"><i class="material-icons left">person</i>My Profile</a></li>
-        <li><a href="logout">Log Out</a></li>
-    {% else %}
-        <li class="active"><a href="#">Sign Up</a></li>
-        <li><a href="/login"><i class="material-icons left">login</i>Log In</a></li>
-    {% endif %}
+    <li class="active"><a href="/signup">Sign Up</a></li>
+    <li><a href="/login"><i class="material-icons left">login</i>Log In</a></li>
 {% endblock %}
 
 {% block content %}
-<div class="row content-row">
-    <h3>Sign up and create a new account</h3>
-	<form class="col s12 form-signup" method="POST" action="/signup">
-		<div class="row">
-			<div class="input-field col s12 m6">
-                <i class="material-icons prefix">account_circle</i>
-				<input placeholder="" name="username" id="username" type="text" class="validate">
-				<label for="username">User Name</label>
-			</div>
-			<div id="matfix" class="input-field col s12 m6">
-				<i class="material-icons prefix">today</i>
-                <input id="dob" name="dob" type="text" class="datepicker">
-                <label for="dob">Date Of Birth</label>
-			</div>
-		</div>
-        <div class="row">
-			<div class="input-field col s12 m6">
-                <i class="material-icons prefix">assignment_ind</i>
-				<input required name="first_name" id="first_name" type="text" class="validate">
-				<label for="first_name">First Name</label>
-			</div>
-			<div class="input-field col s12 m6">
-				<input required id="last_name" name="last_name" type="text" class="validate">
-				<label for="last_name">Last Name</label>
-			</div>
-		</div>
-        <div class="row">
-			<div class="input-field col s12">
-                <i class="material-icons prefix">email</i>
-				<input required id="email_address" name="email_address" type="email" class="validate">
-				<label for="email_address">Email Address</label>
-			</div>
-		</div>
-		<div class="row">
-			<div class="input-field col s12 m6">
-				<input required id="password1" name="password1" type="password" class="validate">
-				<label for="password">Password</label>
-			</div>
-            <div class="input-field col s12 m6">
-				<input required id="password2" name="password2" type="password" class="validate">
-				<label for="password">Retype Password</label>
-			</div>
-		</div>
-        <button class="btn waves-effect waves-light" type="submit" name="action">Sign Up
-            <i class="material-icons left">assignment_turned_in</i>
-        </button>
-	</form>
+<div class="container">
+    <div class="row content-row">
+        <h3>Sign up and create a new account</h3>
+        <form class="col s12 form-signup" method="POST" action="/signup">
+            <div class="row">
+                <div class="input-field col s12 m6">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input placeholder="" name="username" id="username" type="text" class="validate">
+                    <label for="username">User Name</label>
+                </div>
+                <div id="matfix" class="input-field col s12 m6">
+                    <i class="material-icons prefix">today</i>
+                    <input id="dob" name="dob" type="text" class="datepicker">
+                    <label for="dob">Date Of Birth</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m6">
+                    <i class="material-icons prefix">assignment_ind</i>
+                    <input required name="first_name" id="first_name" type="text" class="validate">
+                    <label for="first_name">First Name</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input required id="last_name" name="last_name" type="text" class="validate">
+                    <label for="last_name">Last Name</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">email</i>
+                    <input required id="email_address" name="email_address" type="email" class="validate">
+                    <label for="email_address">Email Address</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m6">
+                    <input required id="password1" name="password1" type="password" class="validate">
+                    <label for="password">Password</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input required id="password2" name="password2" type="password" class="validate">
+                    <label for="password">Retype Password</label>
+                </div>
+            </div>
+            <button class="btn waves-effect waves-light" type="submit" name="action">Sign Up
+                <i class="material-icons left">assignment_turned_in</i>
+            </button>
+        </form>
+    </div>
 </div>
 {% endblock %}
+
+{% block extra_footer_links %}
+    <li><a class="grey-text text-lighten-3" href="/login">Log In</a></li>
+    <li><a class="grey-text text-lighten-3" href="/signup">Sign Up</a></li>
+{% endblock %}
+
 
 {% block scripts %}
 <script>

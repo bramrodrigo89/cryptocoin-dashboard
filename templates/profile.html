@@ -12,141 +12,148 @@
 {% endblock %}
 
 {% block content %}
-<div class="row content-row-medium">
-	<h1> Welcome, {{ user.profile.first_name|title }}</h1>
-	<div class="col s12">
-		<div class="card horizontal indigo lighten-5">
-			<div class="card-image">
-				<img src="{{ user.profile.image }}">
+<div class="container">
+    <div class="row content-row-medium">
+        <h1> Welcome, {{ user.profile.first_name|title }}</h1>
+        <div class="col s12">
+            <div class="card horizontal indigo lighten-5">
+                <div class="card-image">
+                    <img src="{{ user.profile.image }}">
+                            </div>
+                    <div class="card-stacked">
+                        <div class="card-content">
+                            <p>{{ user.profile.first_name }} {{ user.profile.last_name }}</p>
+                            <p>Joined since: {{ user.profile.date_joined.strftime("%m/%d/%Y") }} </p>
                         </div>
-				<div class="card-stacked">
-					<div class="card-content">
-						<p>{{ user.profile.first_name }} {{ user.profile.last_name }}</p>
-						<p>Joined since: {{ user.profile.date_joined.strftime("%m/%d/%Y") }} </p>
-					</div>
-					<div class="card-action">
-						<a href="{{ user.profile.image }}"></a>
-                        <a class="waves-effect waves-light black-text" href="/user/{{ user.username }}/dashboard"><i class="material-icons left">dashboard</i> Dashboard</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-		
-<div class="row content-row-medium">
-    <p>You can update your profile by editing the information down below and then click on Save Changes.</p>
-	<ul class="collapsible">
-		<li>
-			<div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i><i class="material-icons left">person</i>Your Profile Information</div>
-			<div class="collapsible-body">
-            <span>This is the information we have saved from you. You cannot make changes to your username.</span>
-				<form class="form-signup" method="POST" action="/save-profile-changes/{{ user.username }}">
-					<div class="row">
-						<div class="input-field col s12 m6">
-							<i class="material-icons prefix">account_circle</i>
-							<input disabled value="{{ user.username }}" name="username" id="username" type="text" class="validate">
-							<label for="username">User Name</label>
-						</div>
-						<div id="matfix" class="input-field col s12 m6">
-							<i class="material-icons prefix">today</i>
-							<input value="{{ user.profile.dob.strftime("%m/%d/%Y") }}" id="dob" name="dob" type="text" class="datepicker">
-							<label for="dob">Date Of Birth</label>
-						</div>
-					</div>
-					<div class="row">
-						<div class="input-field col s12 m6">
-                            <i class="material-icons prefix">assignment_ind</i>
-							<input value="{{ user.profile.first_name }}" name="first_name" id="first_name" type="text" class="validate">
-							<label for="first_name">First Name</label>
-						</div>
-						<div class="input-field col s12 m6">
-							<input value="{{ user.profile.last_name }}" id="last_name" name="last_name" type="text" class="validate">
-							<label for="last_name">Last Name</label>
-						</div>
-					</div>
-					<div class="row">
-						<div class="input-field col s12">
-                            <i class="material-icons prefix">email</i>
-							<input value="{{ user.profile.email_address }}" id="email_address" name="email_address" type="email" class="validate">
-							<label for="email_address">Email Address</label>
-						</div>
-					</div>
-                    <div class="center">
-                        <button class="btn waves-effect waves-light" type="submit" name="action">Save Changes
-                            <i class="material-icons left">assignment_turned_in</i>
-                        </button>
+                        <div class="card-action">
+                            <a href="{{ user.profile.image }}"></a>
+                            <a class="waves-effect waves-light black-text" href="/user/{{ user.username }}/dashboard"><i class="material-icons left">dashboard</i> Dashboard</a>
+                        </div>
                     </div>
-				</form>
-			</div>
-		</li>
-		<li>
-			<div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i><i class="material-icons left">photo</i>My Profile Image</div>
-			<div class="collapsible-body">
-            <span>Select a different image for your profile from the following collection.</span>
-            <!-- This is for selecting a new profile image -->
-                <div class="row">
-                    <form method="POST" action="/update-profile-image/{{ user.username }}">
-                        {% for n in list: %}
-                        <div class="col s4 m3">
-                            <div class="card hoverable card-profile-image">
-                                <div class="card-image">
-                                    <img src="{{ url_for('static', filename='images/profile_images/profile_image'+n+'.jpeg') }}">
-                                    <span class="card-title"></span>
-                                </div>
-                                <div class="card-action">
-									<p>
-										<input type="checkbox" class="filled-in" name="image_number" id="profile_image{{ n }}" value="{{ n }}" 
-                                        {% if user_image == n %}
-                                        checked="checked"
-                                        {% else %}
-                                        {% endif %}
-                                        />
-										<label for="profile_image{{ n }}"></label>
-									</p>
-                                </div>
+                </div>
+            </div>
+        </div>
+
+            
+    <div class="row content-row-medium">
+        <p>You can update your profile by editing the information down below and then click on Save Changes.</p>
+        <ul class="collapsible">
+            <li>
+                <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i><i class="material-icons left">person</i>Your Profile Information</div>
+                <div class="collapsible-body">
+                <span>This is the information we have saved from you. You cannot make changes to your username.</span>
+                    <form class="form-signup" method="POST" action="/save-profile-changes/{{ user.username }}">
+                        <div class="row">
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">account_circle</i>
+                                <input disabled value="{{ user.username }}" name="username" id="username" type="text" class="validate">
+                                <label for="username">User Name</label>
+                            </div>
+                            <div id="matfix" class="input-field col s12 m6">
+                                <i class="material-icons prefix">today</i>
+                                <input value="{{ user.profile.dob.strftime("%m/%d/%Y") }}" id="dob" name="dob" type="text" class="datepicker">
+                                <label for="dob">Date Of Birth</label>
                             </div>
                         </div>
-                        {% endfor %}
                         <div class="row">
-                            <div class="col s12">
-                                <div class="center">
-                                    <button class="btn waves-effect waves-light form-signup" type="submit" name="action">Save Changes
-                                        <i class="material-icons left">assignment_turned_in</i>
-                                    </button>
-                                </div>
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">assignment_ind</i>
+                                <input value="{{ user.profile.first_name }}" name="first_name" id="first_name" type="text" class="validate">
+                                <label for="first_name">First Name</label>
                             </div>
+                            <div class="input-field col s12 m6">
+                                <input value="{{ user.profile.last_name }}" id="last_name" name="last_name" type="text" class="validate">
+                                <label for="last_name">Last Name</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">email</i>
+                                <input value="{{ user.profile.email_address }}" id="email_address" name="email_address" type="email" class="validate">
+                                <label for="email_address">Email Address</label>
+                            </div>
+                        </div>
+                        <div class="center">
+                            <button class="btn waves-effect waves-light" type="submit" name="action">Save Changes
+                                <i class="material-icons left">assignment_turned_in</i>
+                            </button>
                         </div>
                     </form>
                 </div>
-			</div>
-		</li>
-		<li>
-			<div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i><i class="material-icons left">delete</i>Other Options</div>
-			<div class="collapsible-body">
-            <span>You can also delete your profile if you click on Delete Profile. <span class="red-text text-darken-3">WARNING! Your complete information will be deleted and cannot be retrieved.</span></span>
-            <div class="center">
-                <a href="#confirm-delete-profile-modal" class="waves-effect waves-light form-signup btn red darken-3 modal-trigger"><i class="material-icons right">delete</i>DELETE PROFILE</a>
-            </div>
-            </div>
-		</li>
-	</ul>	
-</div>
+            </li>
+            <li>
+                <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i><i class="material-icons left">photo</i>My Profile Image</div>
+                <div class="collapsible-body">
+                <span>Select a different image for your profile from the following collection.</span>
+                <!-- This is for selecting a new profile image -->
+                    <div class="row">
+                        <form method="POST" action="/update-profile-image/{{ user.username }}">
+                            {% for n in list: %}
+                            <div class="col s4 m3">
+                                <div class="card hoverable card-profile-image">
+                                    <div class="card-image">
+                                        <img src="{{ url_for('static', filename='images/profile_images/profile_image'+n+'.jpeg') }}">
+                                        <span class="card-title"></span>
+                                    </div>
+                                    <div class="card-action">
+                                        <p>
+                                            <input type="checkbox" class="filled-in" name="image_number" id="profile_image{{ n }}" value="{{ n }}" 
+                                            {% if user_image == n %}
+                                            checked="checked"
+                                            {% else %}
+                                            {% endif %}
+                                            />
+                                            <label for="profile_image{{ n }}"></label>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="center">
+                                        <button class="btn waves-effect waves-light form-signup" type="submit" name="action">Save Changes
+                                            <i class="material-icons left">assignment_turned_in</i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i><i class="material-icons left">delete</i>Other Options</div>
+                <div class="collapsible-body">
+                <span>You can also delete your profile if you click on Delete Profile. <span class="red-text text-darken-3">WARNING! Your complete information will be deleted and cannot be retrieved.</span></span>
+                <div class="center">
+                    <a href="#confirm-delete-profile-modal" class="waves-effect waves-light form-signup btn red darken-3 modal-trigger"><i class="material-icons right">delete</i>DELETE PROFILE</a>
+                </div>
+                </div>
+            </li>
+        </ul>	
+    </div>
 
-<!-- Confirm Delete Profile Modal -->
-<div id="confirm-delete-profile-modal" class="modal">
-	<div class="modal-content">
-		<h4>Delete Your Profile</h4>
-		<p>Do you really want to delete your profile permanently? This action cannot be reversed and your complete information and dashboard data will be deleted.</p>
-		<strong>Please click DELETE to confirm</strong>
-	</div>
-	<div class="modal-footer">
-        <form action="#">
-		    <a href="/delete-profile/{{ user.username }}" class="waves-effect waves-light btn red darken-3">DELETE</a>
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
-        </form>
-	</div>
+    <!-- Confirm Delete Profile Modal -->
+    <div id="confirm-delete-profile-modal" class="modal">
+        <div class="modal-content">
+            <h4>Delete Your Profile</h4>
+            <p>Do you really want to delete your profile permanently? This action cannot be reversed and your complete information and dashboard data will be deleted.</p>
+            <strong>Please click DELETE to confirm</strong>
+        </div>
+        <div class="modal-footer">
+            <form action="#">
+                <a href="/delete-profile/{{ user.username }}" class="waves-effect waves-light btn red darken-3">DELETE</a>
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+            </form>
+        </div>
+    </div>
 </div>
+{% endblock %}
+
+{% block extra_footer_links %}
+<li><a class="grey-text text-lighten-3" href="/user/{{ user.username }}/dashboard">My Dashboard</a></li>
+<li><a class="grey-text text-lighten-3" href="/profile/{{ user.username }}">My Profile</a></li>
 {% endblock %}
 
 {% block scripts %}

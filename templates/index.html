@@ -22,7 +22,35 @@
 {% endblock %}
 
 {% block content %}
-<div class="row content-row">
-    <h1> My Crypto Dashboard </h1>
-</div>
+<div class="parallax-container">
+      <div class="parallax"><img class="responsive-img" src="{{ url_for('static', filename='images/background/background2.jpg')}}"></div>
+    </div>
+    <div class="section white">
+      <div class="row container">
+        <h1 class="header indigo-text">My Cryptocoin Dashboard</h1>
+        <p class="grey-text text-darken-3 lighten-3">My Cryptocoin Dashboard is a simulation trading app for people who want to learn how to trade and monitor crypto holdings anywhere at any time.</p>
+        <p class="grey-text text-darken-3 lighten-3">My Cryptocoin Dashboard is easy to use and offers access to data from the most popular cryptocurrencies today.</p>
+      </div>
+    </div>
+    <div class="parallax-container">
+      <div class="parallax"><img class="responsive-img" src="{{ url_for('static', filename='images/background/background3.jpg')}}"></div>
+    </div>
+{% endblock %}
+
+{% block extra_footer_links %}
+{% if 'user' in session %}
+    <li><a class="grey-text text-lighten-3" href="/user/{{ user.username }}/dashboard">My Dashboard</a></li>
+    <li><a class="grey-text text-lighten-3" href="/profile/{{ user.username }}">My Profile</a></li>
+{% else %}
+    <li><a class="grey-text text-lighten-3" href="/login">Log In</a></li>
+    <li><a class="grey-text text-lighten-3" href="/signup">Sign Up</a></li>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function(){
+        $('.parallax').parallax();
+    });
+</script>
 {% endblock %}
