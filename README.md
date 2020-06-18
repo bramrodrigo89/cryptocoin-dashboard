@@ -2,11 +2,19 @@
 
 Welcome, 
 
-This project was carried out within the framework of my Third Milestone Project for the Full-Stack Web Development Diploma from the Code Institute.  
+The development of this web application was carried out as my Third Milestone Project for the Full-Stack Web Development Diploma from the Code Institute.  
 
-Used technologies include Python, Flask Framework, HTML5, CSS3, JavaScript to demonstrate my personal skills and acquired knowledge from this online program. 
+This appliction's code was written on my own using Python, the Flask Framework, HTML5, CSS3 and JavaScript to demonstrate my personal skills and acquired knowledge from this online program. Some other libraries which are listed later on were used as well to simplify functions and styling. 
+
+The application is deployed and available in Heroku and can be accessed here:
+
+[My Cryptocoin Dashboard Link](https://cryptocoin-dashboard.herokuapp.com/)
+
+Feel free to use it and reach out for any comments or suggestions that you may have. 
 
 ## UX
+
+![Responsive Image](documentation/images/myCryptocoinDashboardResponsive.png)
 
 The main objective was to 
  
