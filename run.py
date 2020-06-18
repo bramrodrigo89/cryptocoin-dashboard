@@ -289,6 +289,7 @@ def remove_favorite(username, symbol):
     favorites_list.remove(symbol)
     updated_favorites_list=(','.join(favorites_list))
     users_coll.update_one({'username':username},{'$set':{"favorites":updated_favorites_list}})
+    flash('You removed one coin from your favorites')
     return redirect(url_for('show_user_dashboard',username=username))
 
 # Add coins to favorite list
@@ -304,6 +305,7 @@ def add_favorite(username, symbol):
         favorites_list.append(symbol)
         updated_favorites_list=(','.join(favorites_list))
     users_coll.update_one({'username':username},{'$set':{"favorites":updated_favorites_list}})
+    flash('You added one coin to your favorites')
     return redirect(url_for('show_user_dashboard',username=username))
 
 """
@@ -317,6 +319,7 @@ def buy_coins(username):
     user_data=users_coll.find_one({'username':username})
     new_doc = prepare_buy_object(submitted_form,user_data)
     insert_transaction_to_db(users_coll, transactions_coll, new_doc,user_data)
+    flash('Your purchase of '+submitted_form['submit-buy-coin-name']+' was successful!')
     return redirect(url_for('show_user_dashboard',username=username))
 
 # Sell existing coins from wallet
@@ -326,6 +329,7 @@ def sell_coins(username):
     user_data=users_coll.find_one({'username':username})
     new_doc = prepare_sell_object(submitted_form,user_data)
     insert_transaction_to_db(users_coll, transactions_coll, new_doc, user_data)
+    flash('Your sale of '+submitted_form['submit-sell-coin-name']+' was successful!')
     return redirect(url_for('show_user_dashboard',username=username))
 
 # Add additional funds to wallet
