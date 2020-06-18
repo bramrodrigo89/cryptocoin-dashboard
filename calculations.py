@@ -160,7 +160,7 @@ def create_pie_chart(updated_price_obj,user_doc,cryptocoin_db):
             if coin == elem['symbol_long']:
                 coin_name=elem['name'].replace(' USD','')
                 pie_labels.append(coin_name)
-    data_pie=[go.Pie(labels=pie_labels, values=pie_values, hole=.5)]
+    data_pie=[go.Pie(labels=pie_labels, values=pie_values, hole=.6)]
     graphJSON = json.dumps(data_pie, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
 

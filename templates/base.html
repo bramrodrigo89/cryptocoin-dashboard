@@ -20,18 +20,18 @@
                         <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                         <ul id="nav-mobile" class="right hide-on-med-and-down">
                             <li class="{% if 'index' in request.path %} active {% endif %}"><a href="/index">Home</a></li>
-                            <li><a href="https://bramrodrigo89.github.io/second-milestone-project/">My Stock Dashboard</a></li>
                             {% block extra_links %}
                             {% endblock %}
+                            <li><a href="https://bramrodrigo89.github.io/second-milestone-project/">My Stock Dashboard</a></li>
                         </ul>
                 </div>
             </nav>
         </div>
         <ul class="side-nav" id="mobile-demo">
             <li class="{% if 'index' in request.path %} active {% endif %}"><a href="/index">Home</a></li>
-            <li><a href="https://bramrodrigo89.github.io/second-milestone-project/">Stock Dashboard</a></li>
             {% block extra_mobile_links %}
             {% endblock %}
+            <li><a href="https://bramrodrigo89.github.io/second-milestone-project/">Stock Dashboard</a></li>
         </ul>
 	</header>
     
@@ -62,8 +62,8 @@
 		</div>
 		<div class="footer-copyright">
 			<div class="container">
-				© 2020 Copyright Text
-				<a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+				© 2020 Copyright Rodrigo Álvarez Monterroso
+				<a class="grey-text text-lighten-4 right" href="https://github.com/bramrodrigo89"><i class="material-icons left">code</i>My GitHub</a>
 			</div>
 		</div>
 	</footer>
@@ -80,6 +80,7 @@
             $('.button-collapse').sideNav();
             $('.tooltipped').tooltip();
             $('.modal').modal();
+            $('.parallax').parallax();
         });
 
         // Toast initialization for modal messages

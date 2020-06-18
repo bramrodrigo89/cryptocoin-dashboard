@@ -23,18 +23,24 @@
 
 {% block content %}
 <div class="parallax-container">
-      <div class="parallax"><img class="responsive-img" src="{{ url_for('static', filename='images/background/background2.jpg')}}"></div>
+	<div class="parallax">
+	    <img class="responsive-img" src="{{ url_for('static', filename='images/background/background2.jpg')}}">
     </div>
-    <div class="section white">
-      <div class="row container">
+</div>
+<div class="section indigo lighten-5">
+    <div class="row container">
         <h1 class="header indigo-text">My Cryptocoin Dashboard</h1>
-        <p class="grey-text text-darken-3 lighten-3">My Cryptocoin Dashboard is a simulation trading app for people who want to learn how to trade and monitor crypto holdings anywhere at any time.</p>
-        <p class="grey-text text-darken-3 lighten-3">My Cryptocoin Dashboard is easy to use and offers access to data from the most popular cryptocurrencies today.</p>
-      </div>
+        <p class="grey-text text-darken-3 lighten-3">My Cryptocoin Dashboard is a simulation trading app for people
+            who want to learn how to trade and monitor crypto holdings anywhere at any time.</p>
+        <p class="grey-text text-darken-3 lighten-3">My Cryptocoin Dashboard is easy to use and offers access to
+            data from the most popular cryptocurrencies today.</p>
     </div>
-    <div class="parallax-container">
-      <div class="parallax"><img class="responsive-img" src="{{ url_for('static', filename='images/background/background3.jpg')}}"></div>
+</div>
+<div class="parallax-container">
+    <div class="parallax">
+        <img class="responsive-img" src="{{ url_for('static', filename='images/background/background3.jpg')}}">
     </div>
+</div>
 {% endblock %}
 
 {% block extra_footer_links %}

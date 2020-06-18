@@ -12,29 +12,38 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row content-row-medium">
-        <h1> Welcome, {{ user.profile.first_name|title }}</h1>
-        <div class="col s12">
-            <div class="card horizontal indigo lighten-5">
-                <div class="card-image">
-                    <img src="{{ user.profile.image }}">
-                            </div>
-                    <div class="card-stacked">
-                        <div class="card-content">
-                            <p>{{ user.profile.first_name }} {{ user.profile.last_name }}</p>
-                            <p>Joined since: {{ user.profile.date_joined.strftime("%m/%d/%Y") }} </p>
-                        </div>
-                        <div class="card-action">
-                            <a href="{{ user.profile.image }}"></a>
-                            <a class="waves-effect waves-light black-text" href="/user/{{ user.username }}/dashboard"><i class="material-icons left">dashboard</i> Dashboard</a>
-                        </div>
-                    </div>
+<div class="parallax-container">
+	<div class="parallax">
+	    <img class="responsive-img" src="{{ url_for('static', filename='images/background/background2.jpg')}}">
+    </div>
+</div>
+<div class="section white">
+	<div class="row container">
+		<h1> Welcome, {{ user.profile.first_name|title }}</h1>
+		<div class="col s12">
+			<div class="card horizontal indigo lighten-5">
+				<div class="card-image">
+					<img src="{{ user.profile.image }}">
                 </div>
-            </div>
-        </div>
+					<div class="card-stacked">
+						<div class="card-content">
+							<p>{{ user.profile.first_name }} {{ user.profile.last_name }}</p>
+							<p>Joined since: {{ user.profile.date_joined.strftime("%m/%d/%Y") }} </p>
+						</div>
+						<div class="card-action">
+							<a href="{{ user.profile.image }}"></a>
+							<a class="waves-effect waves-light black-text"
+								href="/user/{{ user.username }}/dashboard"><i class="material-icons left">dashboard</i>
+								Dashboard
+                            </a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
-            
+<div class="container">
     <div class="row content-row-medium">
         <p>You can update your profile by editing the information down below and then click on Save Changes.</p>
         <ul class="collapsible">
@@ -133,20 +142,24 @@
             </li>
         </ul>	
     </div>
-
-    <!-- Confirm Delete Profile Modal -->
-    <div id="confirm-delete-profile-modal" class="modal">
-        <div class="modal-content">
-            <h4>Delete Your Profile</h4>
-            <p>Do you really want to delete your profile permanently? This action cannot be reversed and your complete information and dashboard data will be deleted.</p>
-            <strong>Please click DELETE to confirm</strong>
-        </div>
-        <div class="modal-footer">
-            <form action="#">
-                <a href="/delete-profile/{{ user.username }}" class="waves-effect waves-light btn red darken-3">DELETE</a>
-                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
-            </form>
-        </div>
+</div>
+<div class="parallax-container">
+    <div class="parallax">
+        <img class="responsive-img" src="{{ url_for('static', filename='images/background/background3.jpg')}}">
+    </div>
+</div>
+<!-- Confirm Delete Profile Modal -->
+<div id="confirm-delete-profile-modal" class="modal">
+    <div class="modal-content">
+        <h4>Delete Your Profile</h4>
+        <p>Do you really want to delete your profile permanently? This action cannot be reversed and your complete information and dashboard data will be deleted.</p>
+        <strong>Please click DELETE to confirm</strong>
+    </div>
+    <div class="modal-footer">
+        <form action="#">
+            <a href="/delete-profile/{{ user.username }}" class="waves-effect waves-light btn red darken-3">DELETE</a>
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+        </form>
     </div>
 </div>
 {% endblock %}

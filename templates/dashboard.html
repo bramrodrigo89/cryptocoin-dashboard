@@ -140,8 +140,7 @@
 				</div>
 				<div class="card-content">
 					<span class="card-title">Balance Distribution</span>
-					<p>I am a very simple card. I am good at containing small bits of information. I am convenient because I
-						require little markup to use effectively.</p>
+					<p>Your complete funds are represented on this pie chat so you can visualize the proportions of each asset. Your available cash is included but you can hide it using the interactive legend on the chart.</p>
 				</div>
 			</div>
 		</div>
@@ -318,6 +317,14 @@
     {% else %}
     {% endif %}
 </section>
+</div>
+
+<!-- Lower Parallax -->
+<div class="parallax-container">
+    <div class="parallax">
+        <img class="responsive-img" src="{{ url_for('static', filename='images/background/background1.jpg')}}">
+    </div>
+</div>
 
 <!-- BUY Coin Modal Structure -->
 <div id="buy-coin-modal" class="modal">
@@ -448,7 +455,7 @@
         </form>
 	</div>
 </div>
-</div>
+
 {% endblock %}
 
 {% block extra_footer_links %}

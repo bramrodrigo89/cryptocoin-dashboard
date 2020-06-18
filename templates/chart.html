@@ -12,8 +12,8 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row content-row-medium">
+<div class="section white">
+    <div class="row container content-row-medium">
         <div class="col s12">
             <div class="card indigo lighten-5">
                 <div class="card-image">
@@ -25,11 +25,18 @@
                 </div>
                 <div class="card-content">
                     <span class="card-title">Performance History</span>
-                    <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I
-                        require little markup to use effectively.</p>
+                    <p>You can visualize here your cryptocoin wallet performance over the time. Values are updated every day at midnight. If you have made recent transactions, please come back later when the chart has updated.</p>
                 </div>
+                <div class="card-action">
+					<a href="/user/{{ user.username }}/dashboard"><a class="black-text" href="/user/{{ user.username }}/dashboard"><i class="material-icons left">dashboard</i>Back to Dashboard</a></a>
+				</div>
             </div>
         </div>
+    </div>
+</div>
+<div class="parallax-container">
+    <div class="parallax">
+        <img class="responsive-img" src="{{ url_for('static', filename='images/background/background1.jpg')}}">
     </div>
 </div>
 {% endblock %}
