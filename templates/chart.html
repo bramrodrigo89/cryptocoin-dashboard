@@ -12,6 +12,11 @@
 {% endblock %}
 
 {% block content %}
+<div class="parallax-container">
+    <div class="parallax">
+        <img class="responsive-img" alt="background image" src="{{ url_for('static', filename='images/background/background1.jpg')}}">
+    </div>
+</div>
 <div class="section white">
     <div class="row container content-row-medium">
         <div class="col s12">
@@ -29,7 +34,7 @@
                     <p>You can visualize here your cryptocoin wallet performance over the time. Values are updated every day at midnight. If you have made recent transactions, please come back later when the chart has updated.</p>
                 </div>
                 <div class="card-action">
-					<a href="/user/{{ user.username }}/dashboard"><a class="black-text" href="/user/{{ user.username }}/dashboard"><i class="material-icons left">dashboard</i>Back to Dashboard</a></a>
+					<a href="/user/{{ user.username }}/dashboard" class="black-text"><i class="material-icons left">dashboard</i>Back to Dashboard</a>
 				</div>
             </div>
         </div>
@@ -37,7 +42,7 @@
 </div>
 <div class="parallax-container">
     <div class="parallax">
-        <img class="responsive-img" src="{{ url_for('static', filename='images/background/background1.jpg')}}">
+        <img class="responsive-img" alt="background image" src="{{ url_for('static', filename='images/background/background3.jpg')}}">
     </div>
 </div>
 {% endblock %}

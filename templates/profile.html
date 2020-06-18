@@ -14,7 +14,7 @@
 {% block content %}
 <div class="parallax-container">
 	<div class="parallax">
-	    <img class="responsive-img" src="{{ url_for('static', filename='images/background/background2.jpg')}}">
+	    <img class="responsive-img" alt="background image" src="{{ url_for('static', filename='images/background/background2.jpg')}}">
     </div>
 </div>
 <div class="section white">
@@ -23,7 +23,7 @@
 		<div class="col s12">
 			<div class="card horizontal indigo lighten-5">
 				<div class="card-image">
-					<img src="{{ user.profile.image }}">
+					<img alt="profile image" src="{{ user.profile.image }}">
                 </div>
 					<div class="card-stacked">
 						<div class="card-content">
@@ -101,11 +101,11 @@
                             <div class="col s4 m3">
                                 <div class="card hoverable card-profile-image">
                                     <div class="card-image">
-                                        <img src="{{ url_for('static', filename='images/profile_images/profile_image'+n+'.jpeg') }}">
+                                        <img alt="profile image" src="{{ url_for('static', filename='images/profile_images/profile_image'+n+'.jpeg') }}">
                                         <span class="card-title"></span>
                                     </div>
                                     <div class="card-action">
-                                        <p>
+                                        <div class="center">
                                             <input type="checkbox" class="filled-in" name="image_number" id="profile_image{{ n }}" value="{{ n }}" 
                                             {% if user_image == n %}
                                             checked="checked"
@@ -113,7 +113,7 @@
                                             {% endif %}
                                             />
                                             <label for="profile_image{{ n }}"></label>
-                                        </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -145,7 +145,7 @@
 </div>
 <div class="parallax-container">
     <div class="parallax">
-        <img class="responsive-img" src="{{ url_for('static', filename='images/background/background3.jpg')}}">
+        <img class="responsive-img" alt="background image" src="{{ url_for('static', filename='images/background/background3.jpg')}}">
     </div>
 </div>
 <!-- Confirm Delete Profile Modal -->

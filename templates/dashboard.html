@@ -15,79 +15,80 @@
 <div class="container">
 <!-- Display Cards: Profile Info And Total Balance -->
 <section>
-	<div class="row content-row-medium">
-		<div class="col s12 m6">
-			<h2 class="header">My Dashboard</h2>
-			<div class="card horizontal indigo lighten-5">
-				<div class="card-image">
-					<img src="{{ user.profile.image }}">
-                        </div>
-					<div class="card-stacked">
-						<div class="card-content">
-							<p>Name: {{ user.profile.first_name }} {{ user.profile.last_name }}</p>
-							<p>Joined since: {{ user.profile.date_joined.strftime("%m/%d/%Y") }} </p>
-						</div>
-						<div class="card-action">
-							<a href="{{ user.profile.image }}"><a class="black-text" href="/profile/{{ user.username }}"><i class="material-icons left">person</i>Your Profile</a></a>
-						</div>
-					</div>
+    <div class="row content-row-medium">
+        <div class="col s12 m6">
+            <h2 class="header">My Dashboard</h2>
+            <div class="card horizontal indigo lighten-5">
+                <div class="card-image">
+                    <img alt="user profile image" src="{{ user.profile.image }}">
+                </div>
+                <div class="card-stacked">
+                    <div class="card-content">
+                        <p>Name: {{ user.profile.first_name }} {{ user.profile.last_name }}</p>
+                        <p>Joined since: {{ user.profile.date_joined.strftime("%m/%d/%Y") }} </p>
+                    </div>
+                    <div class="card-action">
+                        <a href="{{ user.profile.image }}" class="black-text"><i class="material-icons left">person</i>Your Profile</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m6">
+            {% if balance.percentChange >= 0.01  %}
+            <div class="card hoverable green darken-3">
+                <div class="card-content white-text">
+                    <h5 class="header">
+                        <span><i class="material-icons">trending_up</i></span>
+                        Your Balance
+                    </h5>
+                    <h4>{{ "US$ {:,.2f}".format(balance.total|float) }} </h4>
+                    <h5 class="green-text text-lighten-4">
+                        {{ "US$ {:,.2f}".format(balance.change|float) }}
+                        (+{{ "{:,.2f}".format(balance.percentChange|float) }}%)
+                    </h5>
+                </div>
+                <div class="card-action">
+                    <a href="{{ url_for('line_chart', username=user.username) }}">History</a>
+                    <a href="#balance-pie-chart-anchor">Distribution</a>
+                </div>
+            </div>
+            {% elif balance.percentChange < 0.00 %}
+            <div class="card hoverable red darken-3">
+                <div class="card-content white-text">
+                    <h5 class="header">
+                        <span><i class="material-icons">trending_down</i></span>
+                        Your Balance</h5>
+                    <h4>{{ "US$ {:,.2f}".format(balance.total|float) }} </h4>
+                    <h5 class="red-text text-lighten-4">
+                        {{ "US$ {:,.2f}".format(balance.change|float) }}
+                        ({{ "{:,.2f}".format(balance.percentChange|float) }}%)
+                    </h5>
+                </div>
+                <div class="card-action">
+                    <a href="{{ url_for('line_chart', username=user.username) }}">History</a>
+                    <a href="#balance-pie-chart-anchor">Distribution</a>
+                </div>
+            </div>
+			{% else %}
+            <div class="card hoverable">
+                <div class="card-content">
+                    <h5 class="header">
+                        <span><i class="material-icons">trending_flat</i></span>
+                        Your Balance</h5>
+                    <h4>{{ "US$ {:,.2f}".format(balance.total|float) }} </h4>
+                    <h5 class="">
+                        {{ "US$ {:,.2f}".format(balance.change|float) }}
+                        ({{ "{:,.2f}".format(balance.percentChange|float) }}%)
+                    </h5>
+                </div>
+				<div class="card-action">
+                    <a href="{{ url_for('line_chart', username=user.username) }}">History</a>
+                    <a href="#balance-pie-chart-anchor">Distribution</a>
 				</div>
 			</div>
-			<div class="col s12 m6">
-				{% if balance.percentChange >= 0.01  %}
-				<div class="card hoverable green darken-3">
-					<div class="card-content white-text">
-						<h5 class="header">
-							<span><i class="material-icons">trending_up</i></span>
-							Your Balance</h5>
-						<h4>{{ "US$ {:,.2f}".format(balance.total|float) }} </h4>
-						<h5 class="green-text text-lighten-4">
-							{{ "US$ {:,.2f}".format(balance.change|float) }}
-							(+{{ "{:,.2f}".format(balance.percentChange|float) }}%)
-						</h5>
-					</div>
-					<div class="card-action">
-						<a href="{{ url_for('line_chart', username=user.username) }}">History</a>
-						<a href="#balance-pie-chart-anchor">Distribution</a>
-					</div>
-				</div>
-				{% elif balance.percentChange < 0.00 %}
-				<div class="card hoverable red darken-3">
-					<div class="card-content white-text">
-						<h5 class="header">
-							<span><i class="material-icons">trending_down</i></span>
-							Your Balance</h5>
-						<h4>{{ "US$ {:,.2f}".format(balance.total|float) }} </h4>
-						<h5 class="red-text text-lighten-4">
-							{{ "US$ {:,.2f}".format(balance.change|float) }}
-							({{ "{:,.2f}".format(balance.percentChange|float) }}%)
-						</h5>
-					</div>
-					<div class="card-action">
-						<a href="{{ url_for('line_chart', username=user.username) }}">History</a>
-						<a href="#balance-pie-chart-anchor">Distribution</a>
-					</div>
-				</div>
-				{% else %}
-				<div class="card hoverable">
-					<div class="card-content">
-						<h5 class="header">
-							<span><i class="material-icons">trending_flat</i></span>
-							Your Balance</h5>
-						<h4>{{ "US$ {:,.2f}".format(balance.total|float) }} </h4>
-						<h5 class="">
-							{{ "US$ {:,.2f}".format(balance.change|float) }}
-							({{ "{:,.2f}".format(balance.percentChange|float) }}%)
-						</h5>
-					</div>
-					<div class="card-action">
-						<a href="{{ url_for('line_chart', username=user.username) }}">History</a>
-						<a href="#balance-pie-chart-anchor">Distribution</a>
-					</div>
-				</div>
-				{% endif %}
-			</div>
-		</div>
+			{% endif %}
+	    </div>
+	</div>
 </section>
 
 <!-- Earned Cash, Rank And Available Cash -->
@@ -100,7 +101,10 @@
 					<span class="card-title">{{ "US$ {:,.2f}".format(user.cash_earned|float) }}</span>
 					<div class="">
 						<blockquote>
-							<h5><span><i class="material-icons">emoji_events</i></span> Your Rank: <span class="rank-number">{{ rank }}<span></h5>
+							<h5>
+                                <span><i class="material-icons">emoji_events</i></span> Your Rank: 
+                                <span class="rank-number">{{ rank }}</span>
+                            </h5>
                             <span class="card-title">of {{ count }} total users</span>
 						</blockquote>
 					</div>
@@ -130,6 +134,7 @@
 <section>    
 	<div class="row">
 		<div class="col s12">
+            <h3>My Assets</h3>
 			<div class="card hoverable indigo lighten-5">
 				<div class="card-image">
 					<div class="chart" id="balance-pie-chart">
@@ -281,9 +286,7 @@
             </ul>
 			<div class="row">
 				<div class="col s12 center">
-					<a href="/all-transactions/{{ user.username }}"class="btn waves-effect waves-light" name="action">See All Transactions
-						<i class="material-icons left">list</i>
-					</a>
+					<a href="/all-transactions/{{ user.username }}" class="btn waves-effect waves-light">See All Transactions<i class="material-icons left">list</i></a>
 				</div>
 			</div>
             {% else %}
@@ -330,7 +333,7 @@
 <!-- Lower Parallax -->
 <div class="parallax-container">
     <div class="parallax">
-        <img class="responsive-img" src="{{ url_for('static', filename='images/background/background1.jpg')}}">
+        <img alt="background image" class="responsive-img" src="{{ url_for('static', filename='images/background/background1.jpg')}}">
     </div>
 </div>
 
@@ -361,12 +364,12 @@
 					<div class="input-field col s12 m6">
 						<i class="material-icons prefix">account_balance_wallet</i>
 						<input id="ticket-entry-number" required name="ticket-entry-number" type="number" step="0.01" min="0" class="validate">
-						<label for="icon_prefix">Ticker</label>
+						<label for="ticket-entry-number">Ticker</label>
 					</div>
 					<div class="input-field col s12 m6">
 						<i class="material-icons prefix">monetization_on</i>
 						<input id="cash-spent-entry" required name="cash-spent-entry" type="number" step="0.01" min="0" class="validate">
-						<label for="icon_telephone">Cash Spent</label>
+						<label for="cash-spent-entry">Cash Spent</label>
 					</div>
 				</div>
 			</div> 
@@ -405,12 +408,12 @@
 					<div class="input-field col s12 m6">
 						<i class="material-icons prefix">account_balance_wallet</i>
 						<input id="sell-ticket-entry-number" required name="sell-ticket-entry-number" type="number" step="0.01" min="0" class="validate">
-						<label for="icon_prefix">Ticker</label>
+						<label for="sell-ticket-entry-number">Ticker</label>
 					</div>
 					<div class="input-field col s12 m6">
 						<i class="material-icons prefix">monetization_on</i>
 						<input id="cash-exchange-entry" required name="cash-exchange-entry" type="number" step="0.01" min="0" class="validate">
-						<label for="icon_telephone">Cash Exchange</label>
+						<label for="cash-exchange-entry">Cash Exchange</label>
 					</div>
 				</div>
 			</div> 

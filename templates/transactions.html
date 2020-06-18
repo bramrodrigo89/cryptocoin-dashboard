@@ -16,7 +16,7 @@
     <div class="row container content-row-medium">
         <div class="col s12">
             <div class="center content-row-medium">
-			    <a href="/user/{{ user.username }}/dashboard"><a class="btn waves-effect waves-light" href="/user/{{ user.username }}/dashboard"><i class="material-icons left">dashboard</i>Back to Dashboard</a></a>
+			    <a href="/user/{{ user.username }}/dashboard" class="btn waves-effect waves-light"><i class="material-icons left">dashboard</i>Back to Dashboard</a>
             </div>
             <h2>See All Transactions</h2>
             <ul class="collection">
@@ -49,14 +49,14 @@
                 {% endfor %}
             </ul>
             <div class="center content-row-medium">
-			    <a href="/user/{{ user.username }}/dashboard"><a class="btn waves-effect waves-light" href="/user/{{ user.username }}/dashboard"><i class="material-icons left">dashboard</i>Back to Dashboard</a></a>
+			    <a href="/user/{{ user.username }}/dashboard" class="btn waves-effect waves-light"><i class="material-icons left">dashboard</i>Back to Dashboard</a>
             </div>
         </div>
     </div>
 </div>
 <div class="parallax-container">
     <div class="parallax">
-        <img class="responsive-img" src="{{ url_for('static', filename='images/background/background1.jpg')}}">
+        <img class="responsive-img" alt="background image" src="{{ url_for('static', filename='images/background/background1.jpg')}}">
     </div>
 </div>
 {% endblock %}

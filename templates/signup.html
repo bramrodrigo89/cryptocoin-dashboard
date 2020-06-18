@@ -10,8 +10,13 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row content-row">
+<div class="parallax-container">
+	<div class="parallax">
+	    <img class="responsive-img" alt="background image" src="{{ url_for('static', filename='images/background/background2.jpg')}}">
+    </div>
+</div>
+<div class="section white">
+    <div class="row container">
         <h3>Sign up and create a new account</h3>
         <form class="col s12 form-signup" method="POST" action="/signup">
             <div class="row">
@@ -47,17 +52,22 @@
             <div class="row">
                 <div class="input-field col s12 m6">
                     <input required id="password1" name="password1" type="password" class="validate">
-                    <label for="password">Password</label>
+                    <label for="password1">Password</label>
                 </div>
                 <div class="input-field col s12 m6">
                     <input required id="password2" name="password2" type="password" class="validate">
-                    <label for="password">Retype Password</label>
+                    <label for="password2">Retype Password</label>
                 </div>
             </div>
             <button class="btn waves-effect waves-light" type="submit" name="action">Sign Up
                 <i class="material-icons left">assignment_turned_in</i>
             </button>
         </form>
+    </div>
+</div>
+<div class="parallax-container">
+    <div class="parallax">
+        <img class="responsive-img" alt="background image" src="{{ url_for('static', filename='images/background/background3.jpg')}}">
     </div>
 </div>
 {% endblock %}

@@ -5,6 +5,10 @@ html, body {
    padding: 0;
 }
 
+.parallax-container {
+    height: 50vh;
+}
+
 /*------------Content Container For Content Blocks */
 .content-row {
     margin-top:150px;
