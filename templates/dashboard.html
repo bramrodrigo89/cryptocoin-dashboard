@@ -144,7 +144,7 @@
 					</div>
 				</div>
 				<div class="card-content">
-					<span class="card-title">Balance Distribution</span>
+					<span class="card-title"><i class="material-icons left">pie_chart</i>Balance Distribution</span>
 					<p>Your complete funds are represented on this pie chat so you can visualize the proportions of each asset. Your available cash is included but you can hide it using the interactive legend on the chart.</p>
 				</div>
 			</div>
@@ -359,6 +359,9 @@
 				<div class="modal-cash-available-container">
                     <span>Cash Available:</span>
 				    <span id="modal-cash-available">{{ "US$ {:,.2f}".format(user.cash) }}</span>
+                    <p><strong>Remember! This is only a simulation.</strong> 
+                        All the money displayed here is fictional so we will never really ask you for your credit card!
+                    </p>
                 </div>
 				<div class="row">
 					<div class="input-field col s12 m6">
@@ -372,7 +375,8 @@
 						<label for="cash-spent-entry">Cash Spent</label>
 					</div>
 				</div>
-			</div> 
+			</div>
+            
 			<div class="modal-footer">
 				<button id="modal-buy-button" type="submit" class="waves-effect waves-light btn green darken-3">Buy</button>
 				<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
@@ -403,6 +407,9 @@
 				<div class="modal-ticker-available-container">
                     <span>Available Ticker:</span>
 				    <span id="modal-available-ticker"></span> <span id="modal-coin-symbol"></span>
+                    <p><strong>Remember! This is only a simulation.</strong> 
+                        All the money displayed here is fictional so we will never really ask you for your credit card!
+                    </p>
                 </div>
 				<div class="row">
 					<div class="input-field col s12 m6">
@@ -455,8 +462,9 @@
             <span id="cash-available-invisible" style="display:none;">{{ user.cash }}</span>
 			<h5>US<span id="new-cash-available"></span></h5>
 		</div>
-		<p><strong>Remember! This is only a simulation.</strong> All the money displayed here is fictional so we will
-			never ask you for your credit card</p>
+		<p><strong>Remember! This is only a simulation.</strong> 
+            All the money displayed here is fictional so we will never ask you for your credit card
+        </p>
 	</div>
 	<div class="modal-footer">
         <form action="{{ url_for('add_funds', username=user.username) }}" method="POST">

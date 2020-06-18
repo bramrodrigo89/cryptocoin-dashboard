@@ -122,7 +122,7 @@ def signup():
 		if form['password1'] == form['password2']:
 			user = users_coll.find_one({"username" : form['username']})
 			if user:
-				flash(f"{form['username']} already exists! Please use a different username or log in again")
+				flash(form['username']+' already exists! Please use a different username or log in again')
 				return redirect(url_for('signup'))
 			# If user does not exist register new user
 			else:				

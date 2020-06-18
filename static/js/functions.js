@@ -1,3 +1,7 @@
+// Special Javascript functions called for filling out modals with information or validating inputs
+// to avoid sending invalid information to the database
+
+
 // Currency 'Formatter' taken from "How to format a number as a currency value in JavaScript"
 // https://flaviocopes.com/how-to-format-number-as-currency-javascript/
 
@@ -5,7 +9,7 @@ const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'USD',
   minimumFractionDigits: 2
-})
+});
 
 const buyButton = document.getElementById('modal-buy-button');
 const sellButton = document.getElementById('modal-sell-button');
@@ -38,8 +42,7 @@ $(document).on("click", ".open-sell-coin-modal-link", function () {
     var selectedCoinTitle = selectedCoinCard.find('.card-coin-name-symbol').html();
     var selectedCoinName = selectedCoinCard.find('.card-coin-name').html();
     var selectedCoinIcon = selectedCoinCard.find('.card-coin-icon').html();
-    var selectedCoinLatestPrice = selectedCoinCard.find('.card-coin-latest-price').html();
-    var selectedCoinBidPrice = selectedCoinCard.find('.card-coin-bid-price').html();
+    var selectedCoinLatestPrice = selectedCoinCard.find('.card-coin-latest-price').html;
     var selectedCoinAskPrice = selectedCoinCard.find('.card-coin-ask-price').html();
     var availableTicker = selectedCoinCard.find('.card-coin-available-ticker').html();
     $("#modal-sell-coin-header").html(selectedCoinTitle);
@@ -125,7 +128,7 @@ function updateSpentCash(){
     var bid_price = $('#modal-buy-coin-bid-price').html().split(" ").pop().replace(/,/g, "");
     var ticker = parseFloat($('#ticket-entry-number').val());
     var cash_spent = bid_price*ticker;
-    var cash_spent = cash_spent.toFixed(2);
+    cash_spent = cash_spent.toFixed(2);
     $('#cash-spent-entry').val(cash_spent);
     $('#cash-spent-entry').focus();
     $('#ticket-entry-number').focus();
@@ -137,7 +140,7 @@ function updateTickerBuy(){
     var bid_price = $('#modal-buy-coin-bid-price').html().split(" ").pop().replace(/,/g, "");
     var cash_spent = parseFloat($('#cash-spent-entry').val());
     var calculated_ticker = cash_spent/bid_price;
-    var calculated_ticker = calculated_ticker.toFixed(2);
+    calculated_ticker = calculated_ticker.toFixed(2);
     $('#ticket-entry-number').val(calculated_ticker);
     $('#ticket-entry-number').focus();
     $('#cash-spent-entry').focus();
@@ -149,7 +152,7 @@ function updateExchangeCash(){
     var ask_price = $('#modal-sell-coin-ask-price').html().split(" ").pop().replace(/,/g, "");
     var ticker = parseFloat($('#sell-ticket-entry-number').val());
     var cash_exchange = ask_price*ticker;
-    var cash_exchange = cash_exchange.toFixed(2);
+    cash_exchange = cash_exchange.toFixed(2);
     $('#cash-exchange-entry').val(cash_exchange);
     $('#cash-exchange-entry').focus();
     $('#sell-ticket-entry-number').focus();
@@ -161,7 +164,7 @@ function updateTickerSell(){
     var ask_price = $('#modal-sell-coin-ask-price').html().split(" ").pop().replace(/,/g, "");
     var cash_exchange = parseFloat($('#cash-exchange-entry').val());
     var calculated_ticker = cash_exchange/ask_price;
-    var calculated_ticker = calculated_ticker.toFixed(2);
+    calculated_ticker = calculated_ticker.toFixed(2);
     $('#sell-ticket-entry-number').val(calculated_ticker);
     $('#sell-ticket-entry-number').focus();
     $('#cash-exchange-entry').focus();
@@ -173,8 +176,10 @@ $(document).on("change, keyup", "#cash-spent-entry", updateTickerBuy);
 $(document).on("change, keyup", "#sell-ticket-entry-number", updateExchangeCash);
 $(document).on("change, keyup", "#cash-exchange-entry", updateTickerSell);
 
+// Function called when user wants to add extra funds to available cash, modal displays correct information
+
 function addFundsModal(btn){
-    var selectedAmount = $(btn).attr('data-id')
+    var selectedAmount = $(btn).attr('data-id');
     $('#add-funds-modal').modal('close');
     $('#confirm-add-funds-modal').modal('open');
     $('.add-funds-amount').html("US$ " + selectedAmount);
