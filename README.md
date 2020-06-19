@@ -44,11 +44,53 @@ These are the following features already developed and implemented on this appli
 
 ### Existing Features
 - User Authentication: New users are able to join and register for a new account where only a few data fields are required. New users can register on to the Sign Up page and enter the required fields of username, password, first and last name and date of birth. Username and password checks are implemented as well, so that usernames are not repeated in the database and the retyped passwords need to match from the first one typed in by the user. 
-- Log In/Log Out: Login function to user's account by entering username and password information. Log Out function on the respective button on the navbar, which clears the user's session information on the browser. 
-- Edit Profile Information: Users are able to change every piece of information from their profile, except for username and passwords. User needs to confirm pages with a click on the Save Changes button, which will update the information on the database in MongoDB.
+
+![Sign Up Image](documentation/images/screenshots/signup_image.png)
+
+- Log In: Login function to user's account by entering username and password information. When login is successful user is notified with a dismissible toast on the page. 
+
+![Log In Image](documentation/images/screenshots/log_in_successful_image.png)
+
+- Log Out function on the respective button on the navbar, which clears the user's session information on the browser. Thus the user needs log back in if he or she wants to return to the dashboard. The user's credentials are saved however in the browser session, so if the tab is closed and opened up again, the application recognizes the logged in user and takes him or her to his or her profile again. Only when the user clicks on Log Out the browser session will be erased. 
+
+![Log Out Image](documentation/images/screenshots/log_out_image.png)
+
+- Edit Profile Information: Users are able to change every piece of information from their profile, except for username and passwords. User needs to confirm changes with a click on the Save Changes button, which will update the information on the database in MongoDB.
+
+![Edit Profile Image](documentation/images/screenshots/profile_image.png)
+
 - Change Profile Image: Users are also able to personalize their profile page a little bit by chosing a different image for their profile. User can select from a collection of 10 images that are abstract and colorful. Source of these images is lorempixel.com.
+
+![Change Profile Image Screenshot](documentation/images/screenshots/profile_image_select.png)
+
 - Delete Profile: In case the user decides to delete their account, they can do so by using the last option in the profile page 'Delete Profile'. This will delete all profile and transactions information from the user from the database and it is permanent. User is asked again to confirm this action. 
-- 
+
+![Delete Profile Screenshot](documentation/images/screenshots/delete_profile_image.png)
+
+- Dashboard: This is the main feature of the application. Here is a visual summary of all the user's information on his or her crypto wallet. A total balance card is displayed on top with a calculation of the complete value of all assets including cash and held coins. A calculation of the total growth (or depreciation) is displayed as well with a visual color indication on the card (green or red respectively). Just below that, the available cash is displayed on a separate card to indicate how much can be invested in new coins. Moreover, the user's earned cash is displayed on a separate card as an indicator of his or her performance. The user is able to increase the earned cash value by selling coins which have gained value over the time after they were purchased. Finally, as an interesting fact to monitor, the user's rank compared to all other users is displayed here as well. 
+
+![User Dashboard](documentation/images/screenshots/dashboard_image.png)
+
+- Assets Distribution: This is a visual representation using a pie chart of how the total balance is distributed among the different assets. This is shown as part of the dashboard.
+
+![Assets Distribution Chart](documentation/images/screenshots/balance_distribution_image.png)
+
+- Performance History: This is a visual representation of the user's wallet value over time using a line chart. This chart can be found on the link HISTORY on the total balance card. The historical data serving to construct this chart comes from Alpha Vantage API Service, so in order to reduce the calls per minute, this chart is placed on a separate page - and not on the dashboard as originally planned -. The prices coming from the API refreshes every 24 hours, so after doing some purchases, it might take up to one day to be reflected on this chart. 
+
+![Performance History Chart](documentation/images/screenshots/performance_history_image.png)
+
+- Buy Cryptocoins: When the user wants to buy more coins, the available coins are displayed either on the favorites list or down below in the Other Cryptocurrencies list. This application offers data on the 18 most popular cryptocoins on the market today valued on United States dollars (US$). So the prices displayed, coming from the IEX Cloud Server, reflect their current value in US$ equivalence. The user can buy new coins on the button BUY displayed on every coin. A new modal appears automatically showing only the respective data for that coin. The user needs now to select the amount (ticker) of that coin that should be purchased. On the right, the equivalent amount in US$ is displayed automatically. Reversivly, the user can enter the amount in US$ as well to be translated into that coin's ticker entry. The application rules out invalid entries such as not numbers or negative values. In case the user wants to buy more coins for which he or she has not enough funds yet, the BUY buttom becomes disabled automatically.
+
+![Buy Coins Modal](documentation/images/screenshots/buy_coin_modal_image.png)
+
+- Succesful Transactions: In case a coin purchase or a coin sale was successful, the user is also reassured with a toast message. The transaction info appears now in the latest transactions section just down below. 
+
+![Succesful Transaction](documentation/images/screenshots/balance_distribution_image.png)
+
+- Add More Funds: This is a function that can be used but in case the user wants to buy more coins but his or her funds are not enough. Since this is a simulation and it does not manage real value money, funds can be added limitleslly, but it is not encouraged to use this function as it is expected that the user builds up earned cash by trading coins preferably. But why not adding a few kilo dollars to buy that desired cryptocoin when the time is right? So that is what this function is for!
+
+![Add Funds Image](documentation/images/screenshots/add_funds_image.png)
+
 
 In addition, these are the plans for additional features to be implemented in the future:
 
