@@ -45,7 +45,10 @@ These are the following features already developed and implemented on this appli
 ### Existing Features
 - User Authentication: New users are able to join and register for a new account where only a few data fields are required. New users can register on to the Sign Up page and enter the required fields of username, password, first and last name and date of birth. Username and password checks are implemented as well, so that usernames are not repeated in the database and the retyped passwords need to match from the first one typed in by the user. 
 - Log In/Log Out: Login function to user's account by entering username and password information. Log Out function on the respective button on the navbar, which clears the user's session information on the browser. 
-- Edit Profile Information: Users are able to change every piece of information from their profile, except for username and passwords. 
+- Edit Profile Information: Users are able to change every piece of information from their profile, except for username and passwords. User needs to confirm pages with a click on the Save Changes button, which will update the information on the database in MongoDB.
+- Change Profile Image: Users are also able to personalize their profile page a little bit by chosing a different image for their profile. User can select from a collection of 10 images that are abstract and colorful. Source of these images is lorempixel.com.
+- Delete Profile: In case the user decides to delete their account, they can do so by using the last option in the profile page 'Delete Profile'. This will delete all profile and transactions information from the user from the database and it is permanent. User is asked again to confirm this action. 
+- 
 
 In addition, these are the plans for additional features to be implemented in the future:
 
