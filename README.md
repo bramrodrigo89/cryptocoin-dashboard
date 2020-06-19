@@ -85,7 +85,7 @@ These are the following features already developed and implemented on this appli
 
 - Succesful Transactions: In case a coin purchase or a coin sale was successful, the user is also reassured with a toast message. The transaction info appears now in the latest transactions section just down below. 
 
-![Succesful Transaction](documentation/images/screenshots/balance_distribution_image.png)
+![Succesful Transaction](documentation/images/screenshots/purchase_confirm_toast_image.png)
 
 - Add More Funds: This is a function that can be used but in case the user wants to buy more coins but his or her funds are not enough. Since this is a simulation and it does not manage real value money, funds can be added limitleslly, but it is not encouraged to use this function as it is expected that the user builds up earned cash by trading coins preferably. But why not adding a few kilo dollars to buy that desired cryptocoin when the time is right? So that is what this function is for!
 
