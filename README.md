@@ -38,10 +38,14 @@ All sections of the "dashboard" page from the wireframes were developed with som
 
 ## Features
 
-... is composed by tree main pages among which customers can navigate to find the information they need: 
- 
+This application was developed using the Flask framework and most of its features revolve around the user's Dashboard where most of the information is processed and presented in an easy-to-understand way to the user.  
+
+These are the following features already developed and implemented on this application:
+
 ### Existing Features
-- Feature 1 - Description
+- User Authentication: New users are able to join and register for a new account where only a few data fields are required. New users can register on to the Sign Up page and enter the required fields of username, password, first and last name and date of birth. Username and password checks are implemented as well, so that usernames are not repeated in the database and the retyped passwords need to match from the first one typed in by the user. 
+- Log In/Log Out: Login function to user's account by entering username and password information. Log Out function on the respective button on the navbar, which clears the user's session information on the browser. 
+- Edit Profile Information: Users are able to change every piece of information from their profile, except for username and passwords. 
 
 In addition, these are the plans for additional features to be implemented in the future:
 
@@ -107,10 +111,8 @@ Entity Relationship Diagram (ERD) of Database for this application
 ## Deployment
 
 The code was developed solely on GitPod and then it was pushed to an external repository on [GitHub](https://github.com/bramrodrigo89).
-The settings of this GitHub repository were changed to host the code into GitHub Pages from the **master branch.**
-Currently the GitHub site is published here: 
 
-To deploy the project from its repository, the following should be taken:
+To deploy the project from its repository to Heroku, the following should be taken:
 
 1. Log in to GitHub.com
 2. From the repository screen, select this project "/second-milestone-project"
