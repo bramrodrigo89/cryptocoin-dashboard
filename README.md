@@ -49,6 +49,8 @@ These are the following features already developed and implemented on this appli
 
 - Log In: Login function to user's account by entering username and password information. When login is successful user is notified with a dismissible toast on the page. 
 
+![Log In Image](documentation/images/screenshots/login_image.png)
+
 ![Log In Image](documentation/images/screenshots/log_in_successful_image.png)
 
 - Log Out function on the respective button on the navbar, which clears the user's session information on the browser. Thus the user needs log back in if he or she wants to return to the dashboard. The user's credentials are saved however in the browser session, so if the tab is closed and opened up again, the application recognizes the logged in user and takes him or her to his or her profile again. Only when the user clicks on Log Out the browser session will be erased. 
@@ -83,50 +85,72 @@ These are the following features already developed and implemented on this appli
 
 ![Buy Coins Modal](documentation/images/screenshots/buy_coin_modal_image.png)
 
-- Succesful Transactions: In case a coin purchase or a coin sale was successful, the user is also reassured with a toast message. The transaction info appears now in the latest transactions section just down below. 
+- Succesful Transactions: In case a coin purchase or a coin sale was successful, the user is also reassured with a toast message. The transaction info appears now in the latest transactions section just down below. When the user has purchased one coin, the available cash in the wallet is reduced accordingly. 
 
 ![Succesful Transaction](documentation/images/screenshots/purchase_confirm_toast_image.png)
 
-- Add More Funds: This is a function that can be used but in case the user wants to buy more coins but his or her funds are not enough. Since this is a simulation and it does not manage real value money, funds can be added limitleslly, but it is not encouraged to use this function as it is expected that the user builds up earned cash by trading coins preferably. But why not adding a few kilo dollars to buy that desired cryptocoin when the time is right? So that is what this function is for!
+- Add More Funds: This is a function that can be used but in case the user wants to buy more coins but his or her funds are not enough. Since this is a simulation and it does not manage real value money, funds can be added limitleslly, but it is not encouraged to use this function as it is expected that the user builds up earned cash by trading coins preferably. But why not adding a few kilo dollars to buy that desired cryptocoin when the time is right? So that is what this feature is for! In the future, a new counter will be added to this function, in order to count how many time the user has used this function. 
 
 ![Add Funds Image](documentation/images/screenshots/add_funds_image.png)
+ 
+ - Sell Cryptocoins: Analogously to buying coins, the user is able to sell coins in posession which have changed value over the time. Again, the user has the option to enter the coin amount (ticker) or the desired cash to be exchanged. Invalid inputs are excluded already from the html and javascript codes. And after a coin sale was successful, the Earned Cash amount is accordingly changed: in case the coin was sold for a higher value the earned cash increases. And in case the coin lost value over the time, the earned cash will be reduced. 
 
+![Add Funds Image](documentation/images/screenshots/sell_coin_modal_image.png)
+
+- See All Transactions: The dashboard displays only the last five transactions to avoid overcrowding the page. However, the user has the option to review all past transactions on a separate page to 
+
+![Add Funds Image](documentation/images/screenshots/see_all_transactions_image.png)
+
+- Adding/Removing Favorite Coins: Finally, this is last feature enables users to "favorite" or "unfavorite" coins to be displayed on top section next to My Crypto Wallet section for a better watch experience. When the coin is not watched, they are automatically moved down to the "Other Coins" section. 
 
 In addition, these are the plans for additional features to be implemented in the future:
 
 ### Features Left to Implement
-- Feature 2
+
+1. **More Realisitc Performance Chart**: The performance line chart displayed as on chart.html was simplified by assuming that the users mantains a constant amount of every coin over the whole time of holding. This is not true considering that the user might do several transactions for the same coin over time. Therefore a new calculation that considers the daily ticker is needed. This is relatively easy to implement and should come in the soon future. 
+2. **Crypto News Section**: In order to make the app more informative and accomplish more engaged users, a new section for recent news should be included. 
+3. **Rank Calculation**: It is foreseen to improve the calculation logic for the user's rank amongh other users. At this point the rank is determined only on the earned cash amount. However, there should be a specific counter for how many times the user is adding cash to the available funds, this number should be considered as "minus points" in the calculation. The real "plus points" should come mainly from selling coins. 
 
 ## Technologies Used
 
-Languages, frameworks, libraries used to construct this project:
+Languages, frameworks, libraries, databses used to construct this project:
 
-- Python
 - HTML5
+- Python
 - CSS3
 - JavaScript
-- [IEX Cloud Financial Data API](https://iexcloud.io/)
-    - Real-Time & historical financial data for this web application. The IEX Cloud sandbox was mostly used to test out and integrate the API into the application. 
-- [MongoDB](https://www.mongodb.com/cloud/atlas)
-    - Data storage and database management
+- [Flask Framework](https://flask.palletsprojects.com/en/1.1.x/)
+    - This Python web framework was used to develop this application. At the same time, Flask depends on Jinja template engine and Werkzeug WSGI toolkit.
 - [jQuery](https://jquery.com/)
-    - jQuery code was used to simplify HTML DOM tree traversal and manipulation, as well as event handling, CSS animation, and Ajax.
+    - jQuery code was used to simplify HTML DOM tree traversal and manipulation, as well as event handling and CSS animation.
+- [IEX Cloud Financial Data API](https://iexcloud.io/)
+    - Real-Time & historical financial data for this web application. The IEX Cloud Sandboxwas used to test out and integrate the API into the application. 
+- [iexfinance](https://github.com/addisonlynch/iexfinance) 
+    - Python SDK for IEX Cloud used to obtain latest price, ask prices and bid prices for the different cryptocoins. 
+- [Alpha Vantage](https://www.alphavantage.co/)
+    - Realtime and historical cryptocurrency API used to create performance history chart.
+- [MongoDB](https://www.mongodb.com/cloud/atlas)
+    - Data storage in JSON-like documents and database management for this application. 
+- [Flask-Pymongo](https://flask-pymongo.readthedocs.io/en/latest/)
+    - Flask-PyMongo bridges Flask and PyMongo and provides helpers that were used in the back-end of this application.
 - [Materialize CSS](https://materializecss.com/)
-    - The project uses **Materialize** to simplify giving styles and adding JavaScripts to different elements. Also it is found in the navbar construct, its grid-layout system was used, as well as other elements like modals, tables, badges, etc to complement the application. 
+    - The project uses **Materialize** to simplify giving styles and adding JavaScripts to different elements. Also it is found in the navbar construct, display cards, grid-layout, as well as other Javascript driven elements like modals, toasts, forms, etc to complement the application. 
 - [Plotly Graphic Libraries](https://plotly.com/graphing-libraries/)
-    - Plotly Open Source Graphing Libraries: interactive charts and maps for Python and JavaScript.
+    - Plotly Open Source Graphing Libraries: interactive charts used for Assets Distribution and Performance History Charts. 
 - [GitPod](https://www.gitpod.io/)
     - Online IDE for GitHub to develop code of this project. 
-- [Font Awesome Icon Library](https://fontawesome.com/icons?d=gallery)
-    - Icons were imported to provide some visual iconography, e.g. star icon for buttons to save stocks in Watch List.
-- [Google Font Library](https://fonts.google.com/)
-    - Imported two different fonts, Abril Fatface and Questrial for texts. 
-- [Am I Responsive](http://ami.responsivedesign.is)
-    - Testing responsiveness of the applicaton in different devices, like the example below:
+- [Heroku](https://fontawesome.com/icons?d=gallery)
+    - Cloud platform to deploy this application on the internet. 
+- [Google Material Design Icons](https://material.io/resources/icons/?style=baseline)
+    - Imported different icons for different action buttons, links and items. 
 - [Cryptocurrency Icons](https://github.com/spothq/cryptocurrency-icons)
-    - Creating cryptocurrency icons for coins used in this project. Library includes SVG files for around 400 crypto currencies to create 32x32 PNG files respectively. 
+    - Free library for creating cryptocurrency icons displayed on the different cards on this project. Library includes SVG files that create 32x32 PNG files for 400 diferent cryptocoins respectively. 
 - [Unsplash Images](https://unsplash.com/)
-    - The internet’s source of freely-usable images.
+    - Freely-usable images. Background images were downloaded from this source. 
+- [LoremPixel](http://lorempixel.com)
+    - Placeholder images free to use. These were used to create a collection of pictures available for the users' profile images. 
+- [Am I Responsive](http://ami.responsivedesign.is)
+    - Testing responsiveness of the applicaton in different devices. 
 
 ## Testing
 
@@ -134,7 +158,7 @@ Languages, frameworks, libraries used to construct this project:
 
 During the development phase I encountered some bugs which had to be solved
 
-1. **Problem** 
+1. **API services not providing data** : 
     - **Solution** 
 
 
