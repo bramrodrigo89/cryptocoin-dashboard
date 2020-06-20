@@ -158,8 +158,8 @@ Languages, frameworks, libraries, databses used to construct this project:
 
 During the development phase I encountered some bugs which had to be solved
 
-1. **API services not providing data** : 
-    - **Solution** 
+1. **Problem**: IEXfinance failing to provide historical data for cryptocurrencies. iexfinance is an unofficial 3rd party library to integrate the IEX cloud API and is currently under development. By June 2020 it is not possible to get historical data for cryptocurrencies.
+    - **Solution**: Integrated Alpha Vantage API to provide historical data for creating the performance charts. 
 
 
 
