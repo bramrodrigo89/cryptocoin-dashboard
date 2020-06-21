@@ -28,7 +28,10 @@
                         <p>Joined since: {{ user.profile.date_joined.strftime("%m/%d/%Y") }} </p>
                     </div>
                     <div class="card-action">
-                        <a href="{{ user.profile.image }}" class="black-text"><i class="material-icons left">person</i>Your Profile</a>
+                        <a href="{{ user.profile.image }}"></a>
+                        <a class="waves-effect waves-light black-text" href="/profile/{{ user.username }}">
+                            <i class="material-icons left">person</i>Your Profile
+                        </a>
                     </div>
                 </div>
             </div>
