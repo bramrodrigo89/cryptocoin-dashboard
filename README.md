@@ -142,6 +142,8 @@ Languages, frameworks, libraries, databses used to construct this project:
     - Plotly Open Source Graphing Libraries: interactive charts used for Assets Distribution and Performance History Charts. 
 - [GitPod](https://www.gitpod.io/)
     - Online IDE for GitHub to develop code of this project. 
+- [GitHub](https://github.com/bramrodrigo89/)
+    - Used to manage the version control of the code for this project.
 - [Heroku](https://fontawesome.com/icons?d=gallery)
     - Cloud platform to deploy this application on the internet. 
 - [Google Material Design Icons](https://material.io/resources/icons/?style=baseline)
@@ -170,11 +172,17 @@ During the development phase I encountered some bugs which had to be solved
 3. **Problem**: Users were able to access other users' information by changing the username on URL. 
     - **Solution**: Added conditional in the route functions to check first if the username stored in session corrresponds to the user information on the URL path. Only if yes, the page continues to be rendered. If not, the user is redirected to index.html and asked to log in to see the other user's page.
 
+4. **Problem**: Datepicker transmits data in string format which cannot be interpreted later on when retrieved from MongoDB.
+    - **Solution** Using another third party library pandas, it is possible to create timestamps from strings in many date formats, which allows to store them in MongoDB correctly. 
+
+5. **Problem**:
+
 Bugs that remain unsolved:
 
 1. **Problem**: Alpha Vantage is limited to 5 API calls per minute, so whenever one user or differente users together try to see their performance charts, API fails to supply data. An event handler for these API shortages has to be included soon. Specially when many more users start to use the application. As a temporary solution, the chart itself was moved from the dashboard to a separate html page to reduce API calls. 
 2. **Problem**: Date Picker allows unrealistic date of birth data entries such as dates on the future. The application should be limited to users that are at least 18 years old. Problem needs to be solved from the Datepicker Javascript in MaterializeCSS.
 3. **Problem**: LoremPixel images are producing very long loading times. Code sould be modified to use the stored images in the static directory, instead of loading them every time from the LoremPixel Server. Example: Change Profile Image section that loads faster. 
+4. **Problem**: Some Tooltips are not coming on the correct time when the BUY/SELL button becomes disabled. Working currently with Tutor staff to solve this issue. 
 
 ### Performance 
 
@@ -187,7 +195,15 @@ In general no significant bugs were found in the appliations front-end elements.
 
 ### Back End
 
+Several functions were tested and new users accounts were created for the purpose of checking all functions and links in different scenarios. 
 
+Test-Users with very bad and very good performances were created deliberately in order to observe the behavior of the different calculations and numbers. 
+
+Different entries for ticker, cash were tested to simulate different user entry possibilities or user mistakes. Overall the application can reject many invalid inputs and explain the user why the entries are not valid using tooltips. 
+
+Moreover, the database for these test-users was altered to observe how the application will react in the future when users have been using this application for one year. 
+
+Some tests were also performed using the unittest library in testing.py for those cases when the user has an empty wallet. The functions in calculations should return an empty object in those cases. 
 
 ## Deployment
 
@@ -220,9 +236,15 @@ To deploy the project from its repository to Heroku, the following should be tak
 
 ### Content
 
+#### Disclaimer
+
+This project is for simulation and educational purposes only. All values for digital or traditional currencies displayed along this application have no real value. 
+
+Real-Time & historical financial data, ask and bid prices are imported from the IEX Cloud API and Alpha Vantage API. The IEX Cloud sandbox is always activated, which returns data from current date that is meant to mimic the results returned from the real API which would bring additional costs for deploying this application. The sandbox environment still represents a good estimate for educational and simulation purposes. Current IEX Cloud Plan includes unlimited Sandbox Testing.
 
 ### Media
 
+Background images used in parallax sections were taken from Unsplash.
 
 ### Acknowledgements
 
