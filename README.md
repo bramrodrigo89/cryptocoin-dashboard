@@ -159,18 +159,20 @@ Languages, frameworks, libraries, databses used to construct this project:
 During the development phase I encountered some bugs which had to be solved
 
 1. **Problem**: IEXfinance failing to provide historical data for cryptocurrencies. iexfinance is an unofficial 3rd party library to integrate the IEX cloud API and is currently under development. By June 2020 it is not possible to get historical data for cryptocurrencies.
-    - **Solution**: Integrated Alpha Vantage API to provide historical data for creating the performance charts. 
+    - **Solution**: Alpha Vantage API was integrated as a second data source to provide historical data for creating the performance charts. 
 
-
+2. **Problem**: 
+    - **Solution**:
 
 Bugs that remain unsolved:
 
-1. **Problem** 
+1. **Problem**: Alpha Vantage is limited to 5 API calls per minute, so whenever one user or differente users together try to see their performance charts, API fails to supply data. An event handler for these API shortages has to be included soon. Specially when many more users start to use the application. As a temporary solution, the chart itself was moved from the dashboard to a separate html page to reduce API calls. 
+2. **Problem**: Date Picker allows unrealistic date of birth data entries such as dates on the future. The application should be limited to users that are at least 18 years old. Problem needs to be solved from the Datepicker Javascript in MaterializeCSS.
 
 ### Performance 
 
 ### Front End 
-
+Different pages were tested using LambdaTest Tool for different internet browsers: Chrome, Safari, Firefox, Internet Explorer and Edge. The tool used features Real-time testing for different devices and browsers. In general no significant bugs were found with all the tests. Mostly thanks to MaterializeCSS the application's front-end is rendered very constant among different browsers. 
 
 ### Back End
 
