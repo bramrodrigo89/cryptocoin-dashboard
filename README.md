@@ -175,8 +175,6 @@ During the development phase I encountered some bugs which had to be solved
 4. **Problem**: Datepicker transmits data in string format which cannot be interpreted later on when retrieved from MongoDB.
     - **Solution** Using another third party library pandas, it is possible to create timestamps from strings in many date formats, which allows to store them in MongoDB correctly. 
 
-5. **Problem**:
-
 Bugs that remain unsolved:
 
 1. **Problem**: Alpha Vantage is limited to 5 API calls per minute, so whenever one user or differente users together try to see their performance charts, API fails to supply data. An event handler for these API shortages has to be included soon. Specially when many more users start to use the application. As a temporary solution, the chart itself was moved from the dashboard to a separate html page to reduce API calls. 
@@ -250,4 +248,5 @@ Background images used in parallax sections were taken from Unsplash.
 
 - I received inspiration for this project from my family. 
 - Special thanks to my mentor from Code Institute for the direction I needed:
-- And last but not least, many thanks to the Tutor Team from Code Institute 
+    - Anthony Ngene @tonymontaro_mentor
+- And last but not least, many thanks to the Tutor Team from Code Institute for coming with great solutions whenever I needed help. 
