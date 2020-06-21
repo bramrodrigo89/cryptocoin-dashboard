@@ -175,6 +175,9 @@ During the development phase I encountered some bugs which had to be solved
 4. **Problem**: Datepicker transmits data in string format which cannot be interpreted later on when retrieved from MongoDB.
     - **Solution** Using another third party library pandas, it is possible to create timestamps from strings in many date formats, which allows to store them in MongoDB correctly. 
 
+5. **Problem**: When the class to fixate is added to the navbar to keep the navbar at the top at all times, the mobile navbar does not show properly any more. 
+    - **Solution** Navbar for mobile needs to be taken out of the same div used for the desktop navbar. This is not clear on the documentation of MaterializeCSS.
+
 Bugs that remain unsolved:
 
 1. **Problem**: Alpha Vantage is limited to 5 API calls per minute, so whenever one user or differente users together try to see their performance charts, API fails to supply data. An event handler for these API shortages has to be included soon. Specially when many more users start to use the application. As a temporary solution, the chart itself was moved from the dashboard to a separate html page to reduce API calls. 
