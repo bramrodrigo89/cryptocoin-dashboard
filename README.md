@@ -35,6 +35,9 @@ All sections of the "dashboard" page from the wireframes were developed with som
  - The performance history line chart was moved to a separate html page to reduce API calls because they are limited by my personal account on the Alpha Vantage API service.
  - Transaction lists occupies whole width of screen now because they contain more information than other cards from dashboard. 
 
+The design of the database was carried out using an Entity Relationship Diagram (ERD). The relationships between the different entities is shown here. 
+![ERD Cryptocoin Dashboard](documentation/images/ERD_cryptocoin_dashboard.jpeg)
+There are two major collections: users and transactions. Users collection is where most of the information is stored for displaying the users' dashboards. The transactions collection is mostly useful when the users queries among all his or her past transactions. 
 
 ## Features
 
@@ -161,23 +164,30 @@ During the development phase I encountered some bugs which had to be solved
 1. **Problem**: IEXfinance failing to provide historical data for cryptocurrencies. iexfinance is an unofficial 3rd party library to integrate the IEX cloud API and is currently under development. By June 2020 it is not possible to get historical data for cryptocurrencies.
     - **Solution**: Alpha Vantage API was integrated as a second data source to provide historical data for creating the performance charts. 
 
-2. **Problem**: 
-    - **Solution**:
+2. **Problem**: Functions defined in calculations.py and transactions.py were developed around a user profile with different coins in wallet. When a new user registers and no coins are present yet in wallet, the functions were failing to process the wallet's data. 
+    - **Solution**: Added conditionals in every function to check first for empty wallets and carry out different actions on those cases. 
+
+3. **Problem**: Users were able to access other users' information by changing the username on URL. 
+    - **Solution**: Added conditional in the route functions to check first if the username stored in session corrresponds to the user information on the URL path. Only if yes, the page continues to be rendered. If not, the user is redirected to index.html and asked to log in to see the other user's page.
 
 Bugs that remain unsolved:
 
 1. **Problem**: Alpha Vantage is limited to 5 API calls per minute, so whenever one user or differente users together try to see their performance charts, API fails to supply data. An event handler for these API shortages has to be included soon. Specially when many more users start to use the application. As a temporary solution, the chart itself was moved from the dashboard to a separate html page to reduce API calls. 
 2. **Problem**: Date Picker allows unrealistic date of birth data entries such as dates on the future. The application should be limited to users that are at least 18 years old. Problem needs to be solved from the Datepicker Javascript in MaterializeCSS.
+3. **Problem**: LoremPixel images are producing very long loading times. Code sould be modified to use the stored images in the static directory, instead of loading them every time from the LoremPixel Server. Example: Change Profile Image section that loads faster. 
 
 ### Performance 
 
 ### Front End 
-Different pages were tested using LambdaTest Tool for different internet browsers: Chrome, Safari, Firefox, Internet Explorer and Edge. The tool used features Real-time testing for different devices and browsers. In general no significant bugs were found with all the tests. Mostly thanks to MaterializeCSS the application's front-end is rendered very constant among different browsers. 
+The Cross Browser testing tool [LambdaTest](https://www.lambdatest.com/) was used to do real-time tests using different devices and browsers: Chrome, Safari, Firefox, Internet Explorer and Edge. 
+
+[Lambda Test Overview Screenshot](documentation/images/screenshots/LambdaTest_image.png)
+
+In general no significant bugs were found in the appliations front-end elements. The MaterializeCSS javascript-driven elements (e.g. Datepicker) were rendered as expected among the different browsers. 
 
 ### Back End
 
-Entity Relationship Diagram (ERD) of Database for this application
-![ERD Cryptocoin Dashboard](documentation/images/ERD_cryptocoin_dashboard.jpeg)
+
 
 ## Deployment
 

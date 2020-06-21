@@ -10,7 +10,8 @@ from calculations import create_line_chart, calculate_users_rank
 from calculations import fetch_wallet_coins_data, favorite_list_data
 from calculations import not_favorite_list_data
 from transactions import prepare_buy_object, prepare_sell_object
-from transactions import insert_transaction_to_db, get_user_transactions, get_all_user_transactions
+from transactions import insert_transaction_to_db, get_user_transactions
+from transactions import get_all_user_transactions
 
 """
 app config
@@ -233,7 +234,8 @@ def delete_profile(username):
 """
 User Dashboard
 """
-        
+
+# Main Page: User's Dashboard
 @app.route('/user/<username>/dashboard')
 def show_user_dashboard(username):
     if 'user' in session and session['user']==username:
@@ -349,4 +351,4 @@ def add_funds(username):
 if __name__ == '__main__':
     app.run(host=os.getenv("IP","0.0.0.0"),
         port=int(os.getenv("PORT","5000")),
-        debug=True)
+        debug=False)
