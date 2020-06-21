@@ -191,17 +191,30 @@ In general no significant bugs were found in the appliations front-end elements.
 
 ## Deployment
 
-The code was developed solely on GitPod and then it was pushed to an external repository on [GitHub](https://github.com/bramrodrigo89).
+The project was stored on an external repository on [GitHub](https://github.com/bramrodrigo89/cryptocoin-dashboard) and deployed on Heroku:
+[My Cyrptocoin Dashboard](https://cryptocoin-dashboard.herokuapp.com/)
 
 To deploy the project from its repository to Heroku, the following should be taken:
 
-1. Log in to GitHub.com
-2. From the repository screen, select this project "/second-milestone-project"
-3. On top of the page, click on the last right icon "Settings".
-4. Scroll down until you reach the GitHub Pages section.
-5. Change the source to the "Master Branch" using the drop down menu, labelled by default first as "none".
-6. The application is now deployed on GitHub pages!
-7. Copy the provided link from this section and share with others.
+1. Log in to Heroku and select 'New' to create a new app. 
+2. Depending on your location, a specific region should be chosen. On this case, United States was selected. Give a unique name to the application of your choice. Then proceed to click on 'Create App'.
+3. Once the app is created, go to Settings to start adding the environmental variables. Go to 'Config Vars' and click on Reveal. 
+4. Start adding the configuration variables in Key, Value pairs. In this case, 7 variables are necessary:
+    4. ALPHAVANTAGE_API_KEY = (edited)
+    4. IEX_API_VERSION = iexcloud-sandbox
+    4. IP = 0.0.0.0
+    4. IEX_TOKEN = (edited)
+    4. MONGO_URI= (edited)
+    4. PORT = 5000
+    4. SECRET_KEY = (edited)
+5. Once the environment is set up, go to the 'Deploy' Tab and select 'GitHub' as deploment method. 
+6. Now select this repository (bramrodrigo89/cryptocoin-dashboard) as the main source to connect to. 
+7. Select 'Enable Automatic Deploys' on the following section from the 'master' branch. 
+8. Now before the first automatic deploy, a requirements.txt file should be added to the project. It can be added by using the pip3 command: ``pip3 freeze --local ->requirements.txt`` This will indicate which are the necessary dependencies to install before the application is run. 
+9. Next make sure that a Procfile is created. Simply add a new file on your main directory as 'Procfile' which should contain the command:  ``web: python run.py `` This will tell Heroku that the main Python file to run the app is called run.py.
+10. Now it is possible to push the project to GitHub and it will automatically transfer it to Heroku for deployment.
+11. Wait for the status 'Build succeeded' in Heroku 'Latest Activity' Section (around 5 minutes). Once the deploment is confirmed, go to 'Open App' to confirm the deployment. The URL can be shared now to access the application. 
+12. In case there is an error and the app cannot open, go to View Logs to check the error messages. 
 
 ## Credits
 

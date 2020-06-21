@@ -1,9 +1,7 @@
 import os
 from flask import Flask
 import unittest
-import pandas as pd
 from flask_pymongo import PyMongo
-from bson.objectid import ObjectId
 from calculations import updated_price_coins
 
 # MongoDB config
@@ -37,8 +35,3 @@ class EmptyObjectsTestCase(unittest.TestCase):
    def testUpdatedPrices(self):
        result = updated_price_coins(empty_user['wallet'])
        self.assertEqual(result, {})
-
-if __name__ == '__main__':
-    app.run(host=os.getenv("IP","0.0.0.0"),
-        port=int(os.getenv("PORT","5000")),
-        debug=True)
