@@ -16,7 +16,7 @@ itsdangerous==1.1.0
 Jinja2==2.11.2
 jupyter==1.0.0
 jupyter-console==6.1.0
-lxml==4.6.2
+lxml==4.6.5
 MarkupSafe==1.1.1
 multidict==4.7.6
 numpy==1.18.5
